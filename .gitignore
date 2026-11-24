@@ -17,3 +17,7 @@ coverage/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Python-Umgebung für die Bildwerkzeuge
+.venv/
+__pycache__/
