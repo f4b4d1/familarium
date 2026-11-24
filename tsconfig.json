@@ -13,7 +13,8 @@
     "noUncheckedIndexedAccess": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
-    "types": ["node"]
+    "jsx": "react-jsx",
+    "types": ["node", "vite/client"]
   },
-  "include": ["src", "demo", "scripts"]
+  "include": ["src", "demo", "scripts", "prototypes", "vite.config.ts"]
 }

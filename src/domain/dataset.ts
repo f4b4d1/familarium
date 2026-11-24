@@ -16,9 +16,16 @@ export function preferredClaim<T extends { status: string; preferred?: boolean }
   return accepted.find((claim) => claim.preferred) ?? accepted[0];
 }
 
+/**
+ * Bevorzugte Angabe zu einem Ereignis. Bei einer vorgeschlagenen Person (aus der Recherche) gibt es
+ * oft nur vorgeschlagene Angaben; dann gilt der erste Vorschlag, damit die Person nicht „ohne Daten" dasteht.
+ */
 export function preferredEventClaim(person: Person, type: PersonEventType): EventClaim | undefined {
   const event = person.events.find((candidate) => candidate.type === type);
-  return event ? preferredClaim(event.claims) : undefined;
+  if (!event) return undefined;
+  const accepted = preferredClaim(event.claims);
+  if (accepted || person.status !== 'suggested') return accepted;
+  return event.claims.find((claim) => claim.status === 'suggested');
 }
 
 /** Alle übernommenen Angaben eines Ereignistyps, z. B. alle Berufe. */
