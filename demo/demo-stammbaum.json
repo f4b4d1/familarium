@@ -1,0 +1,7611 @@
+{
+  "schemaVersion": 1,
+  "probandId": "p-087",
+  "persons": [
+    {
+      "id": "p-001",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-001",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Jost",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-001",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-002",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* ca 1585",
+              "date": {
+                "kind": "about",
+                "date": {
+                  "year": 1585
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-002",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-003",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "assumed",
+              "status": "accepted",
+              "verbatim": "† ? 1640 wird wohl schon tot sein",
+              "date": {
+                "kind": "before",
+                "date": {
+                  "year": 1640
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-002",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-004",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Hans",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-003",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-005",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 1612",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1612
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-004",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-006",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 12.4.1671",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1671,
+                  "month": 4,
+                  "day": 12
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-005",
+          "type": "occupation",
+          "claims": [
+            {
+              "id": "c-007",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "Schulze zu Eschenbrück",
+              "value": "Schulze zu Eschenbrück"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-003",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-009",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Anna",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-006",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-010",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 1.6.1615",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1615,
+                  "month": 6,
+                  "day": 1
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-007",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-011",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 2.9.1671",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1671,
+                  "month": 9,
+                  "day": 2
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-004",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-013",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Catharina",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-008",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-014",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 20.5.1615",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1615,
+                  "month": 5,
+                  "day": 20
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-009",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-015",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 4.1.1681",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1681,
+                  "month": 1,
+                  "day": 4
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-005",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-017",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Hermann",
+          "surname": "Wolters"
+        }
+      ],
+      "events": [],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-006",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-019",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Margaretha",
+          "surname": "Voss"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-011",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-020",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* ca 1615",
+              "date": {
+                "kind": "about",
+                "date": {
+                  "year": 1615
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        },
+        {
+          "id": "e-012",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-021",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 16.7.1650 an Pest",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1650,
+                  "month": 7,
+                  "day": 16
+                }
+              },
+              "placeId": "ort-eschenbrueck",
+              "cause": "Pest"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-007",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-023",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Anna",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-014",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-024",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 14.6.1640",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1640,
+                  "month": 6,
+                  "day": 14
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-015",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-025",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 20.6.1640",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1640,
+                  "month": 6,
+                  "day": 20
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-008",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-026",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "note": "Zwillinge",
+          "type": "birth",
+          "given": "Maria",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-016",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-027",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 14.6.1640",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1640,
+                  "month": 6,
+                  "day": 14
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-017",
+          "type": "note",
+          "claims": [
+            {
+              "id": "c-028",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "Zwillinge",
+              "value": "Zwillinge"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-009",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-029",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Matthias",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-018",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-030",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 2.9.1643",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1643,
+                  "month": 9,
+                  "day": 2
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-019",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-031",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 1702",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1702
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-020",
+          "type": "occupation",
+          "claims": [
+            {
+              "id": "c-032",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "Schulze",
+              "value": "Schulze"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-010",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-036",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "verbatim": "Wwe. des Schmieds Claus Ebeling",
+          "type": "birth",
+          "given": "Claus",
+          "surname": "Ebeling"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-021",
+          "type": "occupation",
+          "claims": [
+            {
+              "id": "c-037",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "Schmied",
+              "value": "Schmied"
+            }
+          ]
+        }
+      ],
+      "mentioned": true,
+      "status": "accepted"
+    },
+    {
+      "id": "p-011",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-038",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "verbatim": "Dorothea, Wwe. des Schmieds Claus Ebeling aus Rabenmoor",
+          "type": "birth",
+          "given": "Dorothea",
+          "surname": "Ebeling"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-022",
+          "type": "residence",
+          "claims": [
+            {
+              "id": "c-039",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "placeId": "ort-rabenmoor",
+              "value": "Rabenmoor"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-012",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-042",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Christoph",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-025",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-043",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 1.3.1653",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1653,
+                  "month": 3,
+                  "day": 1
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        },
+        {
+          "id": "e-026",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-044",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 9.1.1718",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1718,
+                  "month": 1,
+                  "day": 9
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        },
+        {
+          "id": "e-027",
+          "type": "occupation",
+          "claims": [
+            {
+              "id": "c-045",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "Müller zu Rabenmoor",
+              "value": "Müller zu Rabenmoor"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-013",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-047",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Michael",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-028",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-048",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 19.1.1656",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1656,
+                  "month": 1,
+                  "day": 19
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        },
+        {
+          "id": "e-029",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-049",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 9.2.1658",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1658,
+                  "month": 2,
+                  "day": 9
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-014",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-051",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Elisabeth",
+          "surname": "Brandes"
+        },
+        {
+          "id": "c-052",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Elisabeth",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-030",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-053",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* ca 1660",
+              "date": {
+                "kind": "about",
+                "date": {
+                  "year": 1660
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-015",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-055",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Johann Christoph",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-032",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-056",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 11.5.1684",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1684,
+                  "month": 5,
+                  "day": 11
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        },
+        {
+          "id": "e-033",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-057",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 2.2.1749",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1749,
+                  "month": 2,
+                  "day": 2
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        },
+        {
+          "id": "e-034",
+          "type": "occupation",
+          "claims": [
+            {
+              "id": "c-058",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "Müller",
+              "value": "Müller"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-016",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-060",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Anna",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-035",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-061",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 6.8.1688",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1688,
+                  "month": 8,
+                  "day": 6
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        },
+        {
+          "id": "e-036",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-062",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 9.4.1689",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1689,
+                  "month": 4,
+                  "day": 9
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-017",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-064",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Johanna",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-037",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-065",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 12.10.1689",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1689,
+                  "month": 10,
+                  "day": 12
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        },
+        {
+          "id": "e-038",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-066",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 4.10.1691",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1691,
+                  "month": 10,
+                  "day": 4
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-018",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-068",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Anna Sophie",
+          "surname": "Meyer"
+        },
+        {
+          "id": "c-069",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Anna Sophie",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-019",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-071",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Georg Heinrich",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-040",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-072",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 30.8.1712",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1712,
+                  "month": 8,
+                  "day": 30
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        },
+        {
+          "id": "e-041",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-073",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 1.12.1777",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1777,
+                  "month": 12,
+                  "day": 1
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        },
+        {
+          "id": "e-042",
+          "type": "occupation",
+          "claims": [
+            {
+              "id": "c-074",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "Müllermeister",
+              "value": "Müllermeister"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-020",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-076",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Dorothea",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-043",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-077",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 12.11.1713",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1713,
+                  "month": 11,
+                  "day": 12
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        },
+        {
+          "id": "e-044",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-078",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 2.10.1762",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1762,
+                  "month": 10,
+                  "day": 2
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-021",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-080",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Georg",
+          "surname": "Kuhlmann"
+        }
+      ],
+      "events": [],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-022",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-082",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Catharina",
+          "surname": "Wolters"
+        },
+        {
+          "id": "c-083",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Catharina",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-023",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-085",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Johann Friedrich",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-047",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-086",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 1748",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1748
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            },
+            {
+              "id": "c-088",
+              "citation": {
+                "sourceId": "src-002",
+                "location": "Taufen 1747, Nr. 12"
+              },
+              "confidence": "proven",
+              "status": "accepted",
+              "preferred": true,
+              "verbatim": "geb. 1. Martii 1747",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1747,
+                  "month": 3,
+                  "day": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "e-048",
+          "type": "occupation",
+          "claims": [
+            {
+              "id": "c-087",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "Müller, später Ackermann in Tannwiesen",
+              "value": "Müller, später Ackermann in Tannwiesen"
+            }
+          ]
+        },
+        {
+          "id": "e-049",
+          "type": "baptism",
+          "claims": [
+            {
+              "id": "c-089",
+              "citation": {
+                "sourceId": "src-002",
+                "location": "Taufen 1747, Nr. 12"
+              },
+              "confidence": "proven",
+              "status": "accepted",
+              "verbatim": "get. 3. Martii",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1747,
+                  "month": 3,
+                  "day": 3
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-050",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-090",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 17.11.1809",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1809,
+                  "month": 11,
+                  "day": 17
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-024",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-092",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Andreas",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-051",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-093",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 11.2.1756",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1756,
+                  "month": 2,
+                  "day": 11
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        },
+        {
+          "id": "e-052",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-094",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 1.2.1826",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1826,
+                  "month": 2,
+                  "day": 1
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-025",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-096",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Gertrud",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-053",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-097",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 12.3.1750",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1750,
+                  "month": 3,
+                  "day": 12
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        },
+        {
+          "id": "e-054",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-098",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 1.5.1817",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1817,
+                  "month": 5,
+                  "day": 1
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-026",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-100",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Martin",
+          "surname": "Lüders"
+        }
+      ],
+      "events": [],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-027",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-102",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Johanna",
+          "surname": "Strube"
+        },
+        {
+          "id": "c-103",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Johanna",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-056",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-104",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* ca 1752",
+              "date": {
+                "kind": "about",
+                "date": {
+                  "year": 1752
+                }
+              },
+              "placeId": "ort-klein-hollern"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-028",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-106",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Heinrich Christian",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-058",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-107",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 8.1.1775",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1775,
+                  "month": 1,
+                  "day": 8
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        },
+        {
+          "id": "e-059",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-108",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 3.3.1838",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1838,
+                  "month": 3,
+                  "day": 3
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        },
+        {
+          "id": "e-060",
+          "type": "occupation",
+          "claims": [
+            {
+              "id": "c-109",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "Ackermann",
+              "value": "Ackermann"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-029",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-111",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Ernst",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-061",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-112",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 10.1.1779",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1779,
+                  "month": 1,
+                  "day": 10
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        },
+        {
+          "id": "e-062",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-113",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 28.1.1834",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1834,
+                  "month": 1,
+                  "day": 28
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-030",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-115",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Dorothea",
+          "surname": "Hesse"
+        },
+        {
+          "id": "c-116",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Dorothea",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-063",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-117",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 1781",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1781
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-031",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-119",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Carl August",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-065",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-120",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 19.7.1803",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1803,
+                  "month": 7,
+                  "day": 19
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        },
+        {
+          "id": "e-066",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-121",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 5.5.1871",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1871,
+                  "month": 5,
+                  "day": 5
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        },
+        {
+          "id": "e-067",
+          "type": "occupation",
+          "claims": [
+            {
+              "id": "c-122",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "Ackermann",
+              "value": "Ackermann"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-032",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-124",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Maria",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-068",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-125",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 3.7.1809",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1809,
+                  "month": 7,
+                  "day": 3
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        },
+        {
+          "id": "e-069",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-126",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 22.2.1811",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1811,
+                  "month": 2,
+                  "day": 22
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-033",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-128",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Margaretha",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-070",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-129",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 18.11.1809",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1809,
+                  "month": 11,
+                  "day": 18
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        },
+        {
+          "id": "e-071",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-130",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 15.2.1882",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1882,
+                  "month": 2,
+                  "day": 15
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-034",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-132",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Michael",
+          "surname": "Ahrens"
+        }
+      ],
+      "events": [],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-035",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-134",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Christine",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-073",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-135",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 2.2.1806",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1806,
+                  "month": 2,
+                  "day": 2
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        },
+        {
+          "id": "e-074",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-136",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 1859",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1859
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-036",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-138",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "note": "unehelich",
+          "type": "birth",
+          "given": "Friedrich",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-075",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-139",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 9.9.1829",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1829,
+                  "month": 9,
+                  "day": 9
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        },
+        {
+          "id": "e-076",
+          "type": "note",
+          "claims": [
+            {
+              "id": "c-140",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "unehelich",
+              "value": "unehelich"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-037",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-142",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Catharina",
+          "surname": "Lüders"
+        },
+        {
+          "id": "c-143",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Catharina",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-038",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-145",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Hans Jürgen",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-078",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-146",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 14.2.1670",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1670,
+                  "month": 2,
+                  "day": 14
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-079",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-147",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 1731",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1731
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-080",
+          "type": "occupation",
+          "claims": [
+            {
+              "id": "c-148",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "Schulze",
+              "value": "Schulze"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-039",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-150",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Otto",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-081",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-151",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 16.9.1675",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1675,
+                  "month": 9,
+                  "day": 16
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-082",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-152",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 19.5.1735",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1735,
+                  "month": 5,
+                  "day": 19
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-040",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-154",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Auguste",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-083",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-155",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 2.2.1669",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1669,
+                  "month": 2,
+                  "day": 2
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-084",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-156",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 18.9.1737",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1737,
+                  "month": 9,
+                  "day": 18
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-041",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-158",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Peter",
+          "surname": "Bode"
+        }
+      ],
+      "events": [],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-042",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-160",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Friedrich",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-086",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-161",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 3.3.1667",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1667,
+                  "month": 3,
+                  "day": 3
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-087",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-162",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 27.9.1738",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1738,
+                  "month": 9,
+                  "day": 27
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-043",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-164",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Ilse",
+          "surname": "Ahrens"
+        },
+        {
+          "id": "c-165",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Ilse",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-044",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-167",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Jürgen",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-089",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-168",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 4.4.1700",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1700,
+                  "month": 4,
+                  "day": 4
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-090",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-169",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 1764",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1764
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-045",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-171",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Heinrich",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-091",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-172",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 21.5.1698",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1698,
+                  "month": 5,
+                  "day": 21
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-092",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-173",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 18.10.1771",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1771,
+                  "month": 10,
+                  "day": 18
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-046",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-175",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Margaretha",
+          "surname": "Bode"
+        },
+        {
+          "id": "c-176",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Margaretha",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-047",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-178",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Andreas",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-094",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-179",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 24.12.1735",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1735,
+                  "month": 12,
+                  "day": 24
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-095",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-180",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 1799",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1799
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-048",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-182",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Auguste",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-096",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-183",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 9.3.1730",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1730,
+                  "month": 3,
+                  "day": 9
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-097",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-184",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 7.5.1804",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1804,
+                  "month": 5,
+                  "day": 7
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-049",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-186",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Peter",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-098",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-187",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 13.3.1739",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1739,
+                  "month": 3,
+                  "day": 13
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-099",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-188",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 27.12.1741",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1741,
+                  "month": 12,
+                  "day": 27
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-050",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-190",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Auguste",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-100",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-191",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 2.5.1736",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1736,
+                  "month": 5,
+                  "day": 2
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        },
+        {
+          "id": "e-101",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-192",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 14.12.1781",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1781,
+                  "month": 12,
+                  "day": 14
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-051",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-194",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Luise",
+          "surname": "Wendt"
+        },
+        {
+          "id": "c-195",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Luise",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-052",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-197",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Friedrich",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-103",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-198",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 3.3.1768",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1768,
+                  "month": 3,
+                  "day": 3
+                }
+              },
+              "placeId": "ort-klein-hollern"
+            }
+          ]
+        },
+        {
+          "id": "e-104",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-199",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 1830",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1830
+                }
+              },
+              "placeId": "ort-klein-hollern"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-053",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-201",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Jacob",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-105",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-202",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 28.5.1773",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1773,
+                  "month": 5,
+                  "day": 28
+                }
+              },
+              "placeId": "ort-klein-hollern"
+            }
+          ]
+        },
+        {
+          "id": "e-106",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-203",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 7.12.1838",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1838,
+                  "month": 12,
+                  "day": 7
+                }
+              },
+              "placeId": "ort-klein-hollern"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-054",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-205",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Wilhelmine",
+          "surname": "Vogt"
+        },
+        {
+          "id": "c-206",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Wilhelmine",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-055",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-208",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Ludwig",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-108",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-209",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 8.8.1800",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1800,
+                  "month": 8,
+                  "day": 8
+                }
+              },
+              "placeId": "ort-klein-hollern"
+            }
+          ]
+        },
+        {
+          "id": "e-109",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-210",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 1866",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1866
+                }
+              },
+              "placeId": "ort-klein-hollern"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-056",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-212",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Anna",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-110",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-213",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 12.12.1801",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1801,
+                  "month": 12,
+                  "day": 12
+                }
+              },
+              "placeId": "ort-klein-hollern"
+            }
+          ]
+        },
+        {
+          "id": "e-111",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-214",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 6.8.1852",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1852,
+                  "month": 8,
+                  "day": 6
+                }
+              },
+              "placeId": "ort-klein-hollern"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-057",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-216",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Auguste",
+          "surname": "Kuhlmann"
+        },
+        {
+          "id": "c-217",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Auguste",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-058",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-219",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Sophie",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-113",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-220",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 30.11.1835",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1835,
+                  "month": 11,
+                  "day": 30
+                }
+              },
+              "placeId": "ort-klein-hollern"
+            }
+          ]
+        },
+        {
+          "id": "e-114",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-221",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 2.1.1901",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1901,
+                  "month": 1,
+                  "day": 2
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-059",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-223",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Gertrud",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-115",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-224",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 9.7.1835",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1835,
+                  "month": 7,
+                  "day": 9
+                }
+              },
+              "placeId": "ort-klein-hollern"
+            }
+          ]
+        },
+        {
+          "id": "e-116",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-225",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 18.4.1837",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1837,
+                  "month": 4,
+                  "day": 18
+                }
+              },
+              "placeId": "ort-klein-hollern"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-060",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-227",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Heinrich",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-117",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-228",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 1.7.1844",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1844,
+                  "month": 7,
+                  "day": 1
+                }
+              },
+              "placeId": "ort-klein-hollern"
+            }
+          ]
+        },
+        {
+          "id": "e-118",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-229",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 1.5.1844",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1844,
+                  "month": 5,
+                  "day": 1
+                }
+              },
+              "placeId": "ort-klein-hollern"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-061",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-231",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Martha",
+          "surname": "Behrens"
+        },
+        {
+          "id": "c-232",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Martha",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-062",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-234",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Wilhelm",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-120",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-235",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 2.4.1832",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1832,
+                  "month": 4,
+                  "day": 2
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        },
+        {
+          "id": "e-121",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-236",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 20.8.1899",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1899,
+                  "month": 8,
+                  "day": 20
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        },
+        {
+          "id": "e-122",
+          "type": "occupation",
+          "claims": [
+            {
+              "id": "c-237",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "Bäckermeister in Hannover",
+              "value": "Bäckermeister in Hannover"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-063",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-239",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Martha",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-123",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-240",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 14.5.1840",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1840,
+                  "month": 5,
+                  "day": 14
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        },
+        {
+          "id": "e-124",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-241",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 23.9.1887",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1887,
+                  "month": 9,
+                  "day": 23
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-064",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-243",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Frieda",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-125",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-244",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 10.6.1839",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1839,
+                  "month": 6,
+                  "day": 10
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        },
+        {
+          "id": "e-126",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-245",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 3.9.1895",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1895,
+                  "month": 9,
+                  "day": 3
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-065",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-248",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "August Wilhelm",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-128",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-249",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 16.2.1860",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1860,
+                  "month": 2,
+                  "day": 16
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        },
+        {
+          "id": "e-129",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-250",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 20.8.1926",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1926,
+                  "month": 8,
+                  "day": 20
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        },
+        {
+          "id": "e-130",
+          "type": "occupation",
+          "claims": [
+            {
+              "id": "c-251",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "Bäckermeister",
+              "value": "Bäckermeister"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-066",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-252",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "note": "Adoptiert",
+          "type": "birth",
+          "given": "Emil",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-131",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-253",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 1.1.1866",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1866,
+                  "month": 1,
+                  "day": 1
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        },
+        {
+          "id": "e-132",
+          "type": "note",
+          "claims": [
+            {
+              "id": "c-254",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "Adoptiert",
+              "value": "Adoptiert"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-067",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-257",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Auguste",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-133",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-258",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 3.9.1861",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1861,
+                  "month": 9,
+                  "day": 3
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        },
+        {
+          "id": "e-134",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-259",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 18.12.1919",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1919,
+                  "month": 12,
+                  "day": 18
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-068",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-261",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Gustav",
+          "surname": "Lüders"
+        }
+      ],
+      "events": [],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-069",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-263",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Christian",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-136",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-264",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 8.3.1868",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1868,
+                  "month": 3,
+                  "day": 8
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        },
+        {
+          "id": "e-137",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-265",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 24.3.1918",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1918,
+                  "month": 3,
+                  "day": 24
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-070",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-267",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Frieda",
+          "surname": "Kühn"
+        },
+        {
+          "id": "c-268",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Frieda",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-138",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-269",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 4.4.1865",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1865,
+                  "month": 4,
+                  "day": 4
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-071",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-271",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Karl Wilhelm",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-140",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-272",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 25.9.1889",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1889,
+                  "month": 9,
+                  "day": 25
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        },
+        {
+          "id": "e-143",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-279",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 3.7.1916 gefallen bei Verdun",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1916,
+                  "month": 7,
+                  "day": 3
+                }
+              },
+              "placeId": "ort-verdun",
+              "cause": "gefallen"
+            }
+          ]
+        },
+        {
+          "id": "e-144",
+          "type": "military",
+          "claims": [
+            {
+              "id": "c-280",
+              "citation": {
+                "sourceId": "src-004"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "value": "Infanterie-Regiment (Demo)"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-072",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-274",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Martin",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-141",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-275",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 7.9.1891",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1891,
+                  "month": 9,
+                  "day": 7
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-073",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-277",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Elisabeth",
+          "surname": "Wolters"
+        }
+      ],
+      "events": [],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-074",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-281",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Martha",
+          "surname": "Ritter"
+        },
+        {
+          "id": "c-282",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Martha",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-145",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-283",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 30.3.1892",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1892,
+                  "month": 3,
+                  "day": 30
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        },
+        {
+          "id": "e-146",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-284",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 10.10.1970",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1970,
+                  "month": 10,
+                  "day": 10
+                }
+              },
+              "placeId": "ort-hamburg"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-075",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-286",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Walter",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-148",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-287",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 1.8.1914",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1914,
+                  "month": 8,
+                  "day": 1
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        },
+        {
+          "id": "e-149",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-288",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 14.2.1987",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1987,
+                  "month": 2,
+                  "day": 14
+                }
+              },
+              "placeId": "ort-hamburg"
+            }
+          ]
+        },
+        {
+          "id": "e-150",
+          "type": "occupation",
+          "claims": [
+            {
+              "id": "c-289",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "Drechslermeister in Hamburg",
+              "value": "Drechslermeister in Hamburg"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-076",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-291",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Ilse",
+          "surname": "Brandt"
+        },
+        {
+          "id": "c-292",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Ilse",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-151",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-293",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 16.9.1916",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1916,
+                  "month": 9,
+                  "day": 16
+                }
+              },
+              "placeId": "ort-breslau"
+            }
+          ]
+        },
+        {
+          "id": "e-152",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-294",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "† 1.5.1999",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1999,
+                  "month": 5,
+                  "day": 1
+                }
+              },
+              "placeId": "ort-hamburg"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-077",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-296",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Gerd",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-154",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-297",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 9.5.1940",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1940,
+                  "month": 5,
+                  "day": 9
+                }
+              },
+              "placeId": "ort-hamburg"
+            }
+          ]
+        },
+        {
+          "id": "e-155",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-298",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 2022,
+                  "month": 6,
+                  "day": 21
+                }
+              },
+              "placeId": "ort-hamburg"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-078",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-299",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Brigitte",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-156",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-300",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "* 10.3.1938",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1938,
+                  "month": 3,
+                  "day": 10
+                }
+              },
+              "placeId": "ort-hamburg"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-079",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-303",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Ursula",
+          "surname": "Lange"
+        },
+        {
+          "id": "c-304",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Ursula",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-157",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-305",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1942,
+                  "month": 1,
+                  "day": 20
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-080",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-307",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Thomas",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-159",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-308",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1966,
+                  "month": 4,
+                  "day": 3
+                }
+              },
+              "placeId": "ort-hamburg"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-081",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-309",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Michael",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-160",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-310",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1969,
+                  "month": 9,
+                  "day": 9
+                }
+              },
+              "placeId": "ort-hamburg"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-082",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-313",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Hinrich",
+          "surname": "Lorenzen"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-161",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-314",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1910,
+                  "month": 2,
+                  "day": 2
+                }
+              },
+              "placeId": "ort-bremen"
+            }
+          ]
+        },
+        {
+          "id": "e-162",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-315",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1980,
+                  "month": 3,
+                  "day": 3
+                }
+              },
+              "placeId": "ort-bremen"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-083",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-316",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Anna",
+          "surname": "Jensen"
+        },
+        {
+          "id": "c-317",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Anna",
+          "surname": "Lorenzen"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-163",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-318",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1912,
+                  "month": 7,
+                  "day": 7
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "e-164",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-319",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1999,
+                  "month": 9,
+                  "day": 9
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-084",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-320",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Uwe",
+          "surname": "Lorenzen"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-165",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-321",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1941,
+                  "month": 4,
+                  "day": 4
+                }
+              },
+              "placeId": "ort-bremen"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-085",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-324",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Helga",
+          "surname": "Petersen"
+        },
+        {
+          "id": "c-325",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Helga",
+          "surname": "Lorenzen"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-167",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-326",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1944,
+                  "month": 12,
+                  "day": 1
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-086",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-327",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Kerstin",
+          "surname": "Lorenzen"
+        },
+        {
+          "id": "c-328",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Kerstin",
+          "surname": "Haferkamp"
+        },
+        {
+          "id": "c-330",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "current",
+          "given": "Kerstin",
+          "surname": "Albers"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-168",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-329",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1968,
+                  "month": 6,
+                  "day": 30
+                }
+              },
+              "placeId": "ort-bremen"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-087",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-335",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Jonas",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-172",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-336",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1995,
+                  "month": 10,
+                  "day": 5
+                }
+              },
+              "placeId": "ort-hamburg"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-088",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-337",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Lukas",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-173",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-338",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1997,
+                  "month": 1,
+                  "day": 5
+                }
+              },
+              "placeId": "ort-hamburg"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-089",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-339",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Mia",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-174",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-340",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1999,
+                  "month": 2,
+                  "day": 5
+                }
+              },
+              "placeId": "ort-hamburg"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-090",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-344",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Petra",
+          "surname": "Schmid"
+        },
+        {
+          "id": "c-345",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Petra",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-175",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-346",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1972
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-091",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-348",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Lea",
+          "surname": "Schmid"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-177",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-349",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 2004
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-092",
+      "sex": "f",
+      "names": [
+        {
+          "id": "c-351",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Lena",
+          "surname": "Novak"
+        },
+        {
+          "id": "c-352",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "married",
+          "given": "Lena",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-178",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-353",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1996,
+                  "month": 3,
+                  "day": 15
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-093",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-355",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "type": "birth",
+          "given": "Paul",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-180",
+          "type": "birth",
+          "claims": [
+            {
+              "id": "c-356",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 2021,
+                  "month": 6,
+                  "day": 10
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "accepted"
+    },
+    {
+      "id": "p-094",
+      "sex": "m",
+      "names": [
+        {
+          "id": "c-358",
+          "citation": {
+            "sourceId": "src-003"
+          },
+          "confidence": "assumed",
+          "status": "suggested",
+          "researchQuestionId": "rq-001",
+          "type": "birth",
+          "given": "Veit",
+          "surname": "Haverkamp"
+        },
+        {
+          "id": "c-361",
+          "citation": {
+            "sourceId": "src-003"
+          },
+          "confidence": "assumed",
+          "status": "suggested",
+          "researchQuestionId": "rq-001",
+          "type": "variant",
+          "given": "Veit",
+          "surname": "Haferkamp"
+        }
+      ],
+      "events": [
+        {
+          "id": "e-181",
+          "type": "death",
+          "claims": [
+            {
+              "id": "c-359",
+              "citation": {
+                "sourceId": "src-003"
+              },
+              "confidence": "assumed",
+              "status": "suggested",
+              "verbatim": "† 1619",
+              "researchQuestionId": "rq-001",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1619
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "e-182",
+          "type": "occupation",
+          "claims": [
+            {
+              "id": "c-360",
+              "citation": {
+                "sourceId": "src-003"
+              },
+              "confidence": "assumed",
+              "status": "suggested",
+              "researchQuestionId": "rq-001",
+              "value": "Hüfner in Eschenbrück"
+            }
+          ]
+        }
+      ],
+      "mentioned": false,
+      "status": "suggested"
+    }
+  ],
+  "partnerships": [
+    {
+      "id": "pa-001",
+      "partners": [
+        "p-001",
+        null
+      ],
+      "kind": "unknown",
+      "events": [],
+      "children": [
+        {
+          "id": "c-008",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-002",
+          "kind": "biological"
+        },
+        {
+          "id": "c-012",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-003",
+          "kind": "biological"
+        },
+        {
+          "id": "c-016",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-004",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-002",
+      "partners": [
+        "p-005",
+        "p-004"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-010",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-018",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 1642",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1642
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "children": []
+    },
+    {
+      "id": "pa-003",
+      "partners": [
+        "p-002",
+        "p-006"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-013",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-022",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "I. EHE ⚭ 3.2.1636 in Eschenbrück",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1636,
+                  "month": 2,
+                  "day": 3
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-033",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-007",
+          "kind": "biological"
+        },
+        {
+          "id": "c-034",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-008",
+          "kind": "biological"
+        },
+        {
+          "id": "c-035",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-009",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-004",
+      "partners": [
+        "p-010",
+        "p-011"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-023",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-040",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "assumed",
+              "status": "accepted",
+              "verbatim": "Wwe. des Schmieds Claus Ebeling",
+              "date": {
+                "kind": "before",
+                "date": {
+                  "year": 1651
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "children": []
+    },
+    {
+      "id": "pa-005",
+      "partners": [
+        "p-002",
+        "p-011"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-024",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-041",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "II. EHE ⚭ 23.10.1651 in Rabenmoor",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1651,
+                  "month": 10,
+                  "day": 23
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-046",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-012",
+          "kind": "biological"
+        },
+        {
+          "id": "c-050",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-013",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-006",
+      "partners": [
+        "p-012",
+        "p-014"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-031",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-054",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 3.11.1680",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1680,
+                  "month": 11,
+                  "day": 3
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-059",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-015",
+          "kind": "biological"
+        },
+        {
+          "id": "c-063",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-016",
+          "kind": "biological"
+        },
+        {
+          "id": "c-067",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-017",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-007",
+      "partners": [
+        "p-015",
+        "p-018"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-039",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-070",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 21.4.1709",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1709,
+                  "month": 4,
+                  "day": 21
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-075",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-019",
+          "kind": "biological"
+        },
+        {
+          "id": "c-079",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-020",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-008",
+      "partners": [
+        "p-021",
+        "p-020"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-045",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-081",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 1737",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1737
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        }
+      ],
+      "children": []
+    },
+    {
+      "id": "pa-009",
+      "partners": [
+        "p-019",
+        "p-022"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-046",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-084",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 2.6.1744",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1744,
+                  "month": 6,
+                  "day": 2
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-091",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-023",
+          "kind": "biological"
+        },
+        {
+          "id": "c-095",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-024",
+          "kind": "biological"
+        },
+        {
+          "id": "c-099",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-025",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-010",
+      "partners": [
+        "p-026",
+        "p-025"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-055",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-101",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 1777",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1777
+                }
+              },
+              "placeId": "ort-rabenmoor"
+            }
+          ]
+        }
+      ],
+      "children": []
+    },
+    {
+      "id": "pa-011",
+      "partners": [
+        "p-023",
+        "p-027"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-057",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-105",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "assumed",
+              "status": "accepted",
+              "verbatim": "⚭ 23.6.177?",
+              "verbatimAlternatives": [
+                "23.6.1772",
+                "23.6.1777"
+              ],
+              "needsReview": true,
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1772,
+                  "month": 6,
+                  "day": 23
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-110",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-028",
+          "kind": "biological"
+        },
+        {
+          "id": "c-114",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-029",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-012",
+      "partners": [
+        "p-028",
+        "p-030"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-064",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-118",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 12.10.1800",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1800,
+                  "month": 10,
+                  "day": 12
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-123",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-031",
+          "kind": "biological"
+        },
+        {
+          "id": "c-127",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-032",
+          "kind": "biological"
+        },
+        {
+          "id": "c-131",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-033",
+          "kind": "biological"
+        },
+        {
+          "id": "c-137",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-035",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-013",
+      "partners": [
+        "p-034",
+        "p-033"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-072",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-133",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 1834",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1834
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        }
+      ],
+      "children": []
+    },
+    {
+      "id": "pa-014",
+      "partners": [
+        "p-035",
+        null
+      ],
+      "kind": "union",
+      "events": [],
+      "children": [
+        {
+          "id": "c-141",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-036",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-015",
+      "partners": [
+        "p-009",
+        "p-037"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-077",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-144",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 1.5.1667",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1667,
+                  "month": 5,
+                  "day": 1
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-149",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-038",
+          "kind": "biological"
+        },
+        {
+          "id": "c-153",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-039",
+          "kind": "biological"
+        },
+        {
+          "id": "c-157",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-040",
+          "kind": "biological"
+        },
+        {
+          "id": "c-163",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-042",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-016",
+      "partners": [
+        "p-041",
+        "p-040"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-085",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-159",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 1696",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1696
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "children": []
+    },
+    {
+      "id": "pa-017",
+      "partners": [
+        "p-038",
+        "p-043"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-088",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-166",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 6.6.1697",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1697,
+                  "month": 6,
+                  "day": 6
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-170",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-044",
+          "kind": "biological"
+        },
+        {
+          "id": "c-174",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-045",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-018",
+      "partners": [
+        "p-044",
+        "p-046"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-093",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-177",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 9.9.1732",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1732,
+                  "month": 9,
+                  "day": 9
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-181",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-047",
+          "kind": "biological"
+        },
+        {
+          "id": "c-185",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-048",
+          "kind": "biological"
+        },
+        {
+          "id": "c-189",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-049",
+          "kind": "biological"
+        },
+        {
+          "id": "c-193",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-050",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-019",
+      "partners": [
+        "p-047",
+        "p-051"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-102",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-196",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 2.2.1765",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1765,
+                  "month": 2,
+                  "day": 2
+                }
+              },
+              "placeId": "ort-eschenbrueck"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-200",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-052",
+          "kind": "biological"
+        },
+        {
+          "id": "c-204",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-053",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-020",
+      "partners": [
+        "p-052",
+        "p-054"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-107",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-207",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 4.4.1797",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1797,
+                  "month": 4,
+                  "day": 4
+                }
+              },
+              "placeId": "ort-klein-hollern"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-211",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-055",
+          "kind": "biological"
+        },
+        {
+          "id": "c-215",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-056",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-021",
+      "partners": [
+        "p-055",
+        "p-057"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-112",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-218",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 15.5.1831",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1831,
+                  "month": 5,
+                  "day": 15
+                }
+              },
+              "placeId": "ort-klein-hollern"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-222",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-058",
+          "kind": "biological"
+        },
+        {
+          "id": "c-226",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-059",
+          "kind": "biological"
+        },
+        {
+          "id": "c-230",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-060",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-022",
+      "partners": [
+        "p-031",
+        "p-061"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-119",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-233",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 1.11.1829",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1829,
+                  "month": 11,
+                  "day": 1
+                }
+              },
+              "placeId": "ort-tannwiesen"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-238",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-062",
+          "kind": "biological"
+        },
+        {
+          "id": "c-242",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-063",
+          "kind": "biological"
+        },
+        {
+          "id": "c-246",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-064",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-023",
+      "partners": [
+        "p-062",
+        "p-058"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-127",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-247",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 9.5.1857 Hannover (beide Haferkamp!)",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1857,
+                  "month": 5,
+                  "day": 9
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-255",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-065",
+          "kind": "biological"
+        },
+        {
+          "id": "c-256",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-066",
+          "kind": "adopted"
+        },
+        {
+          "id": "c-260",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-067",
+          "kind": "biological"
+        },
+        {
+          "id": "c-266",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-069",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-024",
+      "partners": [
+        "p-068",
+        "p-067"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-135",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-262",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 1887",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1887
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        }
+      ],
+      "children": []
+    },
+    {
+      "id": "pa-025",
+      "partners": [
+        "p-065",
+        "p-070"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-139",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-270",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 6.6.1887",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1887,
+                  "month": 6,
+                  "day": 6
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-273",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-071",
+          "kind": "biological"
+        },
+        {
+          "id": "c-276",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-072",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-026",
+      "partners": [
+        "p-072",
+        "p-073"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-142",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-278",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 1915",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1915
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        }
+      ],
+      "children": []
+    },
+    {
+      "id": "pa-027",
+      "partners": [
+        "p-071",
+        "p-074"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-147",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-285",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 12.4.1913",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1913,
+                  "month": 4,
+                  "day": 12
+                }
+              },
+              "placeId": "ort-hannover"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-290",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-075",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-028",
+      "partners": [
+        "p-075",
+        "p-076"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-153",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-295",
+              "citation": {
+                "sourceId": "src-001"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "verbatim": "⚭ 23.12.1937",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1937,
+                  "month": 12,
+                  "day": 23
+                }
+              },
+              "placeId": "ort-hamburg"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-301",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-078",
+          "kind": "biological"
+        },
+        {
+          "id": "c-302",
+          "citation": {
+            "sourceId": "src-001"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-077",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-029",
+      "partners": [
+        "p-077",
+        "p-079"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-158",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-306",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1964,
+                  "month": 8,
+                  "day": 1
+                }
+              },
+              "placeId": "ort-hamburg"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-311",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-080",
+          "kind": "biological"
+        },
+        {
+          "id": "c-312",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-081",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-030",
+      "partners": [
+        "p-082",
+        "p-083"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-166",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-322",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1938
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-323",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-084",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-031",
+      "partners": [
+        "p-084",
+        "p-085"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-169",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-331",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1966
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-332",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-086",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-032",
+      "partners": [
+        "p-080",
+        "p-086"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-170",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-333",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 1993,
+                  "month": 5,
+                  "day": 22
+                }
+              },
+              "placeId": "ort-hamburg"
+            }
+          ]
+        },
+        {
+          "id": "e-171",
+          "type": "divorce",
+          "claims": [
+            {
+              "id": "c-334",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 2009
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-341",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-087",
+          "kind": "biological"
+        },
+        {
+          "id": "c-342",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-088",
+          "kind": "biological"
+        },
+        {
+          "id": "c-343",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-089",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-033",
+      "partners": [
+        "p-080",
+        "p-090"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-176",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-347",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 2026,
+                  "month": 4,
+                  "day": 18
+                }
+              },
+              "placeId": "ort-hamburg"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-350",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-091",
+          "kind": "step"
+        }
+      ]
+    },
+    {
+      "id": "pa-034",
+      "partners": [
+        "p-087",
+        "p-092"
+      ],
+      "kind": "marriage",
+      "events": [
+        {
+          "id": "e-179",
+          "type": "marriage",
+          "claims": [
+            {
+              "id": "c-354",
+              "citation": {
+                "sourceId": "src-005"
+              },
+              "confidence": "probable",
+              "status": "accepted",
+              "date": {
+                "kind": "exact",
+                "date": {
+                  "year": 2019,
+                  "month": 7,
+                  "day": 6
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "id": "c-357",
+          "citation": {
+            "sourceId": "src-005"
+          },
+          "confidence": "probable",
+          "status": "accepted",
+          "childId": "p-093",
+          "kind": "biological"
+        }
+      ]
+    },
+    {
+      "id": "pa-035",
+      "partners": [
+        "p-094",
+        null
+      ],
+      "kind": "unknown",
+      "events": [],
+      "children": [
+        {
+          "id": "c-362",
+          "citation": {
+            "sourceId": "src-003"
+          },
+          "confidence": "assumed",
+          "status": "suggested",
+          "researchQuestionId": "rq-001",
+          "childId": "p-001",
+          "kind": "biological"
+        }
+      ]
+    }
+  ],
+  "places": [
+    {
+      "id": "ort-eschenbrueck",
+      "historicalName": "Eschenbrück",
+      "modernName": "Eschenbrück (Gemeinde Talheim)",
+      "country": "Deutschland",
+      "parish": "Ev. Pfarrei Eschenbrück",
+      "coordinates": {
+        "lat": 51.21,
+        "lng": 12.31
+      }
+    },
+    {
+      "id": "ort-rabenmoor",
+      "historicalName": "Rabenmoor",
+      "modernName": "Rabenmoor (Gemeinde Talheim)",
+      "country": "Deutschland",
+      "parish": "Ev. Pfarrei Eschenbrück",
+      "coordinates": {
+        "lat": 51.18,
+        "lng": 12.36
+      }
+    },
+    {
+      "id": "ort-tannwiesen",
+      "historicalName": "Tannwiesen",
+      "modernName": "Tannwiesen",
+      "country": "Deutschland",
+      "parish": "Ev. Pfarrei Tannwiesen",
+      "coordinates": {
+        "lat": 51.25,
+        "lng": 12.22
+      }
+    },
+    {
+      "id": "ort-klein-hollern",
+      "historicalName": "Klein-Hollern",
+      "modernName": "Hollern",
+      "country": "Deutschland",
+      "parish": "Ev. Pfarrei Tannwiesen",
+      "coordinates": {
+        "lat": 51.27,
+        "lng": 12.18
+      }
+    },
+    {
+      "id": "ort-hannover",
+      "historicalName": "Hannover",
+      "modernName": "Hannover",
+      "country": "Deutschland",
+      "coordinates": {
+        "lat": 52.37,
+        "lng": 9.73
+      }
+    },
+    {
+      "id": "ort-breslau",
+      "historicalName": "Breslau",
+      "modernName": "Wrocław",
+      "country": "Polen",
+      "coordinates": {
+        "lat": 51.11,
+        "lng": 17.03
+      }
+    },
+    {
+      "id": "ort-hamburg",
+      "historicalName": "Hamburg",
+      "modernName": "Hamburg",
+      "country": "Deutschland",
+      "coordinates": {
+        "lat": 53.55,
+        "lng": 9.99
+      }
+    },
+    {
+      "id": "ort-bremen",
+      "historicalName": "Bremen",
+      "modernName": "Bremen",
+      "country": "Deutschland",
+      "coordinates": {
+        "lat": 53.08,
+        "lng": 8.8
+      }
+    },
+    {
+      "id": "ort-verdun",
+      "historicalName": "Verdun",
+      "modernName": "Verdun",
+      "country": "Frankreich",
+      "coordinates": {
+        "lat": 49.16,
+        "lng": 5.38
+      }
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-001",
+      "kind": "original",
+      "title": "Stammbaum der Familie Haferkamp (Demo)",
+      "created": "um 1955, Nachträge bis 1968",
+      "note": "Handgezeichnete Nachfahrentafel in 13 Generationen."
+    },
+    {
+      "id": "src-002",
+      "kind": "church-record",
+      "title": "Kirchenbuch Eschenbrück, Taufen 1720–1800 (Demo)"
+    },
+    {
+      "id": "src-003",
+      "kind": "website",
+      "title": "Ortsfamilienbuch Tannwiesen (Demo)",
+      "url": "https://example.org/ofb-tannwiesen"
+    },
+    {
+      "id": "src-004",
+      "kind": "website",
+      "title": "Gräbersuche Gefallene 1914–1918 (Demo)",
+      "url": "https://example.org/graeber"
+    },
+    {
+      "id": "src-005",
+      "kind": "family-knowledge",
+      "title": "Familienwissen",
+      "enteredBy": "Demo-Proband",
+      "enteredAt": "2026-11-24"
+    }
+  ],
+  "media": [],
+  "lineages": [
+    {
+      "id": "stamm-001",
+      "name": "Stamm Haferkamp",
+      "progenitorId": "p-001",
+      "originalSourceId": "src-001"
+    }
+  ],
+  "lines": [
+    {
+      "id": "linie-001",
+      "lineageId": "stamm-001",
+      "name": "Schulzen zu Eschenbrück",
+      "founderId": "p-009",
+      "verbatim": "Schulzen a. Eschenbrück"
+    },
+    {
+      "id": "linie-002",
+      "lineageId": "stamm-001",
+      "name": "Müller zu Rabenmoor",
+      "founderId": "p-012",
+      "verbatim": "Müller a. Rabenmoor"
+    }
+  ],
+  "researchQuestions": [
+    {
+      "id": "rq-001",
+      "question": "Wer war der Vater des Stammvaters Jost Haferkamp?",
+      "personIds": [
+        "p-001"
+      ],
+      "origin": "manual",
+      "status": "answered",
+      "createdAt": "2026-11-20",
+      "attempts": [
+        {
+          "id": "sv-001",
+          "date": "2026-11-21",
+          "portal": "Kirchenbuch Eschenbrück (Demo)",
+          "query": "Haferkamp, Taufen vor 1600",
+          "result": "nothing",
+          "note": "Kirchenbuch beginnt erst 1601."
+        },
+        {
+          "id": "sv-002",
+          "date": "2026-11-21",
+          "portal": "Ortsfamilienbuch Tannwiesen (Demo)",
+          "query": "Haferkamp OR Haverkamp, 1550–1600",
+          "url": "https://example.org/ofb-tannwiesen?q=haferkamp",
+          "result": "found",
+          "note": "Eintrag „Veit Haverkamp, Hüfner in Eschenbrück, † 1619\"; Sohn Jost genannt."
+        }
+      ]
+    },
+    {
+      "id": "rq-002",
+      "question": "Woher stammte Elisabeth Brandes (⚭ 1680)?",
+      "personIds": [],
+      "origin": "gap",
+      "status": "queued",
+      "createdAt": "2026-11-22",
+      "attempts": []
+    },
+    {
+      "id": "rq-003",
+      "question": "Wo ist Karl Wilhelm Haferkamp († 1916) begraben?",
+      "personIds": [
+        "p-071"
+      ],
+      "origin": "manual",
+      "status": "unsuccessful",
+      "createdAt": "2026-11-22",
+      "attempts": [
+        {
+          "id": "sv-003",
+          "date": "2026-11-23",
+          "portal": "Gräbersuche (Demo)",
+          "query": "Haferkamp Karl 1889",
+          "result": "nothing"
+        }
+      ]
+    }
+  ]
+}

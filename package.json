@@ -7,9 +7,16 @@
   "scripts": {
     "prepare": "git config core.hooksPath .githooks",
     "test": "vitest run",
+    "typecheck": "tsc --noEmit -p .",
+    "demo:build": "node demo/build-demo.ts",
     "privacy:audit": "node scripts/privacy-guard.mjs audit"
   },
   "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2",
     "vitest": "^5.1.1"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
   }
 }
