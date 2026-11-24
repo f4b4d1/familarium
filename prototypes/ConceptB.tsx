@@ -8,7 +8,7 @@ import {
   index,
   isDivorced,
   kekule,
-  marriageClaim,
+  marriageText,
   ordinal,
   parentsOf,
   partnershipsSorted,
@@ -37,7 +37,7 @@ export function ConceptB({ onSelect }: { onSelect: (id: string) => void }) {
   const grandparents = [father, mother].map((parent) => (parent ? parentsOf(parent) : {}));
   const siblings = parentPartnership ? childrenOf(parentPartnership).filter((child) => child.id !== focus) : [];
   const partnerships = partnershipsSorted(focus);
-  const parentMarriage = parentPartnership ? marriageClaim(parentPartnership) : undefined;
+  const parentMarriage = parentPartnership ? marriageText(parentPartnership)?.replace(/^⚭ ?/, "") : undefined;
   const isMine = (id?: string) => !!id && kekule.has(id);
 
   return (
@@ -73,7 +73,7 @@ export function ConceptB({ onSelect }: { onSelect: (id: string) => void }) {
           {father ? <PersonCard id={father} onClick={go} mine={isMine(father)} /> : <UnknownCard label="Vater unbekannt" />}
           <div className="b-knot">
             <span className="ring">⚭</span>
-            <span className="muted">{parentMarriage?.date ? formatFuzzyDate(parentMarriage.date) : ''}</span>
+            <span className="muted">{parentMarriage ?? ''}</span>
           </div>
           {mother ? <PersonCard id={mother} onClick={go} mine={isMine(mother)} /> : <UnknownCard label="Mutter unbekannt" />}
         </div>
@@ -97,13 +97,13 @@ export function ConceptB({ onSelect }: { onSelect: (id: string) => void }) {
           {partnerships.length === 0 ? <p className="muted">Keine Partnerschaft bekannt.</p> : null}
           {partnerships.map((partnership, i) => {
             const partnerId = index.partnerOf(partnership, focus);
-            const marriage = marriageClaim(partnership);
+            const marriage = marriageText(partnership);
             const children = childrenOf(partnership);
             return (
               <section key={partnership.id} className="b-family">
                 <h3>
                   {partnerships.length > 1 ? `${ordinal(i + 1)}. Ehe` : partnership.kind === 'marriage' ? 'Ehe' : 'Verbindung'}
-                  {marriage?.date ? <span className="muted"> · ⚭ {formatFuzzyDate(marriage.date)}</span> : null}
+                  {marriage ? <span className="muted"> · {marriage}</span> : null}
                   {isDivorced(partnership) ? <span className="muted"> · geschieden</span> : null}
                 </h3>
                 {partnerId ? <PersonCard id={partnerId} onClick={go} mine={isMine(partnerId)} /> : <UnknownCard label="Partner unbekannt" />}

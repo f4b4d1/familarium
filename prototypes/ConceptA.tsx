@@ -1,6 +1,6 @@
 // Entwurf A „Gesamtplan": der ganze Stamm wie im Original, mit Generationsbändern, Zoom und Übersichtskarte.
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { formatGeneration } from '../src/domain/generations.ts';
 import { kekule, KIND_LABEL, probandId, searchablePersons, summary } from './data.ts';
 import { BOX_H, BOX_W, boxPath, layoutTree, ROW_H, type Box } from './layoutTree.ts';
@@ -95,21 +95,22 @@ function PersonBox({ box, selected, mine, onSelect, onToggle, canCollapse, overv
       {canCollapse ? (
         <g
           className="toggle"
-          transform={`translate(${BOX_W / 2},${BOX_H + 22})`}
+          transform={`translate(${BOX_W / 2},${BOX_H + 26})`}
           onClick={(event) => {
             event.stopPropagation();
             onToggle(box.personId!);
           }}
         >
-          <circle r={9} />
-          <text y={4} textAnchor="middle">
-            {box.hiddenChildren ? '+' : '−'}
+          <title>{box.hiddenDescendants ? 'Nachkommen wieder einblenden' : 'Nachkommen dieser Person einklappen'}</title>
+          <circle r={10} />
+          <text y={5} textAnchor="middle">
+            {box.hiddenDescendants ? '+' : '−'}
           </text>
         </g>
       ) : null}
-      {box.hiddenChildren ? (
-        <text x={BOX_W / 2 + 14} y={BOX_H + 26} className="box-sub">
-          {box.hiddenChildren} Kinder
+      {box.hiddenDescendants ? (
+        <text x={BOX_W / 2 + 16} y={BOX_H + 31} className="box-sub">
+          {box.hiddenDescendants} Nachkommen ausgeblendet
         </text>
       ) : null}
     </g>
@@ -132,7 +133,17 @@ export function ConceptA({ selected, onSelect }: { selected: string | null; onSe
     }),
     [layout],
   );
-  const { view, size, ready, handlers, fit, centerOn, showTop, zoomAt } = usePanZoom(svgRef, bounds);
+  const { view, size, ready, handlers, fit, centerOn, showTop, zoomAt, compensate } = usePanZoom(svgRef, bounds);
+
+  // Beim Ein-/Ausklappen bleibt die angeklickte Person an ihrer Stelle; der Rest ordnet sich drumherum neu.
+  const anchor = useRef<{ key: string; x: number; y: number } | null>(null);
+  useLayoutEffect(() => {
+    const a = anchor.current;
+    if (!a) return;
+    anchor.current = null;
+    const box = layout.boxes.find((candidate) => candidate.key === a.key);
+    if (box) compensate(box.x - a.x, box.y - a.y);
+  }, [layout, compensate]);
   const started = useRef(false);
   const overview = view.k < 0.45;
 
@@ -146,13 +157,16 @@ export function ConceptA({ selected, onSelect }: { selected: string | null; onSe
     started.current = true;
   }, [ready, layout, showTop]);
 
-  const toggle = (id: string) =>
+  const toggle = (id: string) => {
+    const box = layout.boxes.find((candidate) => candidate.key === `d-${id}`);
+    if (box) anchor.current = { key: box.key, x: box.x, y: box.y };
     setCollapsed((current) => {
       const next = new Set(current);
       if (next.has(id)) next.delete(id);
       else next.add(id);
       return next;
     });
+  };
 
   const jumpTo = (id: string) => {
     const box = layout.boxes.find((candidate) => candidate.personId === id && candidate.kind !== 'reference');
@@ -236,11 +250,17 @@ export function ConceptA({ selected, onSelect }: { selected: string | null; onSe
           {layout.dots.map((dot) => (
             <circle key={dot.key} cx={dot.x} cy={dot.y} r={5} className={`knot${dot.mine ? ' mine' : ''}`} />
           ))}
-          {layout.labels.map((label) => (
-            <text key={label.key} x={label.x} y={label.y} textAnchor="middle" className="knot-label">
-              {label.text}
-            </text>
-          ))}
+          {overview
+            ? null
+            : layout.labels.map((label) => (
+                <text key={label.key} x={label.x} y={label.y} textAnchor="middle" className="knot-label">
+                  {label.lines.map((line, i) => (
+                    <tspan key={i} x={label.x} dy={i === 0 ? 0 : 14}>
+                      {clip(line, 30)}
+                    </tspan>
+                  ))}
+                </text>
+              ))}
           {layout.boxes.map((box) => (
             <PersonBox
               key={box.key}

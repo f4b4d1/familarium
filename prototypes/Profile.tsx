@@ -11,7 +11,7 @@ import {
   index,
   isDivorced,
   KIND_LABEL,
-  marriageClaim,
+  marriageText,
   ordinal,
   parentsOf,
   partnershipsSorted,
@@ -148,13 +148,13 @@ export function Profile({ personId, onSelect, onClose }: { personId: string; onS
         </div>
         {partnerships.map((partnership, i) => {
           const partnerId = index.partnerOf(partnership, personId);
-          const marriage = marriageClaim(partnership);
+          const marriage = marriageText(partnership);
           return (
             <div key={partnership.id} className="fact">
               <span className="label">{partnerships.length > 1 ? `${ordinal(i + 1)}. Ehe` : partnership.kind === 'marriage' ? 'Ehe' : 'Verbindung'}</span>
               <span>
                 {partnerId ? <PersonLink id={partnerId} onSelect={onSelect} /> : 'Partner unbekannt'}
-                {marriage?.date ? <span className="muted"> · ⚭ {formatFuzzyDate(marriage.date)}</span> : null}
+                {marriage ? <span className="muted"> · {marriage}</span> : null}
                 {isDivorced(partnership) ? <span className="muted"> · geschieden</span> : null}
                 <br />
                 {childrenOf(partnership).map((child, k) => (

@@ -95,5 +95,8 @@ export function usePanZoom(svgRef: RefObject<SVGSVGElement | null>, bounds: Boun
     },
   };
 
-  return { view, size, ready: size.width > 0, handlers, fit, centerOn, showTop, zoomAt };
+  /** Verschiebt die Ansicht so, dass sich Inhalt um (dx, dy) Baum-Einheiten nicht sichtbar bewegt. */
+  const compensate = useCallback((dx: number, dy: number) => setView((v) => ({ ...v, x: v.x - dx * v.k, y: v.y - dy * v.k })), []);
+
+  return { view, size, ready: size.width > 0, handlers, fit, centerOn, showTop, zoomAt, compensate };
 }

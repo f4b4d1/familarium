@@ -120,6 +120,14 @@ export function marriageClaim(partnership: Partnership): EventClaim | undefined 
   return event ? preferredClaim(event.claims) : undefined;
 }
 
+/** „⚭ 3.2.1636 in Eschenbrück", soweit bekannt. */
+export function marriageText(partnership: Partnership): string | undefined {
+  const claim = marriageClaim(partnership);
+  if (!claim) return undefined;
+  const text = claimText(claim);
+  return text ? `⚭ ${text}` : '⚭';
+}
+
 export function isDivorced(partnership: Partnership): boolean {
   return partnership.events.some((event) => event.type === 'divorce');
 }

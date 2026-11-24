@@ -10,7 +10,7 @@ import {
   isDivorced,
   kekule,
   lineage,
-  marriageClaim,
+  marriageText,
   ordinal,
   parentsOf,
   partnershipsSorted,
@@ -61,12 +61,12 @@ function Generation({ id, nextId, onSelect }: { id: string; nextId?: string; onS
           <PersonCard id={id} onClick={onSelect} mine={kekule.has(id)} />
           {partnerships.map((partnership, i) => {
             const partnerId = index.partnerOf(partnership, id);
-            const marriage = marriageClaim(partnership);
+            const marriage = marriageText(partnership);
             const onLine = i === lineIndex;
             return (
               <div key={partnership.id} className={onLine ? 'c-partner on-line' : 'c-partner'}>
                 <div className="c-marriage">
-                  {partnerships.length > 1 ? `${ordinal(i + 1)}. Ehe ` : ''}⚭ {marriage?.date ? formatFuzzyDate(marriage.date) : 'Datum unbekannt'}
+                  {partnerships.length > 1 ? `${ordinal(i + 1)}. Ehe ` : ''}{marriage ?? '⚭ Datum unbekannt'}
                   {isDivorced(partnership) ? ' · geschieden' : ''}
                 </div>
                 {partnerId ? <PersonCard id={partnerId} onClick={onSelect} mine={kekule.has(partnerId)} compact={!onLine} /> : <div className="card ghost">Partner unbekannt</div>}
