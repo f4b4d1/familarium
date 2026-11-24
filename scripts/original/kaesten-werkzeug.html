@@ -2,105 +2,220 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<title>Kästchen prüfen</title>
+<title>Stammbaum prüfen</title>
 <style>
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; font: 14px/1.4 system-ui, sans-serif; background: #2b2b2b; color: #222; overflow: hidden; }
-  #leiste { position: fixed; inset: 0 0 auto 0; height: 52px; display: flex; gap: 8px; align-items: center; padding: 0 12px; background: #f4f1ea; border-bottom: 1px solid #bbb; z-index: 2; }
+  :root { --person: #e3121b; --ehe: #e0218a; --kind: #15a046; --heirat: #e0218a; --beruf: #8a4b14; --ort: #1f5fe0; --sonstiges: #d99a00; --sel: #00b4e6; --seite: 340px; }
+
+  #leiste { position: fixed; inset: 0 0 auto 0; height: 50px; display: flex; gap: 6px; align-items: center; padding: 0 10px; background: #f4f1ea; border-bottom: 1px solid #bbb; z-index: 3; }
   #leiste > * { white-space: nowrap; }
-  #details { overflow: hidden; text-overflow: ellipsis; }
-  #leiste button { font: inherit; padding: 6px 12px; border: 1px solid #999; border-radius: 6px; background: #fff; cursor: pointer; }
+  #leiste button, #leiste select { font: inherit; padding: 5px 10px; border: 1px solid #999; border-radius: 6px; background: #fff; cursor: pointer; }
   #leiste button.aktiv { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
-  #leiste .trenner { width: 1px; height: 28px; background: #bbb; margin: 0 4px; }
-  #zaehler { font-weight: 600; margin-left: auto; }
-  #zaehler.fertig { color: #15803d; }
-  #details { color: #555; }
-  #status { min-width: 120px; text-align: right; color: #555; }
+  #leiste button.an { background: #e5e7eb; }
+  #leiste .trenner { width: 1px; height: 26px; background: #bbb; margin: 0 2px; }
+  #zaehler { margin-left: auto; color: #333; overflow: hidden; text-overflow: ellipsis; }
+  #status { min-width: 110px; text-align: right; color: #555; }
   #status.fehler { color: #b91c1c; font-weight: 600; }
-  svg { position: fixed; inset: 52px 0 0 0; width: 100%; height: calc(100% - 52px); touch-action: none; user-select: none; cursor: grab; }
-  svg.zeichnen { cursor: crosshair; }
-  rect.k { fill: transparent; pointer-events: all; stroke-width: 2; vector-effect: non-scaling-stroke; cursor: move; }
-  rect.K { stroke: #e3121b; }
-  rect.U { stroke: #ff8a00; }
-  rect.neu { stroke: #0057ff; }
-  rect.sel { stroke-width: 4; fill: rgba(0, 200, 255, .18); }
-  rect.entwurf { fill: rgba(0, 87, 255, .12); stroke: #0057ff; stroke-width: 2; vector-effect: non-scaling-stroke; pointer-events: none; }
+
+  #hinweis { position: fixed; top: 58px; left: 50%; transform: translateX(-50%); background: #1d4ed8; color: #fff; padding: 6px 14px; border-radius: 6px; z-index: 3; display: none; box-shadow: 0 2px 8px rgba(0,0,0,.4); }
+
+  svg#bild { position: fixed; top: 50px; left: 0; right: var(--seite); bottom: 0; width: calc(100% - var(--seite)); height: calc(100% - 50px); touch-action: none; user-select: none; cursor: grab; }
+  svg.zeichnen { cursor: crosshair !important; }
+  svg.verbinden { cursor: pointer !important; }
+
+  .r { fill: transparent; pointer-events: all; stroke-width: 1.2; vector-effect: non-scaling-stroke; cursor: move; }
+  .r.person { stroke: var(--person); }
+  .r.heirat { stroke: var(--heirat); stroke-width: 1.6; }
+  .r.beruf { stroke: var(--beruf); stroke-width: 1.6; }
+  .r.ort { stroke: var(--ort); stroke-width: 1.6; }
+  .r.sonstiges { stroke: var(--sonstiges); stroke-width: 1.6; }
+  .r.sel { stroke: var(--sel) !important; stroke-width: 2.5; fill: rgba(0, 180, 230, .12); }
+  .r.ziel { fill: rgba(29, 78, 216, .10); }
+  .entwurf { fill: rgba(0, 87, 255, .1); stroke: #0057ff; stroke-width: 1.2; vector-effect: non-scaling-stroke; pointer-events: none; }
+  circle.ehe { fill: var(--ehe); stroke: #fff; stroke-width: 1.5; vector-effect: non-scaling-stroke; cursor: move; }
+  circle.ehe.offen { fill: #fff; stroke: var(--ehe); stroke-width: 2.5; }
+  circle.ehe.sel { stroke: var(--sel); stroke-width: 3; }
+  line.v { stroke-width: 1.5; vector-effect: non-scaling-stroke; pointer-events: none; }
+  line.v.partner { stroke: var(--ehe); }
+  line.v.kind { stroke: var(--kind); }
+  line.v.info { stroke-width: 1; }
+  line.v.sel { stroke: var(--sel) !important; stroke-width: 3.5; }
+  .griff { stroke: transparent; stroke-width: 10; vector-effect: non-scaling-stroke; pointer-events: stroke; cursor: pointer; fill: none; }
+  polyline.gl { fill: none; stroke: #777; stroke-width: 1.5; vector-effect: non-scaling-stroke; pointer-events: none; }
+  polyline.gl.sel { stroke: var(--sel); stroke-width: 3; }
+  polyline.gl.offen { stroke: #1d4ed8; }
+  circle.ecke { fill: #fff; stroke: #000; stroke-width: 1; vector-effect: non-scaling-stroke; cursor: nwse-resize; }
+  circle.punkt { fill: #777; stroke: #fff; stroke-width: 1; vector-effect: non-scaling-stroke; cursor: move; }
   text { pointer-events: none; font-weight: 700; paint-order: stroke; stroke: #fff; stroke-width: 3; vector-effect: non-scaling-stroke; }
-  polyline.gl { fill: none; stroke: #c800c8; stroke-width: 3; vector-effect: non-scaling-stroke; pointer-events: none; }
-  polyline.gl.sel { stroke: #00b4e6; stroke-width: 5; }
-  polyline.gl.offen { stroke-dasharray: 8 6; }
-  polyline.griff { fill: none; stroke: transparent; stroke-width: 16; vector-effect: non-scaling-stroke; pointer-events: stroke; cursor: pointer; }
-  circle.ecke { fill: #fff; stroke: #000; stroke-width: 1.5; vector-effect: non-scaling-stroke; cursor: nwse-resize; }
-  circle.punkt { fill: #c800c8; stroke: #fff; stroke-width: 1.5; vector-effect: non-scaling-stroke; cursor: move; }
-  #hilfe { position: fixed; left: 12px; bottom: 12px; width: 380px; background: rgba(255, 255, 255, .95); border-radius: 8px; padding: 10px 14px; box-shadow: 0 2px 10px rgba(0, 0, 0, .4); z-index: 2; }
-  #hilfe h3 { margin: 0 0 6px; font-size: 15px; }
-  #hilfe ul { margin: 0; padding-left: 18px; }
-  #hilfe li { margin: 2px 0; }
-  #hilfe.zu ul { display: none; }
-  .farbe { display: inline-block; width: 12px; height: 12px; border: 2px solid; vertical-align: -1px; }
+
+  #seite { position: fixed; top: 50px; right: 0; bottom: 0; width: var(--seite); background: #faf8f3; border-left: 1px solid #bbb; overflow-y: auto; padding: 12px 14px; z-index: 2; }
+  #seite h2 { font-size: 17px; margin: 0 0 4px; }
+  #seite h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: #666; margin: 14px 0 4px; }
+  #seite .zeilen { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 6px 8px; font-family: Georgia, serif; }
+  #seite ul { list-style: none; margin: 0; padding: 0; }
+  #seite li { display: flex; align-items: center; gap: 6px; padding: 2px 0; }
+  #seite li .weg { margin-left: auto; border: 0; background: none; color: #b91c1c; cursor: pointer; font-size: 16px; }
+  #seite a { color: #1d4ed8; cursor: pointer; text-decoration: underline; }
+  #seite textarea { width: 100%; min-height: 70px; font: 15px Georgia, serif; padding: 6px; }
+  #seite select, #seite input, #seite button { font: inherit; }
+  #seite .zeile { display: flex; gap: 6px; margin-top: 6px; }
+  #seite .zeile input { width: 90px; }
+  #seite .knopf { padding: 4px 10px; border: 1px solid #999; border-radius: 6px; background: #fff; cursor: pointer; }
+  #seite .gruen { background: #15803d; color: #fff; border-color: #15803d; }
+  #seite .grau { color: #666; font-size: 13px; }
+  #seite .offen { display: inline-block; background: #fde68a; color: #7c5800; border-radius: 4px; padding: 0 6px; font-size: 12px; font-weight: 600; }
+  #seite .ok { display: inline-block; background: #bbf7d0; color: #166534; border-radius: 4px; padding: 0 6px; font-size: 12px; font-weight: 600; }
+
+  .tafel { position: fixed; left: 12px; background: rgba(255, 255, 255, .96); border-radius: 8px; padding: 10px 14px; box-shadow: 0 2px 10px rgba(0, 0, 0, .45); z-index: 2; }
+  .tafel h3 { margin: 0 0 6px; font-size: 15px; }
+  #anleitung { bottom: 12px; width: 440px; max-height: calc(100% - 140px); overflow-y: auto; }
+  #anleitung ul { margin: 0 0 6px; padding-left: 18px; }
+  #anleitung li { margin: 2px 0; }
+  #anleitung h4 { margin: 8px 0 2px; font-size: 13px; }
+  #legende { top: 62px; width: 250px; }
+  #legende div { display: flex; align-items: center; gap: 8px; margin: 3px 0; }
+  .versteckt { display: none !important; }
+  .muster { width: 26px; height: 14px; flex: none; }
   kbd { background: #eee; border: 1px solid #bbb; border-radius: 3px; padding: 0 4px; font-size: 12px; }
 </style>
 </head>
 <body>
 <div id="leiste">
-  <button data-modus="auswahl" title="Taste A">Auswählen / Verschieben</button>
-  <button data-modus="kasten" title="Taste N">Neues Kästchen</button>
-  <button data-modus="linie" title="Taste G">Generationslinie</button>
+  <button data-modus="auswahl" title="Taste A">Auswählen</button>
+  <button data-modus="person" title="Taste N">+ Person</button>
+  <button data-modus="info" title="Taste I">+ Info</button>
+  <select id="infoart" title="Art neuer Info-Kästchen (Tasten 1–4)">
+    <option value="heirat">1 Heirat</option><option value="beruf">2 Beruf</option>
+    <option value="ort">3 Ort</option><option value="sonstiges">4 Sonstiges</option>
+  </select>
+  <button data-modus="ehe" title="Taste E">+ Ehe-Punkt</button>
+  <button data-modus="linie" title="Taste G">+ Gen.-Linie</button>
   <span class="trenner"></span>
-  <button id="naechster" title="Taste V">Nächster Vorschlag</button>
+  <button id="naechster" title="Taste V">Nächstes Offene</button>
   <button id="rueck" title="Strg+Z">Rückgängig</button>
   <button id="einpassen" title="Taste F">Ganzes Bild</button>
+  <span class="trenner"></span>
+  <button id="t-gen" title="Taste H">Gen.-Linien</button>
+  <button id="t-leg">Legende</button>
+  <button id="t-hilfe">Anleitung</button>
   <span id="zaehler"></span>
-  <span id="details"></span>
   <span id="status"></span>
 </div>
+<div id="hinweis"></div>
+
 <svg id="bild">
   <g id="ansicht">
     <image id="foto" href="/foto.jpg" x="0" y="0" preserveAspectRatio="none"></image>
     <g id="ebene"></g>
   </g>
 </svg>
-<div id="hilfe">
-  <h3>So geht's <button id="hilfe-knopf" style="float:right">ausblenden</button></h3>
+
+<aside id="seite"></aside>
+
+<div id="legende" class="tafel">
+  <h3>Legende</h3>
+  <div><svg class="muster"><rect x="2" y="2" width="22" height="10" fill="none" stroke="#e3121b" stroke-width="1.5"/></svg> Person</div>
+  <div><svg class="muster"><circle cx="13" cy="7" r="5" fill="#e0218a"/></svg> Ehe-Punkt</div>
+  <div><svg class="muster"><line x1="0" y1="7" x2="26" y2="7" stroke="#e0218a" stroke-width="2"/></svg> Ehe → Partner</div>
+  <div><svg class="muster"><line x1="0" y1="7" x2="26" y2="7" stroke="#15a046" stroke-width="2"/></svg> Ehe → Kind</div>
+  <div><svg class="muster"><rect x="2" y="2" width="22" height="10" fill="none" stroke="#e0218a" stroke-width="2"/></svg> Info: Heirat</div>
+  <div><svg class="muster"><rect x="2" y="2" width="22" height="10" fill="none" stroke="#8a4b14" stroke-width="2"/></svg> Info: Beruf</div>
+  <div><svg class="muster"><rect x="2" y="2" width="22" height="10" fill="none" stroke="#1f5fe0" stroke-width="2"/></svg> Info: Ort</div>
+  <div><svg class="muster"><rect x="2" y="2" width="22" height="10" fill="none" stroke="#d99a00" stroke-width="2"/></svg> Info: Sonstiges</div>
+  <div><svg class="muster"><line x1="0" y1="7" x2="26" y2="7" stroke="#1f5fe0" stroke-width="1" stroke-dasharray="4 3"/></svg> Info gehört zu …</div>
+  <div><svg class="muster"><rect x="2" y="2" width="22" height="10" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="4 3"/></svg> gestrichelt = noch offen</div>
+  <div><svg class="muster"><circle cx="13" cy="7" r="5" fill="#fff" stroke="#e0218a" stroke-width="2"/></svg> Ehe noch offen</div>
+  <div><svg class="muster"><polyline points="0,9 26,5" fill="none" stroke="#777" stroke-width="1.5"/></svg> Generationslinie</div>
+  <div><svg class="muster"><rect x="2" y="2" width="22" height="10" fill="rgba(0,180,230,.15)" stroke="#00b4e6" stroke-width="2.5"/></svg> ausgewählt</div>
+</div>
+
+<div id="anleitung" class="tafel">
+  <h3>Anleitung</h3>
+  <h4>Bewegen</h4>
   <ul>
-    <li><span class="farbe" style="border-color:#e3121b"></span> erkannt &nbsp;
-        <span class="farbe" style="border-color:#ff8a00;border-style:dashed"></span> Vorschlag, ungeprüft &nbsp;
-        <span class="farbe" style="border-color:#ff8a00"></span> Vorschlag, geprüft &nbsp;
-        <span class="farbe" style="border-color:#0057ff"></span> von dir</li>
-    <li><b>Bewegen:</b> mit gedrückter Maus ziehen (auf freier Fläche) oder mit der rechten Maustaste. <b>Zoomen:</b> Mausrad.</li>
-    <li><b>Falsches Kästchen:</b> anklicken, dann <kbd>Entf</kbd>.</li>
-    <li><b>Kästchen anpassen:</b> anklicken, dann verschieben oder an den weißen Ecken ziehen.</li>
-    <li><b>Fehlendes Kästchen:</b> „Neues Kästchen" (<kbd>N</kbd>), dann einen Rahmen um die Person ziehen.</li>
-    <li><b>Orange Vorschläge:</b> „Nächster Vorschlag" (<kbd>V</kbd>) springt hin. Rahmen passend schieben oder mit <kbd>Enter</kbd> als richtig bestätigen; ist dort keine Person, <kbd>Entf</kbd>.</li>
-    <li><b>Generationslinie:</b> „Generationslinie" (<kbd>G</kbd>), dann auf der Linie links, ggf. in der Mitte und rechts klicken, mit <kbd>Enter</kbd> oder Doppelklick abschließen. Punkte lassen sich später verschieben.</li>
-    <li><kbd>Strg</kbd>+<kbd>Z</kbd> macht rückgängig, <kbd>Esc</kbd> bricht ab. Alles wird automatisch gespeichert.</li>
+    <li>Ziehen auf freier Fläche oder mit der rechten Maustaste verschiebt das Bild, das Mausrad zoomt. <kbd>F</kbd> zeigt das ganze Bild.</li>
+    <li>Rechts in der Seitenleiste steht alles zum ausgewählten Element. Kennungen dort (z. B. P104) anklicken springt hin.</li>
+  </ul>
+  <h4>Offene Vorschläge prüfen</h4>
+  <ul>
+    <li>Gestrichelt = von der Automatik vorgeschlagen, noch nicht geprüft. „Nächstes Offene" (<kbd>V</kbd>) springt zum nächsten.</li>
+    <li>Stimmt es, <kbd>Enter</kbd> (oder „✓ geprüft"). Sonst erst korrigieren, dann <kbd>Enter</kbd>.</li>
+  </ul>
+  <h4>Ehen und Kinder</h4>
+  <ul>
+    <li>Jede Ehe hat einen <b>Ehe-Punkt</b> (rosa). Rosa Linien führen zu den Partnern, grüne zu den Kindern.</li>
+    <li>Ehe-Punkt anklicken, dann <kbd>P</kbd> und Personen anklicken = Partner hinzufügen/entfernen; <kbd>K</kbd> und Personen anklicken = Kinder hinzufügen/entfernen. <kbd>Esc</kbd> beendet.</li>
+    <li>Geht auch umgekehrt: Person anklicken, <kbd>P</kbd> oder <kbd>K</kbd>, dann den Ehe-Punkt anklicken.</li>
+    <li>Oder in der Seitenleiste eine Nummer eintippen (z. B. <kbd>104</kbd>) und „+ Partner" / „+ Kind".</li>
+    <li>Neue Ehe: „+ Ehe-Punkt" (<kbd>E</kbd>) und auf den ● im Original klicken. Ehe-Punkte lassen sich verschieben.</li>
+    <li>Falsche Verbindung: Linie anklicken, <kbd>Entf</kbd>.</li>
+  </ul>
+  <h4>Info-Kästchen</h4>
+  <ul>
+    <li>Neu: Art wählen (<kbd>1</kbd> Heirat, <kbd>2</kbd> Beruf, <kbd>3</kbd> Ort, <kbd>4</kbd> Sonstiges), „+ Info" (<kbd>I</kbd>), Rahmen um den Text ziehen, rechts den Wortlaut eintragen.</li>
+    <li>Art ändern: Info anklicken, Taste <kbd>1</kbd>–<kbd>4</kbd> oder Auswahl in der Seitenleiste.</li>
+    <li>Zuordnen: Info anklicken, <kbd>L</kbd>, dann Person oder Ehe-Punkt anklicken (nochmals = entfernen). Oder rechts die Nummer eintippen (z. B. <kbd>104</kbd> oder <kbd>E12</kbd>).</li>
+    <li>Heirat-Infos gehören an den <b>Ehe-Punkt</b>; Ort, der nicht zur Heirat gehört, und Beruf an die <b>Person</b> (kommt in ihren Steckbrief).</li>
+  </ul>
+  <h4>Sonst</h4>
+  <ul>
+    <li>Anklicken und <kbd>Entf</kbd> löscht, weiße Ecken ziehen ändert die Größe. „+ Person" (<kbd>N</kbd>) für ein fehlendes Personen-Kästchen.</li>
+    <li>Generationslinien ein/aus mit „Gen.-Linien" (<kbd>H</kbd>).</li>
+    <li><kbd>Strg</kbd>+<kbd>Z</kbd> rückgängig, <kbd>Strg</kbd>+<kbd>Y</kbd> wiederholen. Alles wird automatisch gespeichert.</li>
   </ul>
 </div>
+
 <script>
 const svg = document.getElementById('bild');
 const ansicht = document.getElementById('ansicht');
 const ebene = document.getElementById('ebene');
-const foto = document.getElementById('foto');
+const seite = document.getElementById('seite');
+const FARBE = { person: '#e3121b', heirat: '#e0218a', beruf: '#8a4b14', ort: '#1f5fe0', sonstiges: '#d99a00' };
+const ARTEN = ['heirat', 'beruf', 'ort', 'sonstiges'];
+const ARTNAME = { heirat: 'Heirat', beruf: 'Beruf', ort: 'Ort', sonstiges: 'Sonstiges' };
 
-let D = null;                 // Daten: { breite, hoehe, ziel, kaesten: [...], generationslinien: [{punkte: [[x,y],...]}] }
+let D = null;                 // { personen, ehen, infos, zwillinge, generationslinien, breite, hoehe }
 let modus = 'auswahl';
-let sel = null;               // { t: 'k' | 'l', i }
-let offeneLinie = null;       // Punkte der Linie, die gerade gesetzt wird
-let zug = null;               // laufende Mausaktion
-let tx = 0, ty = 0, s = 0.05; // Bildschirm = Welt * s + (tx, ty); Welt = Pixel des Originalfotos
+let sel = null;               // { t: 'p'|'e'|'i', id } | { t: 'g', i } | { t: 'v', typ, a, b }
+let verb = null;              // laufendes Verknüpfen: { art: 'partner'|'kind'|'info', quelle: {t, id} }
+let offeneLinie = null, letzterKlick = null, zug = null;
+let tx = 0, ty = 0, s = 0.05;
+let zeigeGen = false;
 const verlauf = [], wieder = [];
-let vorschlagIndex = -1;
-let letzterKlick = null;      // für den Doppelklick, der eine Generationslinie beendet
+let I = {};                   // Kennung → Objekt
 
 const rund = v => Math.round(v);
-const istBox = () => sel && sel.t === 'k';
+const esc = t => String(t ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const typVon = id => ({ P: 'p', E: 'e', I: 'i' }[id[0]]);
+const istRahmen = () => sel && (sel.t === 'p' || sel.t === 'i');
 
 async function laden() {
   D = await (await fetch('/daten')).json();
-  foto.setAttribute('width', D.breite);
-  foto.setAttribute('height', D.hoehe);
+  D.infos ||= []; D.zwillinge ||= [];
+  document.getElementById('foto').setAttribute('width', D.breite);
+  document.getElementById('foto').setAttribute('height', D.hoehe);
   einpassen();
   setzeModus('auswahl');
+  setzeTafel('t-gen', false);
+  aktualisiere();
+}
+
+function index() {
+  I = {};
+  for (const p of D.personen) I[p.id] = p;
+  for (const e of D.ehen) I[e.id] = e;
+  for (const i of D.infos) I[i.id] = i;
+}
+
+function neueKennung(praefix, liste) {
+  const max = liste.reduce((m, o) => Math.max(m, +o.id.slice(1) || 0), 0);
+  return praefix + String(max + 1).padStart(3, '0');
+}
+
+function normKennung(text, standard = 'P') {
+  const m = String(text).trim().toUpperCase().match(/^([PEI]?)\s*0*(\d+)$/);
+  return m ? (m[1] || standard) + m[2].padStart(3, '0') : null;
 }
 
 // ---------- Ansicht ----------
@@ -112,12 +227,22 @@ function einpassen() {
   zeichne();
 }
 
-function zeigeAuf(b) {
+function zeigeAuf(x, y) {
   const r = svg.getBoundingClientRect();
-  s = 0.3;
-  tx = r.width / 2 - (b.x + b.w / 2) * s;
-  ty = r.height / 2 - (b.y + b.h / 2) * s;
+  s = Math.max(s, 0.3);
+  tx = r.width / 2 - x * s;
+  ty = r.height / 2 - y * s;
   zeichne();
+}
+
+function mitte(o) { return o.w ? [o.x + o.w / 2, o.y + o.h / 2] : [o.x, o.y]; }
+
+function springe(id) {
+  const o = I[id];
+  if (!o) return;
+  sel = { t: typVon(id), id };
+  zeigeAuf(...mitte(o));
+  aktualisiere();
 }
 
 function welt(e) {
@@ -129,85 +254,286 @@ svg.addEventListener('wheel', e => {
   e.preventDefault();
   const r = svg.getBoundingClientRect();
   const mx = e.clientX - r.left, my = e.clientY - r.top;
-  const neu = Math.min(1.2, Math.max(0.01, s * Math.exp(-e.deltaY * 0.0015)));
+  const neu = Math.min(1.5, Math.max(0.01, s * Math.exp(-e.deltaY * 0.0015)));
   tx = mx - (mx - tx) * neu / s;
   ty = my - (my - ty) * neu / s;
   s = neu;
   zeichne();
 }, { passive: false });
-
 svg.addEventListener('contextmenu', e => e.preventDefault());
 
 // ---------- Zeichnen ----------
+let geplant = false;
 function zeichne() {
+  if (geplant) return;
+  geplant = true;
+  requestAnimationFrame(() => { geplant = false; zeichneJetzt(); });
+}
+function aktualisiere() { index(); zeichne(); seitenleiste(); zaehle(); }
+
+function nah(r, x, y) { return [Math.min(Math.max(x, r.x), r.x + r.w), Math.min(Math.max(y, r.y), r.y + r.h)]; }
+
+function zeichneJetzt() {
+  index();
   ansicht.setAttribute('transform', `translate(${tx} ${ty}) scale(${s})`);
-  ebene.style.fontSize = (13 / s) + 'px';
-  const strich = `${7 / s} ${5 / s}`;
+  ebene.style.fontSize = (12 / s) + 'px';
+  const strich = `stroke-dasharray="${6 / s} ${4 / s}"`;
+  const fein = `stroke-dasharray="${3 / s} ${3 / s}"`;
   const mitText = s > 0.12;
+  const istSel = (t, id) => sel && sel.t === t && sel.id === id;
+  const vSel = (typ, a, b) => sel && sel.t === 'v' && sel.typ === typ && sel.a === a && sel.b === b;
+  const ziele = new Set();
+  if (verb) {
+    const q = I[verb.quelle.id];
+    if (q && verb.quelle.t === 'e') (verb.art === 'kind' ? q.kinder : q.partner).forEach(id => ziele.add(id));
+    if (q && verb.quelle.t === 'i') (q.gehoert_zu || []).forEach(id => ziele.add(id));
+  }
   let h = '';
-  D.kaesten.forEach((b, i) => {
-    const klasse = `k ${b.herkunft}${istBox() && sel.i === i ? ' sel' : ''}`;
-    const gestrichelt = b.herkunft === 'U' && !b.geprueft ? ` stroke-dasharray="${strich}"` : '';
-    h += `<rect class="${klasse}" data-k="${i}" x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}"${gestrichelt}/>`;
-    if (mitText) {
-      const farbe = { K: '#e3121b', U: '#ff8a00', neu: '#0057ff' }[b.herkunft];
-      h += `<text x="${b.x}" y="${b.y - 4 / s}" fill="${farbe}">${b.id || '+'}</text>`;
-    }
-  });
-  D.generationslinien.forEach((l, i) => {
+
+  if (zeigeGen) D.generationslinien.forEach((l, i) => {
     const pts = l.punkte.map(p => p.join(',')).join(' ');
-    const gewaehlt = sel && sel.t === 'l' && sel.i === i;
-    h += `<polyline class="gl${gewaehlt ? ' sel' : ''}" points="${pts}"/>`;
-    h += `<polyline class="griff" data-l="${i}" points="${pts}"/>`;
-    if (gewaehlt) l.punkte.forEach((p, j) => h += `<circle class="punkt" data-l="${i}" data-p="${j}" cx="${p[0]}" cy="${p[1]}" r="${7 / s}"/>`);
+    const gew = sel && sel.t === 'g' && sel.i === i;
+    h += `<polyline class="gl${gew ? ' sel' : ''}" points="${pts}" ${strich}/><polyline class="griff" data-g="${i}" points="${pts}"/>`;
+    if (gew) l.punkte.forEach((p, j) => h += `<circle class="punkt" data-g="${i}" data-pkt="${j}" cx="${p[0]}" cy="${p[1]}" r="${6 / s}"/>`);
   });
+
+  const linie = (typ, a, b, x1, y1, x2, y2, extra = '', farbe = '') => {
+    const kl = `v ${typ}${vSel(typ, a, b) ? ' sel' : ''}`;
+    h += `<line class="${kl}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" ${extra} ${farbe ? `stroke="${farbe}"` : ''}/>`;
+    h += `<line class="griff" data-v="${typ}|${a}|${b}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`;
+  };
+  for (const e of D.ehen) {
+    for (const pid of e.partner) { const p = I[pid]; if (p) { const [x, y] = nah(p, e.x, e.y); linie('partner', e.id, pid, e.x, e.y, x, y, e.unsicher ? strich : ''); } }
+    for (const cid of e.kinder) { const c = I[cid]; if (c) linie('kind', e.id, cid, e.x, e.y, c.x + c.w / 2, c.y, e.unsicher ? strich : ''); }
+  }
+  for (const inf of D.infos) {
+    const [cx, cy] = mitte(inf);
+    for (const ref of inf.gehoert_zu || []) {
+      const z = I[ref]; if (!z) continue;
+      const [zx, zy] = z.w ? nah(z, cx, cy) : [z.x, z.y];
+      const [ax, ay] = nah(inf, zx, zy);
+      linie('info', inf.id, ref, ax, ay, zx, zy, fein, FARBE[inf.art]);
+    }
+  }
+
+  for (const p of D.personen) {
+    const kl = `r person${istSel('p', p.id) ? ' sel' : ''}${ziele.has(p.id) ? ' ziel' : ''}`;
+    h += `<rect class="${kl}" data-t="p" data-id="${p.id}" x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}"><title>${esc(p.id + '\n' + (p.zeilen || []).join('\n'))}</title></rect>`;
+    if (mitText) h += `<text x="${p.x}" y="${p.y - 3 / s}" fill="${FARBE.person}">${p.id}</text>`;
+  }
+  for (const inf of D.infos) {
+    const kl = `r ${inf.art}${istSel('i', inf.id) ? ' sel' : ''}`;
+    h += `<rect class="${kl}" data-t="i" data-id="${inf.id}" x="${inf.x}" y="${inf.y}" width="${inf.w}" height="${inf.h}" ${inf.unsicher ? strich : ''}><title>${esc(inf.id + ' ' + ARTNAME[inf.art] + '\n' + inf.wortlaut)}</title></rect>`;
+    if (mitText) h += `<text x="${inf.x}" y="${inf.y + inf.h + 12 / s}" fill="${FARBE[inf.art]}">${inf.id}</text>`;
+  }
+  for (const e of D.ehen) {
+    const kl = `ehe${e.unsicher ? ' offen' : ''}${istSel('e', e.id) ? ' sel' : ''}`;
+    h += `<circle class="${kl}" data-t="e" data-id="${e.id}" cx="${e.x}" cy="${e.y}" r="${(istSel('e', e.id) ? 8 : 6) / s}"><title>${esc(e.id)}</title></circle>`;
+    if (mitText) h += `<text x="${e.x + 8 / s}" y="${e.y - 6 / s}" fill="${FARBE.heirat}">${e.id}</text>`;
+  }
+
   if (offeneLinie) {
     h += `<polyline class="gl offen" points="${offeneLinie.map(p => p.join(',')).join(' ')}"/>`;
-    offeneLinie.forEach(p => h += `<circle class="punkt" cx="${p[0]}" cy="${p[1]}" r="${6 / s}"/>`);
+    offeneLinie.forEach(p => h += `<circle class="punkt" cx="${p[0]}" cy="${p[1]}" r="${5 / s}"/>`);
   }
-  if (istBox()) {
-    const b = D.kaesten[sel.i];
+  if (istRahmen() && I[sel.id]) {
+    const b = I[sel.id];
     [[b.x, b.y], [b.x + b.w, b.y], [b.x + b.w, b.y + b.h], [b.x, b.y + b.h]]
-      .forEach(([x, y], j) => h += `<circle class="ecke" data-ecke="${j}" cx="${x}" cy="${y}" r="${7 / s}"/>`);
+      .forEach(([x, y], j) => h += `<circle class="ecke" data-ecke="${j}" cx="${x}" cy="${y}" r="${5 / s}"/>`);
   }
   if (zug && zug.art === 'zeichnen' && zug.ex !== undefined) {
     const r = rechteck(zug.wx, zug.wy, zug.ex, zug.ey);
     h += `<rect class="entwurf" x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}"/>`;
   }
   ebene.innerHTML = h;
-  zaehle();
-}
-
-function zaehle() {
-  const n = { K: 0, U: 0, neu: 0 };
-  let offen = 0;
-  D.kaesten.forEach(b => { n[b.herkunft]++; if (b.herkunft === 'U' && !b.geprueft) offen++; });
-  const z = document.getElementById('zaehler');
-  z.textContent = `Kästchen: ${D.kaesten.length} von ${D.ziel}`;
-  z.className = D.kaesten.length === D.ziel ? 'fertig' : '';
-  document.getElementById('details').textContent =
-    `(rot ${n.K} · orange ${n.U}, davon ungeprüft ${offen} · blau ${n.neu}) · Generationslinien: ${D.generationslinien.length}`;
 }
 
 function rechteck(x1, y1, x2, y2) {
   return { x: rund(Math.min(x1, x2)), y: rund(Math.min(y1, y2)), w: rund(Math.abs(x2 - x1)), h: rund(Math.abs(y2 - y1)) };
 }
 
-// ---------- Verlauf und Speichern ----------
-function merke() {
-  verlauf.push(JSON.stringify({ k: D.kaesten, l: D.generationslinien }));
-  if (verlauf.length > 200) verlauf.shift();
-  wieder.length = 0;
+// ---------- Beziehungen abfragen ----------
+const elternVon = pid => D.ehen.filter(e => e.kinder.includes(pid));
+const ehenVon = pid => D.ehen.filter(e => e.partner.includes(pid));
+const infosZu = id => D.infos.filter(i => (i.gehoert_zu || []).includes(id));
+const offene = () => [...D.ehen.filter(e => e.unsicher), ...D.infos.filter(i => i.unsicher)];
+const lose = () => D.personen.filter(p => !elternVon(p.id).length && !ehenVon(p.id).length);
+
+function zaehle() {
+  const n = {}; ARTEN.forEach(a => n[a] = 0);
+  D.infos.forEach(i => n[i.art]++);
+  document.getElementById('zaehler').textContent =
+    `Personen ${D.personen.length} · Ehen ${D.ehen.length} · Infos ${D.infos.length} · offen ${offene().length} · ohne Verbindung ${lose().length}`;
 }
 
+function beschreibe(id) {
+  const o = I[id];
+  if (!o) return id;
+  if (id[0] === 'P') return `${id} ${esc((o.zeilen || [])[0] || '')}`;
+  if (id[0] === 'E') return `${id} (${o.partner.map(p => `${p} ${esc((I[p]?.zeilen || [])[0] || '')}`).join(' + ') || 'ohne Partner'})`;
+  return `${id} ${esc(o.wortlaut)}`;
+}
+const verweis = id => `<a data-springe="${id}">${beschreibe(id)}</a>`;
+const liste = (ids, art, quelle) => ids.length
+  ? '<ul>' + ids.map(id => `<li>${verweis(id)}${art ? `<button class="weg" title="Verbindung lösen" data-loese="${art}|${quelle}|${id}">✕</button>` : ''}</li>`).join('') + '</ul>'
+  : '<div class="grau">–</div>';
+const status = o => o.unsicher ? '<span class="offen">offen</span>' : '<span class="ok">geprüft</span>';
+const pruefKnopf = o => o.unsicher ? `<div class="zeile"><button class="knopf gruen" data-geprueft>✓ geprüft (Enter)</button></div>` : '';
+const hinweise = o => (o.hinweise || []).length ? `<h3>Hinweise der Automatik</h3><div class="grau">${o.hinweise.map(esc).join('<br>')}</div>` : '';
+
+function seitenleiste() {
+  let h = '';
+  const o = sel && sel.id ? I[sel.id] : null;
+  if (sel && sel.t === 'p' && o) {
+    const twins = D.zwillinge.filter(z => z.includes(o.id)).flat().filter(x => x !== o.id);
+    h += `<h2>${o.id}</h2><div class="grau">Generation ${o.generation || '?'}${o.alt ? ` · früher ${o.alt}` : ''}</div>`;
+    h += `<h3>Wortlaut im Kästchen${o.lesung_unsicher ? ' <span class="offen">Lesung prüfen</span>' : ''}</h3><div class="zeilen">${(o.zeilen || []).map(esc).join('<br>') || '<span class="grau">noch nicht gelesen</span>'}</div>`;
+    if (o.lesung_unsicher) h += `<div class="grau">${(o.hinweise || []).map(esc).join('<br>')}<br>Der Wortlaut der Personen wird später in der Prüf-Ansicht korrigiert.</div>`;
+    h += `<h3>Eltern (Ehe)</h3>${liste(elternVon(o.id).map(e => e.id), 'kind', o.id)}`;
+    h += `<h3>Eigene Ehen</h3>${liste(ehenVon(o.id).map(e => e.id), 'partner', o.id)}`;
+    h += `<h3>Infos</h3>${liste(infosZu(o.id).map(i => i.id), 'info', o.id)}`;
+    if (twins.length) h += `<h3>Zwilling</h3>${liste(twins)}`;
+    h += `<div class="zeile"><button class="knopf" data-verb="partner">P: als Partner an Ehe</button><button class="knopf" data-verb="kind">K: als Kind an Ehe</button></div>`;
+  } else if (sel && sel.t === 'e' && o) {
+    h += `<h2>${o.id} ${status(o)}</h2>`;
+    if ((o.partner_text || []).length) h += `<div class="grau">Partner nur erwähnt: ${o.partner_text.map(esc).join(', ')}</div>`;
+    h += `<h3>Partner</h3>${liste(o.partner, 'partner', o.id)}`;
+    h += `<h3>Kinder</h3>${liste(o.kinder, 'kind', o.id)}`;
+    h += `<div class="zeile"><input id="nr" placeholder="z. B. 104"><button class="knopf" data-plus="partner">+ Partner</button><button class="knopf" data-plus="kind">+ Kind</button></div>`;
+    h += `<div class="zeile"><button class="knopf" data-verb="partner">P: Partner anklicken</button><button class="knopf" data-verb="kind">K: Kinder anklicken</button></div>`;
+    h += `<h3>Heirat und weitere Infos</h3>${liste(infosZu(o.id).map(i => i.id), 'info', o.id)}`;
+    if ((o.alt_wortlaut || []).length || o.alt_ehe_nr) h += `<h3>Erste Auswertung</h3><div class="grau">${esc([...(o.alt_wortlaut || []), o.alt_ehe_nr ? o.alt_ehe_nr + '. Ehe' : ''].filter(Boolean).join(' · '))}</div>`;
+    h += hinweise(o) + pruefKnopf(o);
+  } else if (sel && sel.t === 'i' && o) {
+    h += `<h2>${o.id} ${status(o)}</h2>`;
+    h += `<h3>Art</h3><select id="art">${ARTEN.map((a, n) => `<option value="${a}"${a === o.art ? ' selected' : ''}>${n + 1} ${ARTNAME[a]}</option>`).join('')}</select>`;
+    h += `<h3>Wortlaut (wortgetreu)</h3><textarea id="wortlaut">${esc(o.wortlaut)}</textarea>`;
+    h += `<h3>Gehört zu</h3>${liste(o.gehoert_zu || [], 'info', o.id)}`;
+    h += `<div class="zeile"><input id="nr" placeholder="104 oder E12"><button class="knopf" data-plus="info">+ zuordnen</button><button class="knopf" data-verb="info">L: anklicken</button></div>`;
+    h += hinweise(o) + pruefKnopf(o);
+  } else if (sel && sel.t === 'v') {
+    const art = { partner: 'Partner-Verbindung', kind: 'Kind-Verbindung', info: 'Info-Zuordnung' }[sel.typ];
+    h += `<h2>${art}</h2><div>${verweis(sel.a)}</div><div>↔</div><div>${verweis(sel.b)}</div><div class="zeile"><button class="knopf" data-loese="${sel.typ}|${sel.a}|${sel.b}">Verbindung lösen (Entf)</button></div>`;
+  } else if (sel && sel.t === 'g') {
+    h += `<h2>Generationslinie</h2><div class="grau">Punkte verschieben oder <kbd>Entf</kbd> zum Löschen.</div>`;
+  } else {
+    const off = offene();
+    h += `<h2>Überblick</h2><div class="grau">Nichts ausgewählt. Element anklicken, um Details zu sehen.</div>`;
+    h += `<h3>Noch offen</h3><div>${off.filter(o => o.id[0] === 'E').length} Ehen, ${off.filter(o => o.id[0] === 'I').length} Infos – „Nächstes Offene" (V)</div>`;
+    const l = lose();
+    h += `<h3>Personen ohne jede Verbindung (${l.length})</h3>${liste(l.map(p => p.id))}`;
+  }
+  seite.innerHTML = h;
+}
+
+seite.addEventListener('click', e => {
+  const d = e.target.dataset;
+  if (d.springe) springe(d.springe);
+  else if (d.loese) { const [typ, a, b] = d.loese.split('|'); loese(typ, a, b); }
+  else if (d.verb !== undefined) starteVerb(d.verb);
+  else if (d.geprueft !== undefined) pruefe();
+  else if (d.plus) {
+    const feld = document.getElementById('nr');
+    const id = normKennung(feld.value, 'P');
+    if (!id || !I[id]) { zeigeHinweis(`„${feld.value}" gibt es nicht`, 2000); return; }
+    if (d.plus === 'info') verknuepfe('info', sel.id, id, true);
+    else verknuepfe(d.plus, sel.id, id, true);
+  }
+});
+seite.addEventListener('change', e => {
+  if (e.target.id === 'art' && sel?.t === 'i') { merke(); I[sel.id].art = e.target.value; aktualisiere(); speichere(); }
+});
+seite.addEventListener('focusin', e => { if (e.target.id === 'wortlaut') merke(); });
+seite.addEventListener('input', e => {
+  if (e.target.id === 'wortlaut' && sel?.t === 'i') { I[sel.id].wortlaut = e.target.value; zeichne(); speichere(); }
+});
+seite.addEventListener('keydown', e => { if (e.target.id === 'nr' && e.key === 'Enter') e.preventDefault(); });
+
+// ---------- Verknüpfen ----------
+function verknuepfe(art, a, b, nurHinzu = false) {
+  // a und b in beliebiger Reihenfolge; Ehe/Person für partner/kind, Info + Person/Ehe für info
+  let ehe, person, info, ziel;
+  for (const id of [a, b]) {
+    if (id[0] === 'E') ehe = I[id];
+    if (id[0] === 'P') person = I[id];
+    if (id[0] === 'I') info = I[id];
+  }
+  if (art === 'info') {
+    ziel = [a, b].find(id => id[0] !== 'I');
+    if (!info || !ziel) { zeigeHinweis('Eine Info und eine Person oder ein Ehe-Punkt nötig', 2500); return; }
+    merke();
+    info.gehoert_zu ||= [];
+    const i = info.gehoert_zu.indexOf(ziel);
+    if (i >= 0 && !nurHinzu) info.gehoert_zu.splice(i, 1); else if (i < 0) info.gehoert_zu.push(ziel);
+  } else {
+    if (!ehe || !person) { zeigeHinweis('Bitte einen Ehe-Punkt und eine Person verbinden', 2500); return; }
+    const liste = art === 'kind' ? ehe.kinder : ehe.partner;
+    const i = liste.indexOf(person.id);
+    if (i >= 0 && !nurHinzu) { merke(); liste.splice(i, 1); }
+    else if (i < 0) {
+      if (art === 'partner' && liste.length >= 2) { zeigeHinweis('Diese Ehe hat schon zwei Partner – erst einen lösen', 3000); return; }
+      merke();
+      liste.push(person.id);
+      if (art === 'kind') liste.sort((x, y) => I[x].x - I[y].x);
+    }
+  }
+  aktualisiere();
+  speichere();
+}
+
+function loese(typ, a, b) {
+  merke();
+  if (typ === 'info') { const inf = I[a][0] === 'I' ? I[a] : I[b]; const z = inf === I[a] ? b : a; inf.gehoert_zu = (inf.gehoert_zu || []).filter(x => x !== z); }
+  else { const e = I[a].id[0] === 'E' ? I[a] : I[b]; const p = e === I[a] ? b : a; const l = typ === 'kind' ? e.kinder : e.partner; l.splice(l.indexOf(p), 1); }
+  if (sel?.t === 'v') sel = null;
+  aktualisiere();
+  speichere();
+}
+
+function starteVerb(art) {
+  if (!sel || !['p', 'e', 'i'].includes(sel.t)) { zeigeHinweis('Erst ein Element anklicken', 2000); return; }
+  if (art === 'info' && sel.t === 'e') { zeigeHinweis('Erst die Info anklicken, dann L', 2500); return; }
+  if (sel.t === 'i') art = 'info';
+  verb = { art, quelle: { t: sel.t, id: sel.id } };
+  svg.classList.add('verbinden');
+  const was = { partner: 'als Partner', kind: 'als Kind', info: 'zuordnen' }[art];
+  const ziel = sel.t === 'p' ? 'Ehe-Punkt' : sel.t === 'e' ? 'Personen' : 'Personen oder Ehe-Punkte';
+  zeigeHinweis(`${sel.id} ${was}: ${ziel} anklicken (nochmals = lösen) · Esc beendet`);
+  zeichne();
+}
+
+function beendeVerb() {
+  verb = null;
+  svg.classList.remove('verbinden');
+  zeigeHinweis('');
+  zeichne();
+}
+
+let hinweisUhr = null;
+function zeigeHinweis(text, dauer) {
+  const el = document.getElementById('hinweis');
+  clearTimeout(hinweisUhr);
+  el.textContent = text;
+  el.style.display = text ? 'block' : 'none';
+  if (dauer) hinweisUhr = setTimeout(() => { el.style.display = verb ? 'block' : 'none'; if (verb) starteVerbText(); }, dauer);
+}
+function starteVerbText() { const v = verb; if (v) { const keep = sel; sel = { t: v.quelle.t, id: v.quelle.id }; starteVerb(v.art); sel = keep; } }
+
+// ---------- Verlauf und Speichern ----------
+const zustand = () => JSON.stringify({ p: D.personen, e: D.ehen, i: D.infos, z: D.zwillinge, g: D.generationslinien });
+function merke() {
+  verlauf.push(zustand());
+  if (verlauf.length > 100) verlauf.shift();
+  wieder.length = 0;
+}
 function stelleHer(von, nach) {
   if (!von.length) return;
-  nach.push(JSON.stringify({ k: D.kaesten, l: D.generationslinien }));
+  nach.push(zustand());
   const z = JSON.parse(von.pop());
-  D.kaesten = z.k;
-  D.generationslinien = z.l;
-  sel = null;
-  zeichne();
+  Object.assign(D, { personen: z.p, ehen: z.e, infos: z.i, zwillinge: z.z, generationslinien: z.g });
+  index();
+  if (sel && sel.id && !I[sel.id]) sel = null;
+  aktualisiere();
   speichere();
 }
 
@@ -224,70 +550,112 @@ function speichere() {
       st.textContent = 'gespeichert ✓';
     } catch (err) {
       st.className = 'fehler';
-      st.textContent = 'NICHT gespeichert – läuft das Werkzeug noch?';
+      st.textContent = 'NICHT gespeichert!';
     }
-  }, 500);
+  }, 600);
 }
 
-// ---------- Modi ----------
+// ---------- Modi und Aktionen ----------
 function setzeModus(m) {
   if (modus === 'linie' && m !== 'linie') schliesseLinie();
+  if (verb) beendeVerb();
   modus = m;
   document.querySelectorAll('[data-modus]').forEach(b => b.classList.toggle('aktiv', b.dataset.modus === m));
   svg.classList.toggle('zeichnen', m !== 'auswahl');
+  if (m === 'linie' && !zeigeGen) setzeTafel('t-gen', true);
   zeichne();
 }
+
+function setzeTafel(knopf, an) {
+  const el = document.getElementById(knopf);
+  el.classList.toggle('an', an);
+  if (knopf === 't-gen') { zeigeGen = an; zeichne(); }
+  if (knopf === 't-leg') document.getElementById('legende').classList.toggle('versteckt', !an);
+  if (knopf === 't-hilfe') document.getElementById('anleitung').classList.toggle('versteckt', !an);
+}
+const umschalten = knopf => setzeTafel(knopf, !document.getElementById(knopf).classList.contains('an'));
 
 function schliesseLinie() {
   if (!offeneLinie) return;
   const punkte = offeneLinie.filter((p, i, a) => i === 0 || Math.hypot(p[0] - a[i - 1][0], p[1] - a[i - 1][1]) > 30);
   offeneLinie = null;
-  if (punkte.length >= 2) {
-    merke();
-    punkte.sort((a, b) => a[0] - b[0]);
-    D.generationslinien.push({ punkte });
-    speichere();
-  }
-  zeichne();
+  if (punkte.length >= 2) { merke(); punkte.sort((a, b) => a[0] - b[0]); D.generationslinien.push({ punkte }); speichere(); }
+  aktualisiere();
 }
 
-function naechsterVorschlag() {
-  const liste = D.kaesten.map((b, i) => i).filter(i => D.kaesten[i].herkunft === 'U' && !D.kaesten[i].geprueft);
-  if (!liste.length) { alert('Alle orangen Vorschläge sind geprüft.'); return; }
-  const i = liste.find(i => i > vorschlagIndex) ?? liste[0];
-  vorschlagIndex = i;
+function pruefe() {
+  const o = sel && sel.id && I[sel.id];
+  if (!o || !o.unsicher) return;
+  merke();
+  o.unsicher = false;
+  aktualisiere();
+  speichere();
+}
+
+function naechstesOffene() {
+  const off = offene().sort((a, b) => mitte(a)[1] - mitte(b)[1] || mitte(a)[0] - mitte(b)[0]);
+  if (!off.length) { zeigeHinweis('Nichts mehr offen 🎉', 2500); return; }
+  const jetzt = sel && sel.id ? off.findIndex(o => o.id === sel.id) : -1;
+  const o = off[(jetzt + 1) % off.length];
   setzeModus('auswahl');
-  sel = { t: 'k', i };
-  zeigeAuf(D.kaesten[i]);
+  springe(o.id);
+}
+
+function loesche() {
+  if (!sel) return;
+  if (sel.t === 'v') { loese(sel.typ, sel.a, sel.b); return; }
+  merke();
+  if (sel.t === 'g') D.generationslinien.splice(sel.i, 1);
+  else if (sel.t === 'p') {
+    const id = sel.id;
+    D.personen = D.personen.filter(p => p.id !== id);
+    D.ehen.forEach(e => { e.partner = e.partner.filter(x => x !== id); e.kinder = e.kinder.filter(x => x !== id); });
+    D.infos.forEach(i => i.gehoert_zu = (i.gehoert_zu || []).filter(x => x !== id));
+    D.zwillinge = D.zwillinge.filter(z => !z.includes(id));
+  } else if (sel.t === 'e') {
+    const id = sel.id;
+    D.ehen = D.ehen.filter(e => e.id !== id);
+    D.infos.forEach(i => i.gehoert_zu = (i.gehoert_zu || []).filter(x => x !== id));
+  } else if (sel.t === 'i') D.infos = D.infos.filter(i => i.id !== sel.id);
+  sel = null;
+  aktualisiere();
+  speichere();
 }
 
 // ---------- Maus ----------
+function trefferVon(t) {
+  const d = t.dataset || {};
+  if (d.t) return { t: d.t, id: d.id };
+  if (d.v) { const [typ, a, b] = d.v.split('|'); return { t: 'v', typ, a, b }; }
+  if (d.g !== undefined && d.pkt === undefined) return { t: 'g', i: +d.g };
+  return null;
+}
+
 svg.addEventListener('pointerdown', e => {
-  if (e.button === 1) e.preventDefault(); // kein Auto-Scroll mit der mittleren Taste
+  if (e.button === 1) e.preventDefault();
   svg.setPointerCapture(e.pointerId);
   const [wx, wy] = welt(e);
-  const t = e.target.dataset;
-  const start = { cx: e.clientX, cy: e.clientY, wx, wy, tx0: tx, ty0: ty, bewegt: false };
+  const d = e.target.dataset || {};
+  const start = { cx: e.clientX, cy: e.clientY, wx, wy, tx0: tx, ty0: ty, bewegt: false, treffer: trefferVon(e.target) };
   if (e.button === 1 || e.button === 2) { zug = { art: 'schieben', ...start }; return; }
   if (e.button !== 0) return;
-  if (modus === 'kasten') { zug = { art: 'zeichnen', ...start }; return; }
-  if (modus === 'linie') { zug = { art: 'schieben', klick: true, ...start }; return; }
-  if (t.ecke !== undefined && istBox()) {
-    zug = { art: 'ecke', ecke: +t.ecke, alt: { ...D.kaesten[sel.i] }, ...start };
-  } else if (t.p !== undefined) {
-    zug = { art: 'punkt', l: +t.l, p: +t.p, ...start };
-  } else if (t.k !== undefined) {
-    sel = { t: 'k', i: +t.k };
-    zug = { art: 'kasten', alt: { ...D.kaesten[sel.i] }, ...start };
-    zeichne();
-  } else if (t.l !== undefined) {
-    sel = { t: 'l', i: +t.l };
-    zug = { art: 'schieben', ...start };
-    zeichne();
-  } else {
-    if (sel) { sel = null; zeichne(); }
-    zug = { art: 'schieben', ...start };
+  if (verb) { zug = { art: 'schieben', klick: 'verb', ...start }; return; }
+  if (modus === 'person' || modus === 'info') { zug = { art: 'zeichnen', ...start }; return; }
+  if (modus === 'linie') { zug = { art: 'schieben', klick: 'linie', ...start }; return; }
+  if (modus === 'ehe') { zug = { art: 'schieben', klick: 'ehe', ...start }; return; }
+  if (d.ecke !== undefined && istRahmen()) { zug = { art: 'ecke', ecke: +d.ecke, alt: { ...I[sel.id] }, ...start }; return; }
+  if (d.pkt !== undefined) { zug = { art: 'punkt', g: +d.g, p: +d.pkt, ...start }; return; }
+  const t = start.treffer;
+  if (t && ['p', 'i', 'e'].includes(t.t)) {
+    const neu = !sel || sel.id !== t.id;
+    sel = t;
+    zug = { art: 'objekt', alt: { ...I[t.id] }, ...start };
+    if (neu) aktualisiere();
+    return;
   }
+  if (t) { sel = t; aktualisiere(); zug = { art: 'schieben', ...start }; return; }
+  if (sel) { sel = null; aktualisiere(); }
+  zug = { art: 'schieben', ...start };
 });
 
 svg.addEventListener('pointermove', e => {
@@ -295,66 +663,77 @@ svg.addEventListener('pointermove', e => {
   const dx = e.clientX - zug.cx, dy = e.clientY - zug.cy;
   if (!zug.bewegt && Math.hypot(dx, dy) > 4) {
     zug.bewegt = true;
-    if (['kasten', 'ecke', 'punkt'].includes(zug.art)) merke();
+    if (['objekt', 'ecke', 'punkt'].includes(zug.art)) merke();
   }
   if (!zug.bewegt) return;
   const [wx, wy] = welt(e);
-  if (zug.art === 'schieben') {
-    tx = zug.tx0 + dx; ty = zug.ty0 + dy;
-  } else if (zug.art === 'zeichnen') {
-    zug.ex = wx; zug.ey = wy;
-  } else if (zug.art === 'kasten') {
-    const b = D.kaesten[sel.i];
-    b.x = rund(zug.alt.x + wx - zug.wx);
-    b.y = rund(zug.alt.y + wy - zug.wy);
-    if (b.herkunft === 'U') b.geprueft = true;
+  if (zug.art === 'schieben') { tx = zug.tx0 + dx; ty = zug.ty0 + dy; }
+  else if (zug.art === 'zeichnen') { zug.ex = wx; zug.ey = wy; }
+  else if (zug.art === 'objekt') {
+    const o = I[sel.id];
+    o.x = rund(zug.alt.x + wx - zug.wx);
+    o.y = rund(zug.alt.y + wy - zug.wy);
   } else if (zug.art === 'ecke') {
-    const a = zug.alt, b = D.kaesten[sel.i];
+    const a = zug.alt;
     const ecken = [[a.x, a.y], [a.x + a.w, a.y], [a.x + a.w, a.y + a.h], [a.x, a.y + a.h]];
-    const gegen = ecken[(zug.ecke + 2) % 4];
-    Object.assign(b, rechteck(gegen[0], gegen[1], wx, wy));
-    if (b.herkunft === 'U') b.geprueft = true;
+    const g = ecken[(zug.ecke + 2) % 4];
+    Object.assign(I[sel.id], rechteck(g[0], g[1], wx, wy));
   } else if (zug.art === 'punkt') {
-    D.generationslinien[zug.l].punkte[zug.p] = [rund(wx), rund(wy)];
+    D.generationslinien[zug.g].punkte[zug.p] = [rund(wx), rund(wy)];
   }
   zeichne();
 });
 
-svg.addEventListener('pointerup', e => {
+svg.addEventListener('pointerup', () => {
   if (!zug) return;
   const z = zug;
   zug = null;
   if (z.art === 'zeichnen' && z.bewegt && z.ex !== undefined) {
     const r = rechteck(z.wx, z.wy, z.ex, z.ey);
-    if (r.w > 60 && r.h > 40) {
+    if (r.w > 30 && r.h > 20) {
       merke();
-      D.kaesten.push({ id: null, herkunft: 'neu', ...r });
-      sel = { t: 'k', i: D.kaesten.length - 1 };
+      if (modus === 'person') {
+        const id = neueKennung('P', D.personen);
+        D.personen.push({ id, alt: null, ...r, generation: null, zeilen: [] });
+        sel = { t: 'p', id };
+      } else {
+        const id = neueKennung('I', D.infos);
+        D.infos.push({ id, art: document.getElementById('infoart').value, ...r, wortlaut: '', gehoert_zu: [], unsicher: false, herkunft: 'nutzer' });
+        sel = { t: 'i', id };
+        setzeModus('auswahl');
+        aktualisiere();
+        setTimeout(() => document.getElementById('wortlaut')?.focus(), 50);
+      }
       speichere();
     }
   } else if (z.klick && !z.bewegt) {
-    const jetzt = performance.now(), k = letzterKlick;
-    if (offeneLinie && k && jetzt - k.zeit < 450 && Math.hypot(z.cx - k.x, z.cy - k.y) < 8) {
-      letzterKlick = null;
-      schliesseLinie();  // Doppelklick beendet die Linie
-    } else {
-      letzterKlick = { zeit: jetzt, x: z.cx, y: z.cy };
-      (offeneLinie ||= []).push([rund(z.wx), rund(z.wy)]);
+    if (z.klick === 'verb') {
+      const t = z.treffer;
+      if (t && ['p', 'e', 'i'].includes(t.t) && t.id !== verb.quelle.id) verknuepfe(verb.art, verb.quelle.id, t.id);
+    } else if (z.klick === 'ehe') {
+      merke();
+      const id = neueKennung('E', D.ehen);
+      D.ehen.push({ id, x: rund(z.wx), y: rund(z.wy), partner: [], partner_text: [], kinder: [], herkunft: 'nutzer', unsicher: false, hinweise: [] });
+      sel = { t: 'e', id };
+      setzeModus('auswahl');
+      speichere();
+      starteVerb('partner');
+    } else if (z.klick === 'linie') {
+      const jetzt = performance.now(), k = letzterKlick;
+      if (offeneLinie && k && jetzt - k.zeit < 450 && Math.hypot(z.cx - k.x, z.cy - k.y) < 8) { letzterKlick = null; schliesseLinie(); }
+      else { letzterKlick = { zeit: jetzt, x: z.cx, y: z.cy }; (offeneLinie ||= []).push([rund(z.wx), rund(z.wy)]); }
     }
-  } else if (['kasten', 'ecke', 'punkt'].includes(z.art) && z.bewegt) {
-    if (z.art === 'kasten' || z.art === 'ecke') {
-      const b = D.kaesten[sel.i];
-      if (b.w < 20 || b.h < 20) Object.assign(b, { w: Math.max(b.w, 20), h: Math.max(b.h, 20) });
-    }
+  } else if (['objekt', 'ecke', 'punkt'].includes(z.art) && z.bewegt) {
+    if (z.art === 'ecke') { const b = I[sel.id]; b.w = Math.max(b.w, 20); b.h = Math.max(b.h, 15); }
     speichere();
   }
-  zeichne();
+  aktualisiere();
 });
-
 
 // ---------- Tastatur ----------
 document.addEventListener('keydown', e => {
   if (!D) return;
+  if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) { if (e.key === 'Escape') e.target.blur(); return; }
   const taste = e.key.toLowerCase();
   if ((e.ctrlKey || e.metaKey) && taste === 'z') { e.preventDefault(); e.shiftKey ? stelleHer(wieder, verlauf) : stelleHer(verlauf, wieder); return; }
   if ((e.ctrlKey || e.metaKey) && taste === 'y') { e.preventDefault(); stelleHer(wieder, verlauf); return; }
@@ -362,39 +741,41 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Delete' || e.key === 'Backspace') {
     e.preventDefault();
     if (offeneLinie) { offeneLinie.pop(); if (!offeneLinie.length) offeneLinie = null; zeichne(); return; }
-    if (!sel) return;
-    merke();
-    (sel.t === 'k' ? D.kaesten : D.generationslinien).splice(sel.i, 1);
-    sel = null;
-    zeichne();
-    speichere();
+    loesche();
   } else if (e.key === 'Enter') {
-    if (offeneLinie) { schliesseLinie(); return; }
-    if (istBox() && D.kaesten[sel.i].herkunft === 'U' && !D.kaesten[sel.i].geprueft) {
-      merke();
-      D.kaesten[sel.i].geprueft = true;
-      zeichne();
-      speichere();
-    }
+    e.preventDefault();
+    if (offeneLinie) schliesseLinie(); else pruefe();
   } else if (e.key === 'Escape') {
-    offeneLinie = null; sel = null; setzeModus('auswahl');
-  } else if (taste === 'a') setzeModus('auswahl');
-  else if (taste === 'n') setzeModus('kasten');
+    if (verb) { beendeVerb(); return; }
+    offeneLinie = null; sel = null; setzeModus('auswahl'); aktualisiere();
+  } else if (['1', '2', '3', '4'].includes(e.key)) {
+    const art = ARTEN[+e.key - 1];
+    document.getElementById('infoart').value = art;
+    if (sel?.t === 'i') { merke(); I[sel.id].art = art; aktualisiere(); speichere(); }
+  }
+  else if (taste === 'a') setzeModus('auswahl');
+  else if (taste === 'n') setzeModus('person');
+  else if (taste === 'i') setzeModus('info');
+  else if (taste === 'e') setzeModus('ehe');
   else if (taste === 'g') setzeModus('linie');
-  else if (taste === 'v') naechsterVorschlag();
+  else if (taste === 'p') starteVerb('partner');
+  else if (taste === 'k') starteVerb('kind');
+  else if (taste === 'l') starteVerb('info');
+  else if (taste === 'v') naechstesOffene();
   else if (taste === 'f') einpassen();
+  else if (taste === 'h') umschalten('t-gen');
 });
 
 document.querySelectorAll('[data-modus]').forEach(b => b.addEventListener('click', () => setzeModus(b.dataset.modus)));
-document.getElementById('naechster').addEventListener('click', naechsterVorschlag);
+document.getElementById('naechster').addEventListener('click', naechstesOffene);
 document.getElementById('rueck').addEventListener('click', () => stelleHer(verlauf, wieder));
 document.getElementById('einpassen').addEventListener('click', einpassen);
-document.getElementById('hilfe-knopf').addEventListener('click', e => {
-  const zu = document.getElementById('hilfe').classList.toggle('zu');
-  e.target.textContent = zu ? 'einblenden' : 'ausblenden';
-});
+['t-gen', 't-leg', 't-hilfe'].forEach(k => document.getElementById(k).addEventListener('click', () => umschalten(k)));
+setzeTafel('t-leg', true);
+setzeTafel('t-hilfe', true);
+document.querySelectorAll('#leiste button, #leiste select').forEach(b => b.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') e.preventDefault(); }));
+document.querySelectorAll('#leiste button').forEach(b => b.addEventListener('mouseup', () => b.blur()));
 window.addEventListener('resize', () => D && zeichne());
-document.querySelectorAll('button').forEach(b => b.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') e.preventDefault(); }));
 
 laden();
 </script>

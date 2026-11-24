@@ -1,16 +1,16 @@
-"""Werkzeug zum Prüfen der Kästchen und Einzeichnen der Generationslinien im Browser.
+"""Werkzeug zum Prüfen der Personen-Kästchen, Ehen, Kinder und Info-Kästchen im Browser.
 
-Aufruf:  .venv/Scripts/python -I scripts/original/kaesten_werkzeug.py
+Aufruf:  .venv/Scripts/python -I scripts/original/kaesten_werkzeug.py [--kein-browser]
 Öffnet http://127.0.0.1:8765 (nur auf diesem Rechner erreichbar).
 
-Liest beim ersten Start:  private/arbeit/zwischenstand.json (Kästchen der Personen, auch übersehene Uxx),
-                          private/arbeit/kaesten.json (Fotogröße)
-Schreibt bei jeder Änderung: private/arbeit/kaesten-korrektur.json (danach wird von dort weitergearbeitet)
-Alle Koordinaten beziehen sich auf das Originalfoto (kaesten.json: breite × hoehe).
+Arbeitet auf private/arbeit/beziehungen.json (erzeugt von baue_beziehungen.py und fuehre_beziehungen_zusammen.py)
+und speichert jede Änderung sofort dorthin. Beim Start wird eine Sicherung beziehungen-sicherung.json angelegt.
+Alle Koordinaten beziehen sich auf das Originalfoto (breite × hoehe).
 """
 
 import json
 import os
+import shutil
 import sys
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -20,43 +20,31 @@ ROOT = Path(__file__).resolve().parents[2]
 WORK = ROOT / "private" / "arbeit"
 MEDIA = ROOT / "private" / "medien"
 PAGE = Path(__file__).with_name("kaesten-werkzeug.html")
-RESULT = WORK / "kaesten-korrektur.json"
+DATA = WORK / "beziehungen.json"
+BACKUP = WORK / "beziehungen-sicherung.json"
 DISPLAY = WORK / "foto-anzeige.jpg"
-TARGET = 293  # vom Nutzer gezählte Personen auf dem Original
 PORT = 8765
-
-
-def initial_data() -> dict:
-    if RESULT.exists():
-        return json.loads(RESULT.read_text(encoding="utf-8"))
-    meta = json.loads((WORK / "kaesten.json").read_text(encoding="utf-8"))
-    state = json.loads((WORK / "zwischenstand.json").read_text(encoding="utf-8"))
-    boxes = []
-    for person in state["personen"]:
-        image = person.get("bild")
-        if person.get("quelle") in ("kaestchen", "unnummeriert") and image:
-            origin = "K" if person["id"].startswith("K") else "U"
-            boxes.append({"id": person["id"], "herkunft": origin, **{k: int(image[k]) for k in ("x", "y", "w", "h")}})
-    return {"foto": meta["foto"], "breite": meta["breite"], "hoehe": meta["hoehe"], "ziel": TARGET,
-            "kaesten": boxes, "generationslinien": []}
+LISTS = ("personen", "ehen", "infos", "generationslinien")
 
 
 def ensure_display_photo(meta: dict) -> None:
     if DISPLAY.exists():
         return
-    from PIL import Image
+    from PIL import Image, ImageOps
 
     Image.MAX_IMAGE_PIXELS = None
     with Image.open(MEDIA / meta["foto"]) as im:
-        im.convert("RGB").resize((meta["breite"] * 2 // 5, meta["hoehe"] * 2 // 5), Image.LANCZOS).save(DISPLAY, quality=85)
+        upright = ImageOps.exif_transpose(im).convert("RGB")
+        upright.resize((meta["breite"] * 2 // 5, meta["hoehe"] * 2 // 5), Image.LANCZOS).save(DISPLAY, quality=85)
 
 
 def valid(data) -> bool:
-    if not isinstance(data, dict) or not isinstance(data.get("kaesten"), list) or not isinstance(data.get("generationslinien"), list):
+    if not isinstance(data, dict) or not all(isinstance(data.get(k), list) for k in LISTS):
         return False
-    numbers = all(isinstance(b.get(k), (int, float)) for b in data["kaesten"] for k in ("x", "y", "w", "h"))
-    points = all(isinstance(line.get("punkte"), list) for line in data["generationslinien"])
-    return numbers and points
+    boxes = data["personen"] + data["infos"]
+    numbers = all(isinstance(b.get(k), (int, float)) for b in boxes for k in ("x", "y", "w", "h"))
+    points = all(isinstance(e.get("x"), (int, float)) and isinstance(e.get("y"), (int, float)) for e in data["ehen"])
+    return numbers and points and all(isinstance(line.get("punkte"), list) for line in data["generationslinien"])
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -74,7 +62,7 @@ class Handler(BaseHTTPRequestHandler):
         elif self.path == "/foto.jpg":
             self.send(200, DISPLAY.read_bytes(), "image/jpeg", cache=True)
         elif self.path == "/daten":
-            self.send(200, json.dumps(initial_data(), ensure_ascii=False).encode("utf-8"), "application/json")
+            self.send(200, DATA.read_bytes(), "application/json; charset=utf-8")
         else:
             self.send(404, b"nicht gefunden", "text/plain")
 
@@ -89,9 +77,9 @@ class Handler(BaseHTTPRequestHandler):
         if not valid(data):
             self.send(400, b"ungueltige Daten", "text/plain")
             return
-        temp = RESULT.with_suffix(".tmp")
+        temp = DATA.with_suffix(".tmp")
         temp.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
-        os.replace(temp, RESULT)
+        os.replace(temp, DATA)
         self.send(200, b"ok", "text/plain")
 
     def log_message(self, *args) -> None:  # Konsole ruhig halten
@@ -99,12 +87,20 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main() -> None:
-    meta = json.loads((WORK / "kaesten.json").read_text(encoding="utf-8"))
+    global DATA, BACKUP
+    sys.stdout.reconfigure(encoding="utf-8")
+    if "--datei" in sys.argv:  # zum Testen auf einer Kopie arbeiten
+        DATA = Path(sys.argv[sys.argv.index("--datei") + 1]).resolve()
+        BACKUP = DATA.with_name(DATA.stem + "-sicherung.json")
+    if not DATA.exists():
+        sys.exit(f"{DATA} fehlt – zuerst baue_beziehungen.py ausführen.")
+    meta = json.loads(DATA.read_text(encoding="utf-8"))
     ensure_display_photo(meta)
+    shutil.copyfile(DATA, BACKUP)
     server = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
     url = f"http://127.0.0.1:{PORT}/"
     print(f"Kästchen-Werkzeug läuft: {url}")
-    print(f"Ergebnis wird laufend gespeichert in: {RESULT}")
+    print(f"Änderungen werden laufend gespeichert in: {DATA} (Sicherung vom Start: {BACKUP.name})")
     print("Beenden mit Strg+C.")
     if "--kein-browser" not in sys.argv:
         webbrowser.open(url)
