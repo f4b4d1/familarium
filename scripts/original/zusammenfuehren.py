@@ -59,6 +59,64 @@ def load_readings(work: Path):
     return persons
 
 
+def apply_decisions(work: Path, marriages: dict, persons: list, texts: list, problems: list) -> None:
+    """Arbeitet konflikte-entscheidung.json ein. Ehen werden über ihre Partner gefunden, nicht über laufende Nummern
+    (die Nummern beziehen sich auf zwischenstand-v1.json)."""
+    decisions_file, reference_file = work / "konflikte-entscheidung.json", work / "zwischenstand-v1.json"
+    if not decisions_file.exists() or not reference_file.exists():
+        return
+    decisions = json.loads(decisions_file.read_text(encoding="utf-8"))
+    reference = {m["id"]: frozenset(p for p in m["partner"] if p) for m in json.loads(reference_file.read_text(encoding="utf-8"))["ehen"]}
+
+    def find(old_id: str | None):
+        partners = reference.get(old_id or "")
+        if not partners:
+            return None
+        for key, m in marriages.items():
+            if frozenset(p for p in m["partner"] if p) == partners:
+                return key
+        return None
+
+    def assign(child: str, key) -> None:
+        for m in marriages.values():
+            if child in m["kinder"]:
+                m["kinder"].remove(child)
+        if key is not None and child not in marriages[key]["kinder"]:
+            marriages[key]["kinder"].append(child)
+
+    for case, d in sorted(decisions.items()):
+        note = f"{case}: {d.get('begruendung', '')}"
+        if "zuordnung" in d:
+            for child, old in d["zuordnung"].items():
+                key = find(old)
+                if key is None:
+                    problems.append(f"{child}: Zuordnung offen ({note})")
+                    continue
+                assign(child, key)
+                if not d.get("sicher"):
+                    marriages[key]["unsicher"] = True
+                    marriages[key]["hinweise"].append(f"Kind {child} unsicher zugeordnet ({note})")
+            if d.get("sicher"):
+                for old in d.get("keine_echte_ehe", []):
+                    key = find(old)
+                    if key is not None and not marriages[key]["kinder"]:
+                        del marriages[key]
+        elif d.get("ergebnis") == "notiz":
+            person = next((p for p in persons if p["id"] == d["person"]), None)
+            if person:
+                texts.append({"wortlaut": " ".join(person["zeilen"]), "gehoert_zu": d.get("gehoert_zu"), "lage": "", "bereich": case})
+                persons.remove(person)
+        elif d.get("ergebnis") == "kind":
+            key = find(d.get("gehoert_zu"))
+            if key is not None:
+                assign(d["person"], key)
+
+    # Nachtrag aus der Begründung von Fall 9: K200 gehört zur Ehe K179 + U13.
+    for key, m in marriages.items():
+        if {"K179", "U13"} <= set(m["partner"]):
+            assign("K200", key)
+
+
 def main() -> None:
     sys.stdout.reconfigure(encoding="utf-8")
     work = Path(sys.argv[1])
@@ -174,10 +232,34 @@ def main() -> None:
             seen.add(k)
             unique_texts.append(t)
 
-    all_persons = list(persons.values()) + [
-        {"id": u["id"], "quelle": "unnummeriert", "zeilen": u["zeilen"], "aussen": [], "gruende": ["Kästchen nur aus Strukturdurchgang gelesen (noch zweimal lesen)"], "bild": {"x": u["x"] * 100 - 200, "y": u["y"] * 100 - 100, "w": 400, "h": 200}, "alias": [], "meldungen": u["meldungen"]}
-        for u in u_boxes
-    ] + list(mentioned.values())
+    # Zweifache Lesung der übersehenen Kästchen einarbeiten (falls vorhanden).
+    def load_optional(name: str) -> dict:
+        path = work / name
+        return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+
+    u_a, u_b = load_optional("u-lesung-A.json"), load_optional("u-lesung-B.json")
+    u_persons = []
+    for u in u_boxes:
+        a, b = u_a.get(u["id"]), u_b.get(u["id"])
+        reasons: list[str] = []
+        lines, outside, kind = u["zeilen"], [], "unnummeriert"
+        if a and b:
+            if norm(" ".join(a.get("zeilen", []))) == norm(" ".join(b.get("zeilen", []))):
+                lines, outside = a.get("zeilen", []), a.get("aussen", [])
+                if a.get("unsicher") or b.get("unsicher") or any("[" in line for line in lines):
+                    reasons.append("Lesung prüfen: Leser waren unsicher")
+            else:
+                lines, outside = a.get("zeilen", []), a.get("aussen", [])
+                reasons.append(f"Lesung prüfen: zwei Lesungen weichen ab – B: {' / '.join(b.get('zeilen', []))}")
+            if a.get("typ") == "kein_kaestchen" and b.get("typ") == "kein_kaestchen":
+                kind = "kein_kaestchen"
+        else:
+            reasons.append("Kästchen nur aus Strukturdurchgang gelesen")
+        if kind == "kein_kaestchen":
+            continue
+        u_persons.append({"id": u["id"], "quelle": "unnummeriert", "zeilen": lines, "aussen": outside, "gruende": reasons, "bild": {"x": u["x"] * 100 - 200, "y": u["y"] * 100 - 100, "w": 400, "h": 200}, "alias": [], "meldungen": u["meldungen"]})
+
+    all_persons = list(persons.values()) + u_persons + list(mentioned.values())
 
     # Angeschnittene Meldungen derselben Ehe zusammenlegen: Teilen zwei Meldungen Kinder und ist eine davon
     # unvollständig (Partner unbekannt oder nur als Name „erwähnt"), gehört sie zur vollständigeren.
@@ -212,6 +294,7 @@ def main() -> None:
                 changed = True
     for k in merged_away:
         del marriages[k]
+    apply_decisions(work, marriages, all_persons, unique_texts, problems)
     used = {p for m in marriages.values() for p in m["partner"] + m["kinder"] if p} | {t["gehoert_zu"] for t in unique_texts if t["gehoert_zu"]}
     all_persons = [p for p in all_persons if p["quelle"] != "erwaehnt" or p["id"] in used]
 
