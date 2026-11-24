@@ -1,0 +1,4 @@
+* text=auto eol=lf
+
+# Git-Hooks laufen in einer sh-Shell und brauchen LF-Zeilenenden
+.githooks/* text eol=lf

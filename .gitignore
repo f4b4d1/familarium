@@ -1,0 +1,19 @@
+# Persönliche Daten: niemals ins Repo (ADR 0001)
+private/
+
+# Abhängigkeiten und Build-Ergebnisse
+node_modules/
+dist/
+coverage/
+*.log
+
+# Lokale Einstellungen und Geheimnisse
+.env
+.env.*
+*.local
+.claude/settings.local.json
+
+# Betriebssystem
+Thumbs.db
+desktop.ini
+.DS_Store

@@ -1,0 +1,3 @@
+#!/bin/sh
+# Datenschutz-Wächter (ADR 0001): prüft die Commit-Nachricht.
+exec node "$(git rev-parse --show-toplevel)/scripts/privacy-guard.mjs" commit-msg "$1"

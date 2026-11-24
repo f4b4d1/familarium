@@ -1,0 +1,3 @@
+#!/bin/sh
+# Datenschutz-Wächter (ADR 0001): prüft vorgemerkte Dateien und Git-Absender.
+exec node "$(git rev-parse --show-toplevel)/scripts/privacy-guard.mjs" pre-commit
