@@ -11,6 +11,7 @@
     "demo:build": "node demo/build-demo.ts",
     "entwuerfe": "vite --open /prototypes/",
     "kaesten": ".venv/Scripts/python -I scripts/original/kaesten_werkzeug.py",
+    "pruefen": ".venv/Scripts/python -I scripts/original/kaesten_werkzeug.py --pruefen",
     "privacy:audit": "node scripts/privacy-guard.mjs audit"
   },
   "devDependencies": {

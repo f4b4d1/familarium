@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Prüfliste – Übertragung des Originals</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; font: 16px/1.45 system-ui, sans-serif; color: #1f2328; background: #f6f3ec; }
+  header { position: fixed; inset: 0 0 auto 0; height: 56px; display: flex; align-items: center; gap: 14px; padding: 0 18px; background: #fff; border-bottom: 1px solid #d8d2c4; z-index: 2; }
+  header h1 { font-size: 19px; margin: 0; }
+  #fortschritt { flex: 1; min-width: 160px; max-width: 360px; height: 10px; background: #e8e2d4; border-radius: 5px; overflow: hidden; }
+  #fortschritt div { height: 100%; background: #15803d; width: 0; transition: width .3s; }
+  #zahl { color: #555; min-width: 150px; }
+  header select, header button { font: inherit; padding: 6px 12px; border: 1px solid #a8a090; border-radius: 7px; background: #fff; cursor: pointer; }
+  #status { margin-left: auto; color: #555; font-size: 14px; }
+  #status.fehler { color: #b91c1c; font-weight: 600; }
+
+  nav { position: fixed; top: 56px; bottom: 0; left: 0; width: 330px; overflow-y: auto; background: #fbfaf6; border-right: 1px solid #d8d2c4; }
+  nav h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: #6b6355; margin: 16px 16px 6px; }
+  nav .eintrag { display: flex; gap: 8px; align-items: baseline; padding: 7px 16px; cursor: pointer; border-left: 4px solid transparent; }
+  nav .eintrag:hover { background: #f0ebe0; }
+  nav .eintrag.aktiv { background: #e7eefc; border-left-color: #1d4ed8; }
+  nav .eintrag .haken { width: 18px; flex: none; color: #15803d; font-weight: 700; }
+  nav .eintrag .kennung { font-weight: 600; flex: none; width: 46px; }
+  nav .eintrag .titel { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #333; }
+  nav .eintrag.erledigt .titel { color: #888; }
+
+  main { position: fixed; top: 56px; bottom: 0; left: 330px; right: 0; overflow-y: auto; padding: 22px 30px 60px; }
+  .karte { max-width: 980px; }
+  .karte h2 { margin: 0 0 4px; font-size: 24px; }
+  .grau { color: #6b6355; }
+  .marken { margin: 8px 0 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .marke { background: #fde68a; color: #6b4e00; border-radius: 5px; padding: 2px 9px; font-size: 14px; }
+  .marke.ort { background: #dbeafe; color: #1e3a8a; }
+  .marke.ok { background: #bbf7d0; color: #166534; }
+  .bild { display: block; max-width: 100%; max-height: 340px; border: 1px solid #d8d2c4; border-radius: 6px; background: #fff; cursor: zoom-in; }
+  .bild.gross { max-width: none; max-height: none; width: 180%; cursor: zoom-out; }
+  .bildrahmen { overflow-x: auto; margin: 6px 0 4px; }
+  h3 { font-size: 14px; text-transform: uppercase; letter-spacing: .05em; color: #6b6355; margin: 22px 0 6px; }
+  .karte textarea, .karte input[type=text], .karte select { font: inherit; width: 100%; padding: 8px 10px; border: 1px solid #b9b1a0; border-radius: 7px; background: #fff; }
+  textarea.wortlaut { font: 20px/1.5 Georgia, serif; min-height: 140px; }
+  .zeichen { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+  .zeichen button, .knopf { font: inherit; padding: 6px 12px; border: 1px solid #a8a090; border-radius: 7px; background: #fff; cursor: pointer; }
+  .zeichen button { min-width: 44px; font-size: 18px; }
+  .lesart { display: flex; gap: 10px; align-items: center; padding: 4px 0; font-family: Georgia, serif; }
+  .lesart button { font: 14px system-ui; padding: 3px 9px; border: 1px solid #a8a090; border-radius: 6px; background: #fff; cursor: pointer; }
+  .felder { display: grid; grid-template-columns: 200px 1fr; gap: 8px 14px; align-items: center; }
+  .felder label { color: #444; }
+  .hinweis { background: #fff8e1; border: 1px solid #f1d98a; border-radius: 7px; padding: 8px 12px; margin-top: 8px; }
+  .aktionen { display: flex; gap: 10px; margin-top: 26px; position: sticky; bottom: 0; padding: 12px 0; background: linear-gradient(transparent, #f6f3ec 30%); }
+  .aktionen .gruen { background: #15803d; color: #fff; border-color: #15803d; font-weight: 600; padding: 10px 20px; }
+  .aktionen .rot { color: #b91c1c; }
+  .stelle { margin-bottom: 18px; }
+  .stelle .text { font-family: Georgia, serif; font-size: 18px; }
+  .wahl { display: flex; gap: 10px; align-items: center; padding: 6px 0; font-size: 18px; }
+  .leer { color: #6b6355; font-size: 18px; margin-top: 60px; text-align: center; }
+  kbd { background: #eee; border: 1px solid #bbb; border-radius: 3px; padding: 0 5px; font-size: 13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Prüfliste</h1>
+  <div id="fortschritt"><div></div></div>
+  <span id="zahl"></span>
+  <select id="filter">
+    <option value="offen">nur offene</option>
+    <option value="alle">alle</option>
+    <option value="erledigt">nur erledigte</option>
+  </select>
+  <button id="bauen" title="Datenbestand der App mit allen Entscheidungen neu erzeugen">Datenbestand aktualisieren</button>
+  <span id="status"></span>
+</header>
+<nav id="liste"></nav>
+<main id="inhalt"></main>
+
+<script>
+const ARTNAME = { 'Lesung': 'Lesung unsicher', 'Deutung unsicher': 'Deutung unsicher', 'Deutung fehlt': 'Deutung fehlt', 'Heirat ohne eindeutige Ehe': 'Heirat ohne Ehe', 'Geschlecht prüfen': 'Geschlecht', 'Widersprüchliche Daten': 'Widersprüchliche Daten', 'Ort unbestimmt': 'Ort unbestimmt', 'Anschluss': 'Anschluss' };
+const FELDER = [['vornamen', 'Vornamen'], ['nachname', 'Nachname (Geburtsname)'], ['geschlecht', 'Geschlecht'], ['herkunft', 'Herkunftsort'], ['ehepartner_erwaehnt', 'Ehepartner (nur im Text)'], ['bemerkungen', 'Bemerkungen (eine je Zeile)']];
+
+let D = null;          // { pruefliste, personen, infos, entscheidungen }
+let karten = [];       // [{ schluessel, art: 'person'|'ort'|'daten'|…, punkte: [...] }]
+let aktiv = null;
+const esc = t => String(t ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const erledigt = k => D.entscheidungen[k.schluessel]?.status === 'erledigt';
+
+async function laden(behalte) {
+  D = await (await fetch('/pruefdaten')).json();
+  const nach = new Map();
+  for (const p of D.pruefliste) {
+    if (!nach.has(p.schluessel)) nach.set(p.schluessel, { schluessel: p.schluessel, typ: p.schluessel.split(':')[0], punkte: [] });
+    nach.get(p.schluessel).punkte.push(p);
+  }
+  karten = [...nach.values()];
+  zeigeListe();
+  const start = behalte && karten.find(k => k.schluessel === behalte) || karten.find(k => !erledigt(k)) || karten[0];
+  if (start) waehle(start.schluessel); else document.getElementById('inhalt').innerHTML = '<div class="leer">Keine Prüfpunkte.</div>';
+}
+
+function titelVon(k) {
+  if (k.typ === 'person') { const p = D.personen[k.schluessel.slice(7)]; return (p?.zeilen || []).slice(0, 2).join(' '); }
+  if (k.typ === 'ort') return k.schluessel.slice(4);
+  if (k.typ === 'daten') return 'Widersprüchliches Datum';
+  return k.punkte[0].text;
+}
+
+function zeigeListe() {
+  const filter = document.getElementById('filter').value;
+  const gruppen = [['person', 'Personen'], ['daten', 'Widersprüchliche Daten'], ['ort', 'Unbestimmte Orte'], ['ehe', 'Ehen'], ['anschluss', 'Sonstiges']];
+  let h = '';
+  for (const [typ, name] of gruppen) {
+    const ks = karten.filter(k => k.typ === typ && (filter === 'alle' || (filter === 'offen') !== erledigt(k)));
+    if (!ks.length) continue;
+    h += `<h2>${name} (${ks.length})</h2>`;
+    for (const k of ks) {
+      const kennung = typ === 'person' ? k.schluessel.slice(7) : typ === 'daten' ? k.schluessel.slice(6) : '';
+      h += `<div class="eintrag${erledigt(k) ? ' erledigt' : ''}${aktiv === k.schluessel ? ' aktiv' : ''}" data-k="${esc(k.schluessel)}">
+        <span class="haken">${erledigt(k) ? '✓' : ''}</span>${kennung ? `<span class="kennung">${kennung}</span>` : ''}<span class="titel">${esc(titelVon(k))}</span></div>`;
+    }
+  }
+  document.getElementById('liste').innerHTML = h || '<div class="leer" style="margin:30px 16px">Alles erledigt 🎉</div>';
+  const fertig = karten.filter(erledigt).length;
+  document.getElementById('zahl').textContent = `${fertig} von ${karten.length} erledigt`;
+  document.querySelector('#fortschritt div').style.width = `${karten.length ? 100 * fertig / karten.length : 0}%`;
+}
+
+document.getElementById('liste').addEventListener('click', e => { const el = e.target.closest('.eintrag'); if (el) waehle(el.dataset.k); });
+document.getElementById('filter').addEventListener('change', zeigeListe);
+
+function bild(id) { return id ? `<div class="bildrahmen"><img class="bild" src="/bild/${id}.jpg" alt="Ausschnitt ${id}" title="Klicken zum Vergrößern"></div>` : ''; }
+function marken(k) {
+  return `<div class="marken">${k.punkte.map(p => `<span class="marke${p.art === 'Ort unbestimmt' ? ' ort' : ''}" title="${esc(p.text)}">${esc(ARTNAME[p.art] || p.art)}</span>`).join('')}${erledigt(k) ? `<span class="marke ok">erledigt am ${esc(D.entscheidungen[k.schluessel].am || '')}</span>` : ''}</div>`;
+}
+
+function waehle(schluessel) {
+  aktiv = schluessel;
+  const k = karten.find(x => x.schluessel === schluessel);
+  zeigeListe();
+  document.querySelector('nav .aktiv')?.scrollIntoView({ block: 'nearest' });
+  const main = document.getElementById('inhalt');
+  main.scrollTop = 0;
+  main.innerHTML = k.typ === 'person' ? personKarte(k) : k.typ === 'ort' ? ortKarte(k) : k.typ === 'daten' ? datenKarte(k) : einfacheKarte(k);
+  main.querySelector('textarea.wortlaut')?.focus();
+}
+
+// ---------- Person: Wortlaut und Deutung ----------
+function personKarte(k) {
+  const id = k.schluessel.slice(7);
+  const p = D.personen[id];
+  const e = D.entscheidungen[k.schluessel] || {};
+  const zeilen = e.zeilen || p.zeilen;
+  const d = { ...(p.deutung || {}), ...(e.deutung || {}) };
+  const gruende = k.punkte.map(x => x.text).filter(t => t && t !== 'Deutung geprüft');
+  let h = `<div class="karte" data-typ="person" data-id="${id}"><h2>${id}</h2><div class="grau">Generation ${esc(p.generation || '?')}${p.gleich_wie ? ` · zweite Zeichnung von ${esc(p.gleich_wie)}` : ''}</div>${marken(k)}`;
+  h += bild(id);
+  h += `<h3>Wortlaut im Kästchen – eine Zeile je Zeile im Original</h3>
+    <textarea class="wortlaut" id="zeilen" spellcheck="false">${esc(zeilen.join('\n'))}</textarea>
+    <div class="zeichen">${['*', '†', '⚭', '?', '[?]'].map(z => `<button data-zeichen="${esc(z)}" title="einfügen">${esc(z)}</button>`).join('')}
+      <span class="grau" style="align-self:center;margin-left:8px">* geboren · † gestorben · ⚭ verheiratet · [?] unleserlich · [a/b] unsicher zwischen a und b</span></div>`;
+  if (gruende.length) h += `<div class="hinweis"><b>Warum prüfen?</b> ${gruende.map(esc).join(' · ')}</div>`;
+  const lesarten = [...(p.lesarten || []), ...(p.hinweise || []).filter(x => /^Lesung [AB]:/.test(x)).map(x => x.replace(/^Lesung [AB]:\s*/, ''))]
+    .filter((t, i, a) => a.indexOf(t) === i && t !== zeilen.join(' / '));
+  if (lesarten.length) {
+    h += `<h3>Frühere Lesarten zum Vergleich</h3>` + lesarten.map(t => `<div class="lesart"><span>${esc(t)}</span><button data-lesart="${esc(t)}">übernehmen</button></div>`).join('');
+  }
+  if (!p.gleich_wie && p.deutung) {
+    h += `<h3>Deutung – was ist Name, Ort, Bemerkung?</h3><div class="felder">`;
+    for (const [f, name] of FELDER) {
+      let feld;
+      if (f === 'geschlecht') feld = `<select id="f-geschlecht">${[['w', 'weiblich'], ['m', 'männlich'], ['u', 'unbekannt']].map(([v, n]) => `<option value="${v}"${d.geschlecht === v ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
+      else if (f === 'bemerkungen') feld = `<textarea id="f-bemerkungen" rows="2">${esc((d.bemerkungen || []).join('\n'))}</textarea>`;
+      else feld = `<input type="text" id="f-${f}" value="${esc(d[f] ?? '')}">`;
+      h += `<label for="f-${f}">${name}</label>${feld}`;
+    }
+    h += `</div>`;
+    if (p.deutung.hinweis && !e.deutung) h += `<div class="hinweis"><b>Hinweis der Automatik:</b> ${esc(p.deutung.hinweis)}</div>`;
+  }
+  h += aktionen(k, 'Stimmt so – weiter');
+  return h + `</div>`;
+}
+
+function personEntscheidung(k) {
+  const id = k.schluessel.slice(7);
+  const p = D.personen[id];
+  const ent = { status: 'erledigt' };
+  const zeilen = document.getElementById('zeilen').value.split('\n').map(z => z.trim()).filter(Boolean);
+  if (zeilen.join('\n') !== p.zeilen.join('\n')) ent.zeilen = zeilen;
+  if (!p.gleich_wie && p.deutung) {
+    const neu = {};
+    for (const [f] of FELDER) {
+      const el = document.getElementById('f-' + f);
+      let wert = el.value.trim();
+      if (f === 'bemerkungen') wert = wert.split('\n').map(x => x.trim()).filter(Boolean);
+      else if (f !== 'geschlecht') wert = wert || null;
+      const alt = p.deutung[f] ?? (f === 'bemerkungen' ? [] : null);
+      if (JSON.stringify(wert) !== JSON.stringify(alt)) neu[f] = wert;
+    }
+    if ('nachname' in neu) neu.nachname_quelle = neu.nachname ? 'nutzer' : null;
+    if (Object.keys(neu).length) ent.deutung = neu;
+  }
+  return ent;
+}
+
+// ---------- Ort ----------
+function ortKarte(k) {
+  const schreibweise = k.schluessel.slice(4);
+  const e = D.entscheidungen[k.schluessel] || {};
+  let h = `<div class="karte" data-typ="ort"><h2>${esc(schreibweise)}</h2><div class="grau">Ortsname, den ich nicht sicher bestimmen konnte</div>${marken(k)}`;
+  h += `<div class="hinweis">${esc(k.punkte[0].text)}</div><h3>Stellen im Original</h3>`;
+  for (const id of k.punkte[0].bilder || []) {
+    const text = id[0] === 'P' ? (D.personen[id]?.zeilen || []).join(' / ') : D.infos[id]?.wortlaut;
+    h += `<div class="stelle"><div class="text"><b>${id}</b> ${esc(text)}</div>${bild(id)}</div>`;
+  }
+  h += `<h3>Weißt du, welcher Ort gemeint ist?</h3><div class="felder">
+    <label for="o-ort">Heutiger Ort</label><input type="text" id="o-ort" value="${esc(e.heutiger_ort || '')}" placeholder="z. B. Musterdorf bei Musterstadt">
+    <label for="o-bem">Bemerkung</label><input type="text" id="o-bem" value="${esc(e.bemerkung || '')}" placeholder="z. B. Landkreis, Quelle">
+  </div>`;
+  h += aktionen(k, 'Speichern – weiter', 'Bleibt unbestimmt');
+  return h + `</div>`;
+}
+
+// ---------- Widersprüchliche Daten ----------
+function datenKarte(k) {
+  const id = k.schluessel.slice(6);
+  const e = D.entscheidungen[k.schluessel] || {};
+  const p = k.punkte[0];
+  const [art, rest] = p.text.split(': ');
+  const optionen = (rest || '').split(' | ');
+  let h = `<div class="karte" data-typ="daten"><h2>${id}</h2><div class="grau">Dieselbe Person ist mehrfach gezeichnet, die Angaben weichen ab.</div>${marken(k)}`;
+  for (const b of p.bilder || []) h += `<div class="stelle"><div class="text"><b>${b}</b> ${esc((D.personen[b]?.zeilen || []).join(' / '))}</div>${bild(b)}</div>`;
+  h += `<h3>${esc(art)}: welche Angabe soll bevorzugt angezeigt werden?</h3>`;
+  h += optionen.map((o, i) => `<label class="wahl"><input type="radio" name="wahl" value="${esc(o)}"${e.bevorzugt === o ? ' checked' : ''}> ${esc(o)}</label>`).join('');
+  h += `<label class="wahl"><input type="radio" name="wahl" value=""${e.status && !e.bevorzugt ? ' checked' : ''}> unklar lassen (beide bleiben gleichrangig)</label>`;
+  h += `<div class="grau">Beide Angaben bleiben in jedem Fall erhalten und als unsicher markiert.</div>`;
+  h += aktionen(k, 'Speichern – weiter');
+  return h + `</div>`;
+}
+
+function einfacheKarte(k) {
+  return `<div class="karte"><h2>${esc(ARTNAME[k.punkte[0].art] || k.punkte[0].art)}</h2>${marken(k)}<div class="hinweis">${k.punkte.map(p => esc(p.text)).join('<br>')}</div>${aktionen(k, 'Erledigt – weiter')}</div>`;
+}
+
+function aktionen(k, haupt, zweit) {
+  return `<div class="aktionen"><button class="knopf gruen" data-aktion="speichern" title="Strg+Enter">✓ ${haupt}</button>
+    ${zweit ? `<button class="knopf" data-aktion="ohne">${zweit}</button>` : ''}
+    <button class="knopf" data-aktion="spaeter" title="Alt+→">Später</button>
+    ${erledigt(k) ? `<button class="knopf rot" data-aktion="zuruecksetzen">Entscheidung zurücknehmen</button>` : ''}</div>`;
+}
+
+// ---------- Speichern ----------
+async function sende(schluessel, entscheidung) {
+  const st = document.getElementById('status');
+  st.className = ''; st.textContent = 'speichere …';
+  try {
+    const r = await fetch('/entscheidung', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ schluessel, entscheidung }) });
+    if (!r.ok) throw new Error(await r.text());
+    if (entscheidung) D.entscheidungen[schluessel] = { ...entscheidung, am: new Date().toISOString().slice(0, 10) };
+    else delete D.entscheidungen[schluessel];
+    st.textContent = 'gespeichert ✓';
+    return true;
+  } catch (err) {
+    st.className = 'fehler'; st.textContent = 'NICHT gespeichert – läuft das Werkzeug noch?';
+    return false;
+  }
+}
+
+function naechste() {
+  const i = karten.findIndex(k => k.schluessel === aktiv);
+  const rest = [...karten.slice(i + 1), ...karten.slice(0, i)];
+  const n = rest.find(k => !erledigt(k));
+  if (n) waehle(n.schluessel); else { zeigeListe(); document.getElementById('inhalt').innerHTML = '<div class="leer">Alles erledigt 🎉<br><br>Mit „Datenbestand aktualisieren" fließen die Entscheidungen in die App.</div>'; }
+}
+
+async function aktion(was) {
+  const k = karten.find(x => x.schluessel === aktiv);
+  if (!k) return;
+  if (was === 'spaeter') return naechste();
+  if (was === 'zuruecksetzen') { if (await sende(k.schluessel, null)) waehle(k.schluessel); return; }
+  let ent = { status: 'erledigt' };
+  if (k.typ === 'person') ent = personEntscheidung(k);
+  else if (k.typ === 'ort' && was === 'speichern') {
+    const ort = document.getElementById('o-ort').value.trim(), bem = document.getElementById('o-bem').value.trim();
+    if (ort) ent.heutiger_ort = ort;
+    if (bem) ent.bemerkung = bem;
+  } else if (k.typ === 'daten') {
+    const w = document.querySelector('input[name=wahl]:checked');
+    if (!w) { document.getElementById('status').textContent = 'Bitte eine Möglichkeit wählen'; return; }
+    if (w.value) ent.bevorzugt = w.value;
+  }
+  if (await sende(k.schluessel, ent)) naechste();
+}
+
+document.getElementById('inhalt').addEventListener('click', e => {
+  const t = e.target;
+  if (t.dataset.aktion) aktion(t.dataset.aktion);
+  else if (t.dataset.zeichen) {
+    const ta = document.getElementById('zeilen');
+    const [a, b] = [ta.selectionStart, ta.selectionEnd];
+    ta.setRangeText(t.dataset.zeichen, a, b, 'end');
+    ta.focus();
+  } else if (t.dataset.lesart !== undefined) {
+    document.getElementById('zeilen').value = t.dataset.lesart.split(' / ').join('\n');
+  } else if (t.classList.contains('bild')) t.classList.toggle('gross');
+});
+
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey && e.key === 'Enter') { e.preventDefault(); aktion('speichern'); }
+  else if (e.altKey && e.key === 'ArrowRight') { e.preventDefault(); naechste(); }
+});
+
+document.getElementById('bauen').addEventListener('click', async () => {
+  const st = document.getElementById('status');
+  st.className = ''; st.textContent = 'baue Datenbestand …';
+  const r = await fetch('/neu-bauen', { method: 'POST' });
+  const text = await r.text();
+  st.className = r.ok ? '' : 'fehler';
+  st.textContent = r.ok ? 'Datenbestand aktualisiert ✓' : 'Fehler beim Bauen';
+  st.title = text;
+  if (r.ok) laden(aktiv);
+});
+
+laden();
+</script>
+</body>
+</html>

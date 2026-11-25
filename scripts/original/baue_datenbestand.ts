@@ -6,6 +6,7 @@
 //         private/arbeit/deutung/ergebnis-*.json  (Deutung der Kästchen: Vornamen, Nachname, Geschlecht, Herkunft …)
 //         private/arbeit/orte.json  (Ortsverzeichnis: Schreibweise im Original → heutiger Ort)
 //         private/arbeit/zwischenstand.json  (nur die Lesehinweise der ersten Übertragung)
+//         private/arbeit/pruef-entscheidungen.json  (Entscheidungen des Nutzers aus der Prüf-Ansicht, falls vorhanden)
 //         private/daten/familienwissen.json
 // Schreibt: private/daten/stammbaum.json, private/arbeit/pruefliste.json
 
@@ -44,6 +45,20 @@ const fw = read('private/daten/familienwissen.json');
 const deutung: Record<string, Deutung> = {};
 const deutungDir = new URL('private/arbeit/deutung/', root);
 for (const file of readdirSync(deutungDir).filter((f) => /^ergebnis-\d+\.json$/.test(f))) Object.assign(deutung, read(`private/arbeit/deutung/${file}`));
+// Entscheidungen aus der Prüf-Ansicht. Schlüssel: person:P104, daten:P208, ort:<Schreibweise>, ehe:pa-E001.
+interface Entscheidung { status: 'erledigt'; am?: string; zeilen?: string[]; deutung?: Partial<Deutung>; heutiger_ort?: string; bemerkung?: string; bevorzugt?: string }
+const entscheidungen: Record<string, Entscheidung> = existsSync(new URL('private/arbeit/pruef-entscheidungen.json', root)) ? read('private/arbeit/pruef-entscheidungen.json') : {};
+const geprueft = (key: string) => entscheidungen[key]?.status === 'erledigt';
+for (const bp of bz.personen) {
+  const e = entscheidungen[`person:${bp.id}`];
+  if (e?.zeilen?.length) bp.zeilen = e.zeilen;
+  if (e?.deutung && deutung[bp.id]) deutung[bp.id] = { ...deutung[bp.id]!, ...e.deutung, unsicher: false };
+}
+for (const [key, e] of Object.entries(entscheidungen)) {
+  if (key.startsWith('ort:') && e.heutiger_ort) {
+    orte.orte.push({ name: e.heutiger_ort, heute: e.bemerkung || 'vom Nutzer bestimmt', schreibweisen: key.slice(4).split(' / '), sicherheit: 'Nutzer' });
+  }
+}
 const firstReading: Record<string, string[]> = {};
 if (existsSync(new URL('private/arbeit/zwischenstand.json', root))) {
   for (const p of read('private/arbeit/zwischenstand.json').personen) firstReading[p.id] = (p.gruende ?? []).filter((g: string) => g.startsWith('Lesung prüfen'));
@@ -60,7 +75,8 @@ const bzPerson = new Map(bz.personen.map((p) => [p.id, p]));
 const infosOf = (id: string) => bz.infos.filter((i) => i.gehoert_zu.includes(id));
 const norm = (t: string) => t.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '');
 
-type Pruefpunkt = { art: string; person?: string; ehe?: string; text: string; bild?: Box | null };
+/** Prüfpunkt für die Prüf-Ansicht: gleicher Schlüssel = eine Karte; bilder = Kästchen, deren Ausschnitt gezeigt wird. */
+type Pruefpunkt = { art: string; schluessel: string; person?: string; ehe?: string; text: string; bilder?: string[]; erledigt?: boolean };
 const pruefliste: Pruefpunkt[] = [];
 
 // ── Orte ─────────────────────────────────────────────────────────────────────
@@ -157,16 +173,17 @@ const sexOf = (g?: string) => (g === 'w' ? 'f' : g === 'm' ? 'm' : 'u') as 'm' |
 for (const bp of bz.personen) {
   const id = pid(bp.id);
   const d = deutung[canonical(bp.id)];
+  const checked = geprueft(`person:${bp.id}`);
   const reasons = [...(bp.alt ? firstReading[bp.alt] ?? [] : []), ...(bp.lesung_unsicher ? ['zwei Lesungen weichen ab'] : [])];
-  const review = reasons.length > 0 || bp.zeilen.some((z) => z.includes('['));
+  const review = !checked && (reasons.length > 0 || bp.zeilen.some((z) => z.includes('[')));
   const verbatim = bp.zeilen.join(' / ');
   const second = Boolean(bp.gleich_wie);
-  if (!d && !second) pruefliste.push({ art: 'Deutung fehlt', person: id, text: verbatim, bild: bp });
+  if (!d && !second) pruefliste.push({ art: 'Deutung fehlt', schluessel: `person:${bp.id}`, person: id, text: verbatim, bilder: [bp.id] });
 
   let person = persons.get(id);
   if (!person) {
     const name: NameClaim = {
-      ...originalClaim(bp, verbatim, review ? 'assumed' : 'probable', review),
+      ...originalClaim(bp, verbatim, review ? 'assumed' : 'probable', review, checked ? `Lesung vom Nutzer geprüft${entscheidungen[`person:${bp.id}`]?.am ? ` (${entscheidungen[`person:${bp.id}`]!.am})` : ''}` : undefined),
       type: 'birth',
       ...(d?.vornamen ? { given: d.vornamen } : {}),
       ...(d?.nachname ? { surname: d.nachname } : {}),
@@ -190,8 +207,10 @@ for (const bp of bz.personen) {
     addEvent(person, 'residence', { ...originalClaim(bp, d.herkunft, 'probable', review, 'Herkunft laut Kästchen'), value: d.herkunft, ...(placeId(d.herkunft) ? { placeId: placeId(d.herkunft) } : {}) });
   }
   for (const b of second ? [] : d?.bemerkungen ?? []) addEvent(person, 'note', { ...originalClaim(bp, b, 'probable', review, 'Bemerkung im Kästchen'), value: b });
-  if (reasons.length || (review && !second)) pruefliste.push({ art: 'Lesung', person: id, text: `${verbatim}${reasons.length ? ` – ${reasons.join('; ')}` : ''}`, bild: bp });
-  if (d?.unsicher) pruefliste.push({ art: 'Deutung unsicher', person: id, text: `${verbatim} – ${d.hinweis}`, bild: bp });
+  const lesungFraglich = reasons.length > 0 || bp.zeilen.some((z) => z.includes('['));
+  // Geprüfte Personen bleiben in der Liste (sonst verschwänden korrigierte Karten und der Fortschritt stimmte nicht).
+  if ((lesungFraglich && (!second || reasons.length)) || checked) pruefliste.push({ art: 'Lesung', schluessel: `person:${bp.id}`, person: id, text: reasons.length ? reasons.join('; ') : lesungFraglich ? 'unsichere Zeichen im Wortlaut' : 'geprüft', bilder: [bp.id] });
+  if (d?.unsicher || (checked && entscheidungen[`person:${bp.id}`]?.deutung)) pruefliste.push({ art: 'Deutung unsicher', schluessel: `person:${bp.id}`, person: id, text: d?.hinweis || 'Deutung geprüft', bilder: [bp.id] });
 }
 
 // Info-Kästchen an Personen: Beruf → Beruf, Ort → Wohnort/Ort, Sonstiges → Notiz, Heirat → zur Ehe (falls eindeutig).
@@ -303,7 +322,7 @@ for (const [bzId, pendings] of withoutMarriage) {
 for (const pending of pendingMarriageClaims.filter((p) => ownMarriages(p.personBz).length > 1)) {
   const person = persons.get(pid(pending.personBz))!;
   addEvent(person, 'note', { ...pending.claim, value: pending.claim.verbatim });
-  pruefliste.push({ art: 'Heirat ohne eindeutige Ehe', person: person.id, text: `${pending.claim.verbatim} (${ownMarriages(pending.personBz).length} Ehen)` });
+  pruefliste.push({ art: 'Heirat ohne eindeutige Ehe', schluessel: `person:${pending.personBz}`, person: person.id, text: `${pending.claim.verbatim} (${ownMarriages(pending.personBz).length} Ehen)`, bilder: [pending.personBz] });
 }
 
 // ── Nachnamen ableiten (Kinder ohne Nachnamen im Kästchen: vom Vater, sonst von der Mutter) ─────────
@@ -324,11 +343,11 @@ for (const bp of [...bz.personen].sort((a, b) => generationNo(a) - generationNo(
 }
 for (const pa of partnerships) {
   const [a, b] = pa.partners.map((p) => (p ? persons.get(p) : undefined));
-  if (a && b && a.sex !== 'u' && a.sex === b.sex) pruefliste.push({ art: 'Geschlecht prüfen', ehe: pa.id, text: `Beide Partner ${a.sex === 'm' ? 'männlich' : 'weiblich'}: ${a.names[0]!.verbatim} + ${b.names[0]!.verbatim}` });
+  if (a && b && a.sex !== 'u' && a.sex === b.sex) pruefliste.push({ art: 'Geschlecht prüfen', schluessel: `ehe:${pa.id}`, ehe: pa.id, text: `Beide Partner ${a.sex === 'm' ? 'männlich' : 'weiblich'}: ${a.names[0]!.verbatim} + ${b.names[0]!.verbatim}` });
 }
 // Geschlecht, das laut Nutzer niemand kennt, ist kein Prüfpunkt.
 const sexKnownUnknown = new Set(bz.personen.filter((p) => p.geschlecht_unbekannt).map((p) => pid(p.id)));
-for (const p of persons.values()) if (p.sex === 'u' && !p.mentioned && !sexKnownUnknown.has(p.id)) pruefliste.push({ art: 'Geschlecht prüfen', person: p.id, text: p.names[0]!.verbatim ?? '' });
+for (const p of persons.values()) if (p.sex === 'u' && !p.mentioned && !sexKnownUnknown.has(p.id)) pruefliste.push({ art: 'Geschlecht prüfen', schluessel: `person:${p.id.slice(2)}`, person: p.id, text: p.names[0]!.verbatim ?? '', bilder: [p.id.slice(2)] });
 
 // Mehrere Zeichnungen derselben Person mit verschiedenen Daten: alle Angaben bleiben, gelten aber als unsicher.
 const dateKey = (c: EventClaim) => JSON.stringify(c.date ?? null);
@@ -337,16 +356,24 @@ for (const p of persons.values()) {
     const dated = e.claims.filter((c) => c.date);
     if (new Set(dated.map(dateKey)).size < 2) continue;
     for (const c of dated) Object.assign(c, { confidence: 'assumed', needsReview: true, note: [c.note, 'widersprüchliche Angaben in mehreren Zeichnungen'].filter(Boolean).join('; ') });
-    pruefliste.push({ art: 'Widersprüchliche Daten', person: p.id, text: `${e.type === 'birth' ? 'Geburt' : 'Tod'}: ${dated.map((c) => c.verbatim).join(' | ')}` });
+    const choice = entscheidungen[`daten:${p.id.slice(2)}`]?.bevorzugt;
+    const chosen = dated.find((c) => c.verbatim === choice);
+    if (chosen) {
+      for (const c of e.claims) delete c.preferred;
+      chosen.preferred = true;
+      chosen.note = `${chosen.note}; vom Nutzer bevorzugt`;
+    }
+    const drawings = bz.personen.filter((x) => pid(x.id) === p.id).map((x) => x.id);
+    pruefliste.push({ art: 'Widersprüchliche Daten', schluessel: `daten:${p.id.slice(2)}`, person: p.id, text: `${e.type === 'birth' ? 'Geburt' : 'Tod'}: ${dated.map((c) => c.verbatim).join(' | ')}`, bilder: drawings });
   }
 }
-for (const o of orte.offen) pruefliste.push({ art: 'Ort unbestimmt', text: `${o.schreibweise} (${o.stellen.join(', ')}): ${o.bemerkung}` });
+for (const o of orte.offen) pruefliste.push({ art: 'Ort unbestimmt', schluessel: `ort:${o.schreibweise}`, text: `${o.schreibweise}: ${o.bemerkung}`, bilder: o.stellen.filter((s) => /^[PI]/.test(s)) });
 
 // ── Familienwissen: Anschluss bis heute ──────────────────────────────────────
 
 const fwClaim = (verbatim: string) => ({ id: cid(), citation: { sourceId: FAMILIE }, confidence: 'probable' as const, status: 'accepted' as const, verbatim });
 const anchorBz = bz.personen.find((p) => !p.gleich_wie && p.zeilen.join(' ').includes(fw.anschluss.person_im_original.suche) && p.zeilen.join(' ').replace(/\s/g, '').includes(fw.anschluss.person_im_original.geburt.replace(/\s/g, '')));
-if (!anchorBz) pruefliste.push({ art: 'Anschluss', text: 'Anschlussperson im Original nicht gefunden – bitte zuordnen' });
+if (!anchorBz) pruefliste.push({ art: 'Anschluss', schluessel: 'anschluss', text: 'Anschlussperson im Original nicht gefunden – bitte zuordnen' });
 const anchor = anchorBz ? pid(anchorBz.id) : undefined;
 if (anchor && fw.anschluss.tod) {
   const [y, mo, d] = fw.anschluss.tod.datum;
@@ -407,6 +434,7 @@ if (broken.length) throw new Error(`Kaputte Verweise:\n${broken.slice(0, 20).joi
 const target = new URL('private/daten/stammbaum.json', root);
 if (existsSync(target)) writeFileSync(new URL(`private/daten/stammbaum.vorher-${Date.now()}.json`, root), readFileSync(target));
 writeFileSync(target, `${JSON.stringify(dataset, null, 1)}\n`);
+for (const punkt of pruefliste) punkt.erledigt = geprueft(punkt.schluessel);
 writeFileSync(new URL('private/arbeit/pruefliste.json', root), `${JSON.stringify(pruefliste, null, 1)}\n`);
 const arten = [...new Set(pruefliste.map((p) => p.art))].map((a) => `${a} ${pruefliste.filter((p) => p.art === a).length}`);
 console.log(`Datenbestand: ${dataset.persons.length} Personen (davon erwähnt ${dataset.persons.filter((p) => p.mentioned).length}), ${dataset.partnerships.length} Partnerschaften, ${dataset.places.length} Orte`);
