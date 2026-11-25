@@ -275,8 +275,32 @@ for (const m of bz.ehen) {
     children,
   });
 }
+// Heiratsvermerk ohne gezeichnete Ehe: Ehe nur aus dem Kästchentext, Partner erwähnt oder unbekannt.
+const withoutMarriage = new Map<string, typeof pendingMarriageClaims>();
+for (const p of pendingMarriageClaims.filter((x) => ownMarriages(x.personBz).length === 0)) {
+  withoutMarriage.set(canonical(p.personBz), [...(withoutMarriage.get(canonical(p.personBz)) ?? []), p]);
+}
+for (const [bzId, pendings] of withoutMarriage) {
+  const person = persons.get(pid(bzId))!;
+  const spouseText = deutung[bzId]?.ehepartner_erwaehnt;
+  let spouseId: string | null = null;
+  if (spouseText) {
+    spouseId = `o-${bzId}-partner`;
+    const tokens = spouseText.replace(/,/g, ' ').trim().split(/\s+/);
+    persons.set(spouseId, {
+      id: spouseId,
+      sex: person.sex === 'm' ? 'f' : person.sex === 'f' ? 'm' : 'u',
+      names: [{ ...originalClaim(bzPerson.get(bzId), spouseText, 'probable', false, 'als Ehepartner im Kästchen erwähnt'), type: 'birth', ...(tokens.length > 1 ? { given: tokens.slice(0, -1).join(' '), surname: tokens.at(-1) } : { surname: tokens[0] }) }],
+      events: [],
+      mentioned: true,
+      status: 'accepted',
+    });
+  }
+  pendings[0]!.claim.preferred = true;
+  partnerships.push({ id: `pa-${bzId}-text`, partners: [person.id, spouseId], kind: 'marriage', events: [{ id: `e-${bzId}-text`, type: 'marriage', claims: pendings.map((p) => p.claim) }], children: [] });
+}
 // Heiratsvermerke von Personen mit mehreren Ehen lassen sich nicht sicher zuordnen → Notiz + Prüfliste.
-for (const pending of pendingMarriageClaims.filter((p) => ownMarriages(p.personBz).length !== 1)) {
+for (const pending of pendingMarriageClaims.filter((p) => ownMarriages(p.personBz).length > 1)) {
   const person = persons.get(pid(pending.personBz))!;
   addEvent(person, 'note', { ...pending.claim, value: pending.claim.verbatim });
   pruefliste.push({ art: 'Heirat ohne eindeutige Ehe', person: person.id, text: `${pending.claim.verbatim} (${ownMarriages(pending.personBz).length} Ehen)` });
