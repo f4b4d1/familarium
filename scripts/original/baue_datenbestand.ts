@@ -31,7 +31,7 @@ const read = (path: string) => JSON.parse(readFileSync(new URL(path, root), 'utf
 // ── Eingaben ─────────────────────────────────────────────────────────────────
 
 interface Box { x: number; y: number; w: number; h: number }
-interface BzPerson extends Box { id: string; alt: string | null; generation: string | null; zeilen: string[]; lesung_unsicher?: boolean; hinweise?: string[]; gleich_wie?: string }
+interface BzPerson extends Box { id: string; alt: string | null; generation: string | null; zeilen: string[]; lesung_unsicher?: boolean; hinweise?: string[]; gleich_wie?: string; geschlecht_unbekannt?: boolean }
 interface BzMarriage { id: string; partner: string[]; partner_text: string[]; kinder: string[] }
 interface BzInfo extends Box { id: string; art: 'heirat' | 'beruf' | 'ort' | 'sonstiges'; wortlaut: string; gehoert_zu: string[] }
 interface Bz { breite: number; hoehe: number; personen: BzPerson[]; ehen: BzMarriage[]; infos: BzInfo[]; zwillinge: string[][] }
@@ -326,7 +326,20 @@ for (const pa of partnerships) {
   const [a, b] = pa.partners.map((p) => (p ? persons.get(p) : undefined));
   if (a && b && a.sex !== 'u' && a.sex === b.sex) pruefliste.push({ art: 'Geschlecht prüfen', ehe: pa.id, text: `Beide Partner ${a.sex === 'm' ? 'männlich' : 'weiblich'}: ${a.names[0]!.verbatim} + ${b.names[0]!.verbatim}` });
 }
-for (const p of persons.values()) if (p.sex === 'u' && !p.mentioned) pruefliste.push({ art: 'Geschlecht prüfen', person: p.id, text: p.names[0]!.verbatim ?? '' });
+// Geschlecht, das laut Nutzer niemand kennt, ist kein Prüfpunkt.
+const sexKnownUnknown = new Set(bz.personen.filter((p) => p.geschlecht_unbekannt).map((p) => pid(p.id)));
+for (const p of persons.values()) if (p.sex === 'u' && !p.mentioned && !sexKnownUnknown.has(p.id)) pruefliste.push({ art: 'Geschlecht prüfen', person: p.id, text: p.names[0]!.verbatim ?? '' });
+
+// Mehrere Zeichnungen derselben Person mit verschiedenen Daten: alle Angaben bleiben, gelten aber als unsicher.
+const dateKey = (c: EventClaim) => JSON.stringify(c.date ?? null);
+for (const p of persons.values()) {
+  for (const e of p.events.filter((x) => x.type === 'birth' || x.type === 'death')) {
+    const dated = e.claims.filter((c) => c.date);
+    if (new Set(dated.map(dateKey)).size < 2) continue;
+    for (const c of dated) Object.assign(c, { confidence: 'assumed', needsReview: true, note: [c.note, 'widersprüchliche Angaben in mehreren Zeichnungen'].filter(Boolean).join('; ') });
+    pruefliste.push({ art: 'Widersprüchliche Daten', person: p.id, text: `${e.type === 'birth' ? 'Geburt' : 'Tod'}: ${dated.map((c) => c.verbatim).join(' | ')}` });
+  }
+}
 for (const o of orte.offen) pruefliste.push({ art: 'Ort unbestimmt', text: `${o.schreibweise} (${o.stellen.join(', ')}): ${o.bemerkung}` });
 
 // ── Familienwissen: Anschluss bis heute ──────────────────────────────────────
