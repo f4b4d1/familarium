@@ -95,6 +95,7 @@
   <button id="naechster" title="Taste V">Nächstes Offene</button>
   <button id="rueck" title="Strg+Z">Rückgängig</button>
   <button id="einpassen" title="Taste F">Ganzes Bild</button>
+  <input id="suche" placeholder="Springe zu: 116, E29 …" title="Nummer eintippen, Enter" style="font:inherit;width:150px;padding:5px 8px;border:1px solid #999;border-radius:6px">
   <span class="trenner"></span>
   <button id="t-gen" title="Taste H">Gen.-Linien</button>
   <button id="t-leg">Legende</button>
@@ -772,6 +773,11 @@ document.querySelectorAll('[data-modus]').forEach(b => b.addEventListener('click
 document.getElementById('naechster').addEventListener('click', naechstesOffene);
 document.getElementById('rueck').addEventListener('click', () => stelleHer(verlauf, wieder));
 document.getElementById('einpassen').addEventListener('click', einpassen);
+document.getElementById('suche').addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  const id = normKennung(e.target.value, 'P');
+  if (id && I[id]) { springe(id); e.target.blur(); } else zeigeHinweis(`„${e.target.value}" gibt es nicht`, 2000);
+});
 ['t-gen', 't-leg', 't-hilfe'].forEach(k => document.getElementById(k).addEventListener('click', () => umschalten(k)));
 setzeTafel('t-leg', true);
 setzeTafel('t-hilfe', true);
