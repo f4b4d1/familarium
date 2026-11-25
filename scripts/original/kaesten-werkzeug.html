@@ -387,6 +387,8 @@ function seitenleiste() {
   if (sel && sel.t === 'p' && o) {
     const twins = D.zwillinge.filter(z => z.includes(o.id)).flat().filter(x => x !== o.id);
     h += `<h2>${o.id}</h2><div class="grau">Generation ${o.generation || '?'}${o.alt ? ` · früher ${o.alt}` : ''}</div>`;
+    const gleich = (D.gleiche_personen || []).filter(g => g.includes(o.id)).flat().filter(x => x !== o.id);
+    if (gleich.length) h += `<h3>Dieselbe Person, nochmals gezeichnet</h3>${liste(gleich)}`;
     h += `<h3>Wortlaut im Kästchen${o.lesung_unsicher ? ' <span class="offen">Lesung prüfen</span>' : ''}</h3><div class="zeilen">${(o.zeilen || []).map(esc).join('<br>') || '<span class="grau">noch nicht gelesen</span>'}</div>`;
     if (o.lesung_unsicher) h += `<div class="grau">${(o.hinweise || []).map(esc).join('<br>')}<br>Der Wortlaut der Personen wird später in der Prüf-Ansicht korrigiert.</div>`;
     h += `<h3>Eltern (Ehe)</h3>${liste(elternVon(o.id).map(e => e.id), 'kind', o.id)}`;
