@@ -46,6 +46,7 @@
   .lesart button { font: 14px system-ui; padding: 3px 9px; border: 1px solid #a8a090; border-radius: 6px; background: #fff; cursor: pointer; }
   .felder { display: grid; grid-template-columns: 200px 1fr; gap: 8px 14px; align-items: center; }
   .felder label { color: #444; }
+  .felder .auto { background: #dcfce7; transition: background .2s; }
   .hinweis { background: #fff8e1; border: 1px solid #f1d98a; border-radius: 7px; padding: 8px 12px; margin-top: 8px; }
   .aktionen { display: flex; gap: 10px; margin-top: 26px; position: sticky; bottom: 0; padding: 12px 0; background: linear-gradient(transparent, #f6f3ec 30%); }
   .aktionen .gruen { background: #15803d; color: #fff; border-color: #15803d; font-weight: 600; padding: 10px 20px; }
@@ -139,8 +140,63 @@ function waehle(schluessel) {
   const main = document.getElementById('inhalt');
   main.scrollTop = 0;
   main.innerHTML = k.typ === 'person' ? personKarte(k) : k.typ === 'ort' ? ortKarte(k) : k.typ === 'daten' ? datenKarte(k) : einfacheKarte(k);
+  merkeAbgleich();
   main.querySelector('textarea.wortlaut')?.focus();
 }
+
+// ---------- Korrekturen im Wortlaut in die Deutung übernehmen ----------
+// Beim Öffnen einer Karte merken wir Wortlaut und Felder. Ändert sich der Wortlaut, werden die geänderten Wörter
+// (alt → neu) in den Feldern ersetzt – außer in Feldern, die der Nutzer selbst bearbeitet hat.
+const TEXTFELDER = ['vornamen', 'nachname', 'herkunft', 'ehepartner_erwaehnt', 'bemerkungen'];
+let abgleich = null;
+
+function merkeAbgleich() {
+  const ta = document.getElementById('zeilen');
+  if (!ta) { abgleich = null; return; }
+  const felder = {};
+  for (const f of TEXTFELDER) { const el = document.getElementById('f-' + f); if (el) felder[f] = el.value; }
+  abgleich = { altText: ta.value, felder, selbst: new Set() };
+}
+
+const woerter = text => text.split(/\s+/).map(w => w.replace(/^[,;:(]+|[,;:)]+$/g, '')).filter(Boolean);
+
+/** Ersetzungen zwischen altem und neuem Wortlaut über die längste gemeinsame Wortfolge. */
+function ersetzungen(alt, neu) {
+  const a = woerter(alt), b = woerter(neu);
+  const L = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
+  for (let i = a.length - 1; i >= 0; i--) for (let j = b.length - 1; j >= 0; j--) L[i][j] = a[i] === b[j] ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
+  const paare = [];
+  let i = 0, j = 0, weg = [], dazu = [];
+  const schliesse = () => { if (weg.length && dazu.length) paare.push([weg.join(' '), dazu.join(' ')]); weg = []; dazu = []; };
+  while (i < a.length || j < b.length) {
+    if (i < a.length && j < b.length && a[i] === b[j]) { schliesse(); i++; j++; }
+    else if (j < b.length && (i === a.length || L[i][j + 1] >= L[i + 1][j])) dazu.push(b[j++]);
+    else weg.push(a[i++]);
+  }
+  schliesse();
+  return paare;
+}
+
+function gleicheAb() {
+  if (!abgleich) return;
+  const paare = ersetzungen(abgleich.altText, document.getElementById('zeilen').value);
+  for (const f of TEXTFELDER) {
+    const el = document.getElementById('f-' + f);
+    if (!el || abgleich.selbst.has(f)) continue;
+    let wert = abgleich.felder[f];
+    for (const [alt, neu] of paare) if (alt && wert.includes(alt)) wert = wert.split(alt).join(neu);
+    if (el.value !== wert) {
+      el.value = wert;
+      el.classList.add('auto');
+      setTimeout(() => el.classList.remove('auto'), 1200);
+    }
+  }
+}
+
+document.getElementById('inhalt').addEventListener('input', e => {
+  if (e.target.id === 'zeilen') gleicheAb();
+  else if (abgleich && e.target.id?.startsWith('f-')) abgleich.selbst.add(e.target.id.slice(2));
+});
 
 // ---------- Person: Wortlaut und Deutung ----------
 function personKarte(k) {
@@ -163,7 +219,8 @@ function personKarte(k) {
     h += `<h3>Frühere Lesarten zum Vergleich</h3>` + lesarten.map(t => `<div class="lesart"><span>${esc(t)}</span><button data-lesart="${esc(t)}">übernehmen</button></div>`).join('');
   }
   if (!p.gleich_wie && p.deutung) {
-    h += `<h3>Deutung – was ist Name, Ort, Bemerkung?</h3><div class="felder">`;
+    h += `<h3>Deutung – was ist Name, Ort, Bemerkung?</h3>
+      <div class="grau" style="margin-bottom:8px">Korrekturen im Wortlaut oben werden hier automatisch übernommen (kurz grün markiert). Daten und Orte hinter * † ⚭ liest das Programm direkt aus dem Wortlaut.</div><div class="felder">`;
     for (const [f, name] of FELDER) {
       let feld;
       if (f === 'geschlecht') feld = `<select id="f-geschlecht">${[['w', 'weiblich'], ['m', 'männlich'], ['u', 'unbekannt']].map(([v, n]) => `<option value="${v}"${d.geschlecht === v ? ' selected' : ''}>${n}</option>`).join('')}</select>`;
@@ -297,8 +354,10 @@ document.getElementById('inhalt').addEventListener('click', e => {
     const [a, b] = [ta.selectionStart, ta.selectionEnd];
     ta.setRangeText(t.dataset.zeichen, a, b, 'end');
     ta.focus();
+    gleicheAb();
   } else if (t.dataset.lesart !== undefined) {
     document.getElementById('zeilen').value = t.dataset.lesart.split(' / ').join('\n');
+    gleicheAb();
   } else if (t.classList.contains('bild')) t.classList.toggle('gross');
 });
 
