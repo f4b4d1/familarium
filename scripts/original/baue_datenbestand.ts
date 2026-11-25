@@ -1,11 +1,15 @@
-// Baut aus dem Zwischenstand der Übertragung den Datenbestand im App-Schema (ADR 0002, 0004).
+// Baut aus dem geprüften Arbeitsstand der Übertragung den Datenbestand im App-Schema (ADR 0002, 0004).
 // Enthält bewusst keine Namen: Familienname und Familienwissen kommen aus private/daten/familienwissen.json.
 //
 // Aufruf: node scripts/original/baue_datenbestand.ts
-// Liest:  private/arbeit/zwischenstand.json, private/daten/familienwissen.json
+// Liest:  private/arbeit/beziehungen.json  (Personen-Kästchen, Ehen, Info-Kästchen – vom Nutzer geprüft)
+//         private/arbeit/deutung/ergebnis-*.json  (Deutung der Kästchen: Vornamen, Nachname, Geschlecht, Herkunft …)
+//         private/arbeit/orte.json  (Ortsverzeichnis: Schreibweise im Original → heutiger Ort)
+//         private/arbeit/zwischenstand.json  (nur die Lesehinweise der ersten Übertragung)
+//         private/daten/familienwissen.json
 // Schreibt: private/daten/stammbaum.json, private/arbeit/pruefliste.json
 
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { findBrokenReferences } from '../../src/domain/dataset.ts';
 import {
   Dataset,
@@ -16,6 +20,7 @@ import {
   type Partnership,
   type Person,
   type PersonEvent,
+  type PersonEventType,
   type Place,
 } from '../../src/domain/schema.ts';
 import { guessSex, parseBox, parseEvent, type ParsedEvent } from '../../src/domain/wortlaut.ts';
@@ -23,55 +28,92 @@ import { guessSex, parseBox, parseEvent, type ParsedEvent } from '../../src/doma
 const root = new URL('../../', import.meta.url);
 const read = (path: string) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
 
-interface Box { x: number; y: number; w: number; h: number }
-interface StagePerson { id: string; quelle: 'kaestchen' | 'unnummeriert' | 'erwaehnt'; zeilen: string[]; aussen?: { wortlaut: string; lage?: string }[]; gruende: string[]; bild?: Box | null; weitere_bilder?: (Box | null)[] }
-interface StageMarriage { id: string; partner: (string | null)[]; wortlaut: string[]; ehe_nr: string; kinder: string[]; unsicher: boolean; hinweise: string[] }
-interface Stage { personen: StagePerson[]; ehen: StageMarriage[]; zwillinge: string[][]; freie_texte: { wortlaut: string; gehoert_zu: string | null; lage: string }[]; verweise: { von: string | null; nach: string | null; beschriftung: string }[]; probleme: string[] }
+// ── Eingaben ─────────────────────────────────────────────────────────────────
 
-const stage: Stage = read('private/arbeit/zwischenstand.json');
+interface Box { x: number; y: number; w: number; h: number }
+interface BzPerson extends Box { id: string; alt: string | null; generation: string | null; zeilen: string[]; lesung_unsicher?: boolean; hinweise?: string[]; gleich_wie?: string }
+interface BzMarriage { id: string; partner: string[]; partner_text: string[]; kinder: string[] }
+interface BzInfo extends Box { id: string; art: 'heirat' | 'beruf' | 'ort' | 'sonstiges'; wortlaut: string; gehoert_zu: string[] }
+interface Bz { breite: number; hoehe: number; personen: BzPerson[]; ehen: BzMarriage[]; infos: BzInfo[]; zwillinge: string[][] }
+interface Deutung { vornamen: string | null; rufname: string | null; nachname: string | null; nachname_quelle: string | null; geschlecht: 'm' | 'w' | 'u'; herkunft: string | null; ehepartner_erwaehnt: string | null; bemerkungen: string[]; unsicher: boolean; hinweis: string }
+interface Ort { name: string; heute: string; schreibweisen: string[]; sicherheit: string }
+
+const bz: Bz = read('private/arbeit/beziehungen.json');
+const orte: { orte: Ort[]; offen: { schreibweise: string; stellen: string[]; bemerkung: string }[] } = read('private/arbeit/orte.json');
 const fw = read('private/daten/familienwissen.json');
+const deutung: Record<string, Deutung> = {};
+const deutungDir = new URL('private/arbeit/deutung/', root);
+for (const file of readdirSync(deutungDir).filter((f) => /^ergebnis-\d+\.json$/.test(f))) Object.assign(deutung, read(`private/arbeit/deutung/${file}`));
+const firstReading: Record<string, string[]> = {};
+if (existsSync(new URL('private/arbeit/zwischenstand.json', root))) {
+  for (const p of read('private/arbeit/zwischenstand.json').personen) firstReading[p.id] = (p.gruende ?? []).filter((g: string) => g.startsWith('Lesung prüfen'));
+}
 
 const ORIGINAL = 'src-original';
 const FAMILIE = 'src-familienwissen';
 const MEDIA = 'm-original';
 let claimNo = 0;
 const cid = () => `c-${String(++claimNo).padStart(5, '0')}`;
-const pid = (stageId: string) => `o-${stageId}`;
+const canonical = (bzId: string) => bz.personen.find((p) => p.id === bzId)?.gleich_wie ?? bzId;
+const pid = (bzId: string) => `o-${canonical(bzId)}`;
+const bzPerson = new Map(bz.personen.map((p) => [p.id, p]));
+const infosOf = (id: string) => bz.infos.filter((i) => i.gehoert_zu.includes(id));
+const norm = (t: string) => t.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '');
+
+type Pruefpunkt = { art: string; person?: string; ehe?: string; text: string; bild?: Box | null };
+const pruefliste: Pruefpunkt[] = [];
+
+// ── Orte ─────────────────────────────────────────────────────────────────────
 
 const places = new Map<string, Place>();
+const slug = (t: string) => t.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const knownPlaces = orte.orte.flatMap((o) => [o.name, ...o.schreibweisen].map((s) => ({ key: norm(s), ort: o })));
+
+/** Ort zu einem Text aus dem Original: bekannte Orte über das Ortsverzeichnis, sonst ein Ort je Schreibweise. */
 function placeId(text?: string): string | undefined {
   if (!text) return undefined;
-  const clean = text.replace(/[.,;:]+$/, '').trim();
-  const slug = clean.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-  if (!slug) return undefined;
-  const id = `ort-${slug}`;
-  if (!places.has(id)) places.set(id, { id, historicalName: clean });
+  const clean = text.replace(/^(in|zu|aus|a\.|o\.)\s+/i, '').replace(/[.,;:]+$/, '').trim();
+  if (!clean || !/[A-Za-zÄÖÜäöü]{3}/.test(clean) || /[←→]/.test(clean)) return undefined;
+  const hit = knownPlaces.find((k) => k.key === norm(clean)) ?? knownPlaces.find((k) => k.key.length >= 5 && norm(clean).includes(k.key));
+  const id = `ort-${slug(hit ? hit.ort.name : clean)}`;
+  if (!places.has(id)) {
+    places.set(id, hit
+      ? { id, historicalName: hit.ort.schreibweisen[0] ?? hit.ort.name, modernName: `${hit.ort.name} (${hit.ort.heute})` }
+      : { id, historicalName: clean });
+  }
   return id;
 }
 
-const pruefliste: { art: string; person?: string; ehe?: string; text: string; bild?: Box | null }[] = [];
+/** Sucht einen bekannten Ort irgendwo in einem freien Text (z. B. „Bäckermeister Musterstadt"). */
+function placeInText(text: string): string | undefined {
+  const n = norm(text);
+  const hit = knownPlaces.filter((k) => k.key.length >= 5 && n.includes(k.key)).sort((a, b) => b.key.length - a.key.length)[0];
+  return hit ? placeId(hit.ort.name) : undefined;
+}
+
+// ── Belege ───────────────────────────────────────────────────────────────────
 
 function region(box?: Box | null) {
   if (!box) return undefined;
-  const { breite, hoehe } = fw.original;
   const clamp = (v: number) => Math.min(1, Math.max(0, v));
-  return { mediaId: MEDIA, x: clamp(box.x / breite), y: clamp(box.y / hoehe), width: clamp(box.w / breite), height: clamp(box.h / hoehe) };
+  return { mediaId: MEDIA, x: clamp(box.x / bz.breite), y: clamp(box.y / bz.hoehe), width: clamp(box.w / bz.breite), height: clamp(box.h / bz.hoehe) };
 }
 
-function originalClaim(sp: StagePerson | undefined, verbatim: string, confidence: Confidence, needsReview: boolean) {
+function originalClaim(box: Box | null | undefined, verbatim: string, confidence: Confidence, needsReview: boolean, note?: string) {
   return {
     id: cid(),
-    citation: { sourceId: ORIGINAL, ...(sp?.bild ? { region: region(sp.bild) } : { location: 'nur erwähnt' }) },
+    citation: { sourceId: ORIGINAL, ...(box ? { region: region(box) } : { location: 'nur erwähnt' }) },
     confidence,
     status: 'accepted' as const,
     verbatim,
     ...(needsReview ? { needsReview: true } : {}),
+    ...(note ? { note } : {}),
   };
 }
 
-function eventClaim(sp: StagePerson | undefined, e: ParsedEvent, needsReview: boolean): EventClaim {
+function eventClaim(box: Box | null | undefined, e: ParsedEvent, needsReview: boolean, note?: string): EventClaim {
   return {
-    ...originalClaim(sp, e.verbatim, e.confidence, needsReview),
+    ...originalClaim(box, e.verbatim, e.confidence, needsReview, note),
     ...(e.date ? { date: e.date } : {}),
     ...(e.placeText ? { placeId: placeId(e.placeText) } : {}),
     ...(e.cause ? { cause: e.cause } : {}),
@@ -79,117 +121,199 @@ function eventClaim(sp: StagePerson | undefined, e: ParsedEvent, needsReview: bo
   };
 }
 
+/** Ein vermeintlicher Ort, der in Wahrheit ein Name oder eine Bemerkung ist, wird zum Wert (z. B. „† Adoptiert"). */
+function dropFalsePlace(e: ParsedEvent, notPlaces: (string | null | undefined)[]): ParsedEvent {
+  if (!e.placeText) return e;
+  const n = norm(e.placeText);
+  const clash = notPlaces.filter(Boolean).map((x) => norm(x!)).some((x) => x.length > 2 && (x.includes(n) || n.includes(x)));
+  if (clash) {
+    e.rest = e.placeText;
+    delete e.placeText;
+  }
+  return e;
+}
+
+/** Ort in Heiratsvermerken, die der Deuter nicht als Ort erkennt (z. B. „1. EHE 5.2.1611 in Musterdorf ⚭"). */
+function withPlace(claim: EventClaim, text: string): EventClaim {
+  if (claim.placeId) return claim;
+  const found = placeInText(text) ?? placeId(/\b(?:in|zu)\s+([A-ZÄÖÜ][\wäöüß-]+(?:\/[A-ZÄÖÜ][\wäöüß-]+)?)/.exec(text)?.[1]);
+  return found ? { ...claim, placeId: found } : claim;
+}
+
+/** Hängt eine Angabe an das Ereignis gleichen Typs an (mehrere Angaben zur selben Sache, ADR 0002). */
+function addEvent(person: Person, type: PersonEventType, claim: EventClaim, merge = true) {
+  if (type === 'note' && person.events.some((e) => e.type === 'note' && e.claims.some((c) => norm(c.value ?? '') === norm(claim.value ?? '')))) return;
+  const existing = merge && type !== 'note' && type !== 'occupation' && type !== 'residence' ? person.events.find((e) => e.type === type) : undefined;
+  if (existing) existing.claims.push(claim);
+  else person.events.push({ id: `e-${claim.id}`, type, claims: [claim] });
+}
+
 // ── Personen aus dem Original ────────────────────────────────────────────────
 
-const childIds = new Set(stage.ehen.flatMap((m) => m.kinder));
 const persons = new Map<string, Person>();
-const stamm: { nachname: string; kuerzel: string[] } = fw.stamm;
+const pendingMarriageClaims: { personBz: string; claim: EventClaim }[] = [];
+const sexOf = (g?: string) => (g === 'w' ? 'f' : g === 'm' ? 'm' : 'u') as 'm' | 'f' | 'u';
 
-function splitName(nameText: string, isChild: boolean): { given?: string; surname?: string } {
-  let text = nameText.replace(/\s+/g, ' ').trim();
-  const stammHit = [stamm.nachname, ...stamm.kuerzel].find((k) => text.toLowerCase().includes(k.toLowerCase()));
-  if (stammHit) {
-    const given = text.replace(new RegExp(stammHit.replace('.', '\\.'), 'i'), '').replace(/[,\s]+$/, '').replace(/\s+/g, ' ').trim();
-    return { given: given || undefined, surname: stamm.nachname };
+for (const bp of bz.personen) {
+  const id = pid(bp.id);
+  const d = deutung[canonical(bp.id)];
+  const reasons = [...(bp.alt ? firstReading[bp.alt] ?? [] : []), ...(bp.lesung_unsicher ? ['zwei Lesungen weichen ab'] : [])];
+  const review = reasons.length > 0 || bp.zeilen.some((z) => z.includes('['));
+  const verbatim = bp.zeilen.join(' / ');
+  const second = Boolean(bp.gleich_wie);
+  if (!d && !second) pruefliste.push({ art: 'Deutung fehlt', person: id, text: verbatim, bild: bp });
+
+  let person = persons.get(id);
+  if (!person) {
+    const name: NameClaim = {
+      ...originalClaim(bp, verbatim, review ? 'assumed' : 'probable', review),
+      type: 'birth',
+      ...(d?.vornamen ? { given: d.vornamen } : {}),
+      ...(d?.nachname ? { surname: d.nachname } : {}),
+      ...(d?.rufname ? { callName: d.rufname } : {}),
+    };
+    person = { id, sex: d ? sexOf(d.geschlecht) : guessSex(bp.zeilen[0] ?? ''), names: [name], events: [], mentioned: false, status: 'accepted' };
+    persons.set(id, person);
+  } else {
+    // Zweite Zeichnung derselben Person: ihr Wortlaut ist eine weitere Angabe.
+    person.names.push({ ...originalClaim(bp, verbatim, review ? 'assumed' : 'probable', review, 'zweite Zeichnung im Original'), type: 'variant', ...(person.names[0]!.given ? { given: person.names[0]!.given } : {}), ...(person.names[0]!.surname ? { surname: person.names[0]!.surname } : {}) });
   }
-  if (isChild) return { given: text || undefined, surname: stamm.nachname };
-  text = text.split(/,| aus | von /)[0]!.trim();
-  const tokens = text.split(' ');
-  return { given: tokens[0], surname: tokens.slice(1).join(' ') || undefined };
-}
 
-for (const sp of stage.personen) {
-  const parsed = parseBox(sp.zeilen);
-  const review = sp.gruende.some((g) => g.startsWith('Lesung prüfen'));
-  const isChild = childIds.has(sp.id);
-  const { given, surname } = splitName(parsed.nameText || sp.zeilen[0] || '', isChild);
-  const name: NameClaim = {
-    ...originalClaim(sp, sp.zeilen.join(' / '), review ? 'assumed' : 'probable', review),
-    type: 'birth',
-    ...(given ? { given } : {}),
-    ...(surname ? { surname } : {}),
-  };
-  const events: PersonEvent[] = [];
-  for (const e of parsed.events) {
-    const claim = eventClaim(sp, e, review);
-    if (e.type === 'marriage') {
-      events.push({ id: `e-${claim.id}`, type: 'note', claims: [{ ...claim, value: e.verbatim }] });
-    } else {
-      events.push({ id: `e-${claim.id}`, type: e.type, claims: [claim] });
-    }
+  const notPlaces = [d?.ehepartner_erwaehnt, d?.vornamen, d?.nachname, ...(d?.bemerkungen ?? [])];
+  for (const e of parseBox(bp.zeilen).events) {
+    dropFalsePlace(e, notPlaces); // Ehepartner, Vornamen oder Bemerkungen sind keine Orte
+    const claim = eventClaim(bp, e, review, second ? 'zweite Zeichnung im Original' : undefined);
+    if (e.type === 'marriage') pendingMarriageClaims.push({ personBz: bp.id, claim });
+    else addEvent(person, e.type, claim);
   }
-  for (const a of sp.aussen ?? []) {
-    const c = originalClaim(sp, a.wortlaut, 'probable', review);
-    events.push({ id: `e-${c.id}`, type: 'note', claims: [{ ...c, value: a.wortlaut, note: `außerhalb des Kästchens${a.lage ? `: ${a.lage}` : ''}` }] });
+  if (d?.herkunft && !second) {
+    addEvent(person, 'residence', { ...originalClaim(bp, d.herkunft, 'probable', review, 'Herkunft laut Kästchen'), value: d.herkunft, ...(placeId(d.herkunft) ? { placeId: placeId(d.herkunft) } : {}) });
   }
-  persons.set(pid(sp.id), {
-    id: pid(sp.id),
-    sex: /adopt/i.test(sp.zeilen.join(' ')) ? guessSex(parsed.nameText) : guessSex(parsed.nameText),
-    names: [name],
-    events,
-    mentioned: sp.quelle === 'erwaehnt',
-    status: 'accepted',
-  });
-  for (const g of sp.gruende) pruefliste.push({ art: 'Lesung', person: pid(sp.id), text: `${sp.zeilen.join(' / ')} – ${g}`, bild: sp.bild });
+  for (const b of second ? [] : d?.bemerkungen ?? []) addEvent(person, 'note', { ...originalClaim(bp, b, 'probable', review, 'Bemerkung im Kästchen'), value: b });
+  if (reasons.length || (review && !second)) pruefliste.push({ art: 'Lesung', person: id, text: `${verbatim}${reasons.length ? ` – ${reasons.join('; ')}` : ''}`, bild: bp });
+  if (d?.unsicher) pruefliste.push({ art: 'Deutung unsicher', person: id, text: `${verbatim} – ${d.hinweis}`, bild: bp });
 }
 
-function addNote(personStageId: string | null | undefined, text: string, note: string) {
-  if (!personStageId) return false;
-  const person = persons.get(pid(personStageId));
-  if (!person) return false;
-  const sp = stage.personen.find((p) => p.id === personStageId);
-  const c = originalClaim(sp, text, 'probable', false);
-  person.events.push({ id: `e-${c.id}`, type: 'note', claims: [{ ...c, value: text, note }] });
-  return true;
+// Info-Kästchen an Personen: Beruf → Beruf, Ort → Wohnort/Ort, Sonstiges → Notiz, Heirat → zur Ehe (falls eindeutig).
+const infoNote = { beruf: 'Beruf am Kästchen/Pfeil im Original', ort: 'Ortsangabe am Kästchen/Pfeil im Original', sonstiges: 'Vermerk im Original', heirat: 'Heiratsvermerk im Original' };
+for (const info of bz.infos) {
+  for (const ref of info.gehoert_zu.filter((r) => r.startsWith('P'))) {
+    const person = persons.get(pid(ref))!;
+    const review = info.wortlaut.includes('[');
+    const base = { ...originalClaim(info, info.wortlaut, 'probable', review, infoNote[info.art]), value: info.wortlaut };
+    if (info.art === 'beruf') addEvent(person, 'occupation', { ...base, ...(placeInText(info.wortlaut) ? { placeId: placeInText(info.wortlaut) } : {}) });
+    else if (info.art === 'ort') addEvent(person, 'residence', { ...base, ...(placeId(info.wortlaut) ?? placeInText(info.wortlaut) ? { placeId: placeId(info.wortlaut) ?? placeInText(info.wortlaut) } : {}) });
+    else if (info.art === 'heirat') pendingMarriageClaims.push({ personBz: ref, claim: withPlace(eventClaim(info, parseEvent('marriage', info.wortlaut, info.wortlaut.replace(/^⚭\s*/, '')), review, infoNote.heirat), info.wortlaut) });
+    else addEvent(person, 'note', base);
+  }
+}
+for (const [a, b] of bz.zwillinge) {
+  for (const [x, y] of [[a!, b!], [b!, a!]] as const) {
+    const person = persons.get(pid(x))!;
+    const label = `Zwilling von ${persons.get(pid(y))?.names[0]?.given || y}`;
+    addEvent(person, 'note', { ...originalClaim(bzPerson.get(x), 'Zwillinge', 'probable', false, 'Bogen im Original'), value: label });
+  }
 }
 
-for (const t of stage.freie_texte) {
-  if (!addNote(t.gehoert_zu, t.wortlaut, 'freier Text im Original')) pruefliste.push({ art: 'Freier Text ohne Zuordnung', text: `${t.wortlaut} (Lage ${t.lage})` });
-}
-for (const v of stage.verweise) {
-  if (v.beschriftung) addNote(v.von, v.beschriftung, 'Beschriftung am Pfeil im Original');
-}
-for (const [a, b] of stage.zwillinge) {
-  addNote(a!, 'Zwillinge', 'Bogen im Original');
-  addNote(b!, 'Zwillinge', 'Bogen im Original');
-}
-
-// ── Ehen aus dem Original ────────────────────────────────────────────────────
+// ── Ehen ─────────────────────────────────────────────────────────────────────
 
 const partnerships: Partnership[] = [];
-for (const m of stage.ehen) {
-  const partners = m.partner.map((p) => (p && persons.has(pid(p)) ? pid(p) : null)) as [string | null, string | null];
-  const events = m.wortlaut.length
-    ? [{
-        id: `e-${m.id}`,
-        type: 'marriage' as const,
-        claims: m.wortlaut.map((w, i) => {
-          const parsed = parseEvent('marriage', w, w.replace(/^⚭\s*/, ''));
-          return { ...eventClaim(undefined, parsed, m.unsicher), citation: { sourceId: ORIGINAL, location: m.ehe_nr ? `${m.ehe_nr} Ehe` : 'Ehe-Beschriftung' }, ...(i === 0 ? { preferred: true } : {}) };
-        }),
-      }]
-    : [];
-  const children: Parentage[] = m.kinder
-    .filter((k) => persons.has(pid(k)))
-    .map((k) => ({
-      ...originalClaim(stage.personen.find((p) => p.id === k), 'Kinderlinie im Original', m.unsicher ? 'assumed' : 'probable', m.unsicher),
-      childId: pid(k),
-      kind: /adopt/i.test(stage.personen.find((p) => p.id === k)?.zeilen.join(' ') ?? '') ? ('adopted' as const) : ('biological' as const),
-    }));
-  partnerships.push({ id: `pa-${m.id}`, partners, kind: m.wortlaut.length ? 'marriage' : 'unknown', events, children });
-  if (m.unsicher) pruefliste.push({ art: 'Ehe/Kinder unsicher', ehe: `pa-${m.id}`, text: `${m.partner.join(' + ')} ⚭ ${m.wortlaut.join(' | ')} – ${m.hinweise.slice(0, 2).join(' · ')}` });
+const ownMarriages = (bzId: string) => bz.ehen.filter((m) => m.partner.some((p) => canonical(p) === canonical(bzId)));
+const isAdopted = (bzId: string) => /adopt/i.test(bzPerson.get(bzId)!.zeilen.join(' ')) || infosOf(bzId).some((i) => /adopt/i.test(i.wortlaut));
+const SPOUSE_NAME = (text: string) => !/\d|EHE|\?|getraut/i.test(text) && /[A-ZÄÖÜa-zäöü]{3}/.test(text);
+
+for (const m of bz.ehen) {
+  const partnerIds = [...new Set(m.partner.map(pid))];
+  const heirat = infosOf(m.id).filter((i) => i.art === 'heirat');
+  const claims: EventClaim[] = heirat
+    .filter((i) => !SPOUSE_NAME(i.wortlaut.replace(/^⚭\s*/, '')))
+    .map((i) => {
+      const spouseTexts = [...m.partner_text, ...m.partner.map((p) => deutung[canonical(p)]?.ehepartner_erwaehnt)];
+      const parsed = dropFalsePlace(parseEvent('marriage', i.wortlaut, i.wortlaut.replace(/^⚭\s*/, '')), spouseTexts);
+      return withPlace(eventClaim(i, parsed, i.wortlaut.includes('['), 'Heiratsvermerk im Original'), parsed.placeText || parsed.rest ? i.wortlaut : '');
+    });
+  for (const pending of pendingMarriageClaims.filter((p) => ownMarriages(p.personBz).length === 1 && ownMarriages(p.personBz)[0] === m)) claims.push(pending.claim);
+  const firstDated = claims.findIndex((c) => c.date);
+  if (claims.length) claims[firstDated >= 0 ? firstDated : 0]!.preferred = true;
+
+  // Partner, der nur als Text genannt ist (ohne eigenes Kästchen) → erwähnte Person.
+  if (partnerIds.length < 2) {
+    const known = partnerIds[0] ? persons.get(partnerIds[0]) : undefined;
+    const fromInfo = heirat.map((i) => i.wortlaut.replace(/^⚭\s*/, '')).find(SPOUSE_NAME);
+    const fromBox = m.partner.length === 1 ? deutung[canonical(m.partner[0]!)]?.ehepartner_erwaehnt : null;
+    const nameText = m.partner_text[0] ?? fromInfo ?? fromBox ?? null;
+    if (nameText) {
+      const id = `o-${m.id}-partner`;
+      const tokens = nameText.replace(/[,]/g, ' ').trim().split(/\s+/);
+      persons.set(id, {
+        id,
+        sex: known?.sex === 'm' ? 'f' : known?.sex === 'f' ? 'm' : 'u',
+        names: [{ ...originalClaim(known && m.partner[0] ? bzPerson.get(m.partner[0]) : undefined, nameText, 'probable', false, 'als Ehepartner erwähnt'), type: 'birth', ...(tokens.length > 1 ? { given: tokens.slice(0, -1).join(' '), surname: tokens.at(-1) } : { surname: tokens[0] }) }],
+        events: [],
+        mentioned: true,
+        status: 'accepted',
+      });
+      partnerIds.push(id);
+    }
+  }
+  const children: Parentage[] = [...new Set(m.kinder.map(pid))].map((childId) => {
+    const bzChild = m.kinder.find((k) => pid(k) === childId)!;
+    return { ...originalClaim(bzPerson.get(bzChild), 'Kinderlinie im Original', 'probable', false), childId, kind: isAdopted(bzChild) ? ('adopted' as const) : ('biological' as const) };
+  });
+  // Vermerke an der Ehe (z. B. „kinderlos") gehören zu beiden Partnern.
+  for (const info of infosOf(m.id).filter((i) => i.art !== 'heirat')) {
+    for (const p of partnerIds) {
+      const person = persons.get(p);
+      if (person) addEvent(person, info.art === 'beruf' ? 'occupation' : 'note', { ...originalClaim(info, info.wortlaut, 'probable', false, 'Vermerk an der Ehe im Original'), value: info.wortlaut });
+    }
+  }
+  partnerships.push({
+    id: `pa-${m.id}`,
+    partners: [partnerIds[0] ?? null, partnerIds[1] ?? null],
+    kind: claims.length || partnerIds.length === 2 ? 'marriage' : 'unknown',
+    events: claims.length ? [{ id: `e-${m.id}`, type: 'marriage', claims }] : [],
+    children,
+  });
 }
-for (const p of stage.probleme) pruefliste.push({ art: 'Zuordnung offen', text: p });
+// Heiratsvermerke von Personen mit mehreren Ehen lassen sich nicht sicher zuordnen → Notiz + Prüfliste.
+for (const pending of pendingMarriageClaims.filter((p) => ownMarriages(p.personBz).length !== 1)) {
+  const person = persons.get(pid(pending.personBz))!;
+  addEvent(person, 'note', { ...pending.claim, value: pending.claim.verbatim });
+  pruefliste.push({ art: 'Heirat ohne eindeutige Ehe', person: person.id, text: `${pending.claim.verbatim} (${ownMarriages(pending.personBz).length} Ehen)` });
+}
+
+// ── Nachnamen ableiten (Kinder ohne Nachnamen im Kästchen: vom Vater, sonst von der Mutter) ─────────
+
+const generationNo = (p: BzPerson) => ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII'].indexOf(p.generation ?? '');
+for (const bp of [...bz.personen].sort((a, b) => generationNo(a) - generationNo(b))) {
+  const person = persons.get(pid(bp.id))!;
+  const name = person.names[0]!;
+  if (name.surname) continue;
+  const parents = partnerships.find((pa) => pa.children.some((c) => c.childId === person.id));
+  const ps = (parents?.partners ?? []).filter(Boolean).map((p) => persons.get(p!)!);
+  const father = ps.find((p) => p.sex === 'm') ?? (ps.length === 1 ? ps[0] : undefined);
+  const surname = father?.names[0]?.surname;
+  if (surname) {
+    name.surname = surname;
+    name.note = [name.note, father.sex === 'm' ? 'Nachname vom Vater abgeleitet' : 'Nachname vom Elternteil abgeleitet'].filter(Boolean).join('; ');
+  }
+}
+for (const pa of partnerships) {
+  const [a, b] = pa.partners.map((p) => (p ? persons.get(p) : undefined));
+  if (a && b && a.sex !== 'u' && a.sex === b.sex) pruefliste.push({ art: 'Geschlecht prüfen', ehe: pa.id, text: `Beide Partner ${a.sex === 'm' ? 'männlich' : 'weiblich'}: ${a.names[0]!.verbatim} + ${b.names[0]!.verbatim}` });
+}
+for (const p of persons.values()) if (p.sex === 'u' && !p.mentioned) pruefliste.push({ art: 'Geschlecht prüfen', person: p.id, text: p.names[0]!.verbatim ?? '' });
+for (const o of orte.offen) pruefliste.push({ art: 'Ort unbestimmt', text: `${o.schreibweise} (${o.stellen.join(', ')}): ${o.bemerkung}` });
 
 // ── Familienwissen: Anschluss bis heute ──────────────────────────────────────
 
 const fwClaim = (verbatim: string) => ({ id: cid(), citation: { sourceId: FAMILIE }, confidence: 'probable' as const, status: 'accepted' as const, verbatim });
-const anchorStage = stage.personen.find((p) => p.zeilen.join(' ').includes(fw.anschluss.person_im_original.suche) && p.zeilen.join(' ').replace(/\s/g, '').includes(fw.anschluss.person_im_original.geburt.replace(/\s/g, '')));
-if (!anchorStage) pruefliste.push({ art: 'Anschluss', text: 'Anschlussperson im Original nicht gefunden – bitte zuordnen' });
-const anchor = anchorStage ? pid(anchorStage.id) : undefined;
+const anchorBz = bz.personen.find((p) => !p.gleich_wie && p.zeilen.join(' ').includes(fw.anschluss.person_im_original.suche) && p.zeilen.join(' ').replace(/\s/g, '').includes(fw.anschluss.person_im_original.geburt.replace(/\s/g, '')));
+if (!anchorBz) pruefliste.push({ art: 'Anschluss', text: 'Anschlussperson im Original nicht gefunden – bitte zuordnen' });
+const anchor = anchorBz ? pid(anchorBz.id) : undefined;
 if (anchor && fw.anschluss.tod) {
   const [y, mo, d] = fw.anschluss.tod.datum;
-  persons.get(anchor)!.events.push({ id: `e-fw-tod`, type: 'death', claims: [{ ...fwClaim(`† ${d}.${mo}.${y}`), date: { kind: 'exact', date: { year: y, month: mo, day: d } } }] });
+  addEvent(persons.get(anchor)!, 'death', { ...fwClaim(`† ${d}.${mo}.${y}`), date: { kind: 'exact', date: { year: y, month: mo, day: d } } });
 }
 const fwId = (key: string) => (key === 'ANSCHLUSS' ? anchor ?? null : `fw-${key}`);
 for (const p of fw.personen) {
@@ -221,6 +345,7 @@ const proband = fw.personen.find((p: { proband?: boolean }) => p.proband);
 
 // ── Zusammenbau und Prüfung ──────────────────────────────────────────────────
 
+const progenitor = [...bz.personen].sort((a, b) => generationNo(a) - generationNo(b))[0]!;
 const dataset = Dataset.parse({
   schemaVersion: 1,
   probandId: proband ? `fw-${proband.id}` : null,
@@ -228,14 +353,14 @@ const dataset = Dataset.parse({
   partnerships,
   places: [...places.values()],
   sources: [
-    { id: ORIGINAL, kind: 'original', title: fw.original.titel, mediaId: MEDIA, note: 'Handgezeichnete Nachfahrentafel; übertragen 2026 (zwei unabhängige Lesungen)' },
+    { id: ORIGINAL, kind: 'original', title: fw.original.titel, mediaId: MEDIA, note: 'Handgezeichnete Nachfahrentafel; übertragen 2026 (zwei unabhängige Lesungen, Beziehungen vom Nutzer geprüft)' },
     { id: FAMILIE, kind: 'family-knowledge', title: 'Familienwissen', enteredBy: fw.eingetragen_von, enteredAt: fw.eingetragen_am },
   ],
   media: [
     { id: MEDIA, kind: 'image', file: fw.original.foto, title: fw.original.titel, width: fw.original.breite, height: fw.original.hoehe },
     { id: 'm-wappen', kind: 'image', file: fw.wappen.datei, title: fw.wappen.titel },
   ],
-  lineages: [{ id: 'stamm-1', name: fw.stamm.name, progenitorId: pid('K001'), originalSourceId: ORIGINAL }],
+  lineages: [{ id: 'stamm-1', name: fw.stamm.name, progenitorId: pid(progenitor.id), originalSourceId: ORIGINAL }],
   lines: [],
   researchQuestions: [],
 });
@@ -246,6 +371,6 @@ const target = new URL('private/daten/stammbaum.json', root);
 if (existsSync(target)) writeFileSync(new URL(`private/daten/stammbaum.vorher-${Date.now()}.json`, root), readFileSync(target));
 writeFileSync(target, `${JSON.stringify(dataset, null, 1)}\n`);
 writeFileSync(new URL('private/arbeit/pruefliste.json', root), `${JSON.stringify(pruefliste, null, 1)}\n`);
-const count = (art: string) => pruefliste.filter((p) => p.art === art).length;
-console.log(`Datenbestand: ${dataset.persons.length} Personen, ${dataset.partnerships.length} Partnerschaften, ${dataset.places.length} Orte`);
-console.log(`Prüfliste: ${pruefliste.length} Punkte (Lesung ${count('Lesung')}, Ehe/Kinder ${count('Ehe/Kinder unsicher')}, offen ${count('Zuordnung offen')}, freie Texte ${count('Freier Text ohne Zuordnung')}, Anschluss ${count('Anschluss')})`);
+const arten = [...new Set(pruefliste.map((p) => p.art))].map((a) => `${a} ${pruefliste.filter((p) => p.art === a).length}`);
+console.log(`Datenbestand: ${dataset.persons.length} Personen (davon erwähnt ${dataset.persons.filter((p) => p.mentioned).length}), ${dataset.partnerships.length} Partnerschaften, ${dataset.places.length} Orte`);
+console.log(`Prüfliste: ${pruefliste.length} Punkte (${arten.join(', ')})`);
